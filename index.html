@@ -301,24 +301,54 @@
                             <div class="col-lg-8">
                                 <div class="modal-body">
                                     <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <div class="row">
+                                        <div class="col-8 justify-content-center d-flex align-items-center">
+                                            <div>
+                                                <h2 class="text-uppercase">Catedral de Palma</h2>
+                                                <p class="item-intro text-muted mb-0">También conocida como La Seu.</p>
+                                            </div>   
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <img class="img-weather" src="assets/img/weather/sol.png" alt="..." />
+                                                <p class="item-intro text-muted mb-0">09:00</p>
+                                                <p class="item-intro text-muted mb-1">23 ºC</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/video.png" alt="..." />
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/audio.png" alt="..." />
+
                                     <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Threads
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Illustration
+                                        <li class="list-inline-item">
+                                            <strong>Estilo:</strong>
+                                            Arquitectura gótica
                                         </li>
                                     </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
+                                    
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <strong>Hora de Entrada:</strong>
+                                            <input class="form-control-sm" id="hourIn" type="text" placeholder="10:00" data-sb-validations="required" />
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <strong>Hora de Salida:</strong>
+                                            <input class="form-control-sm" id="hourOut" type="text" placeholder="11:30" data-sb-validations="required" />
+                                        </li>
+                                    </ul>
+                                    
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn-event btn btn-primary btn-xl text-uppercase mr-2" onclick="window.location.href = 'edificios.html';" type="button">
+                                            Añadir al plan
+                                        </button>
+
+                                        <button class="btn-event btn btn-secondary btn-xl text-uppercase" onclick="window.location.href = 'https://www.catedraldemallorca.org';" type="button">
+                                            Más información
+                                        </button>
+                                    </div>   
                                 </div>
                             </div>
                         </div>

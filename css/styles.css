@@ -11108,6 +11108,13 @@ header.masthead .masthead-heading {
 .portfolio-modal .modal-content img {
   margin-bottom: 2rem;
 }
+.portfolio-modal .modal-content .img-weather {
+  height: 5rem;
+  margin-bottom: 0.2rem;
+}
+.portfolio-modal .modal-content .btn-event {
+  margin: 0rem 2rem;
+}
 .portfolio-modal .close-modal {
   position: absolute;
   top: 1.5rem;
