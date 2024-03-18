@@ -7617,6 +7617,10 @@ textarea.form-control-lg {
   margin-top: 3rem !important;
 }
 
+.mt-6 {
+  margin-top: 7rem !important;
+}
+
 .mt-auto {
   margin-top: auto !important;
 }
@@ -11019,6 +11023,7 @@ header.masthead .masthead-heading {
     line-height: 2.25rem;
     margin-bottom: 2rem;
   }
+  
   header.masthead .masthead-heading {
     font-size: 4.5rem;
     font-weight: 700;
@@ -11026,6 +11031,24 @@ header.masthead .masthead-heading {
     margin-bottom: 4rem;
   }
 }
+#calendar-button{
+  padding: 0.4rem 0.7rem;
+  height: 100%;
+}
+
+#calendar-button .fa-calendar-alt {
+  font-size: 2.5rem;
+}
+
+#filtros-busqueda{
+  width: max-content;
+}
+
+#filtros-busqueda .dropdown-item:hover, #filtros-busqueda .dropdown-item:focus {
+  color: initial;
+  background-color: initial;
+}
+
 #portfolio .portfolio-item {
   max-width: 26rem;
   margin-left: auto;

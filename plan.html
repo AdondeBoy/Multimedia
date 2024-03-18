@@ -24,38 +24,77 @@
     </head>
     <body id="page-top">
         <!-- Menú de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand" href="index.html"><img src="assets/img/navbar-logo.svg" alt="..." /></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars ms-1"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#services">Mario</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    </ul>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html"><img src="assets/img/navbar-logo.svg" alt="..." /></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        Menu
+                        <i class="fas fa-bars ms-1"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="#services">Mario</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-        <!-- Panel de contenidos dinámico -->
-        <main>
-            <!-- Principales edificios Grid-->
-            
-            <nav id="filtros busqueda">
-
-
             </nav>
-
+        </header>
+        <!-- Panel de contenidos dinámico -->
+        <main class="py-2">
+            <!-- Principales edificios Grid-->
             <section class="page-section bg-light" id="portfolio">
                 <div class="container">
                     <div class="text-center">
-                        <h2 class="section-heading text-uppercase">Conoce los lugares más emblemáticos de la isla</h2>
-                        <h3 class="section-subheading text-muted">Aprende sobre los atractivos culturales de la isla.</h3>
+                        <h2 class="section-heading text-uppercase mb-1">Construye tu ruta</h2>
+                        <h3 class="section-subheading text-muted mb-3">¡Organiza tu visita y no te quedes sin ver nada!</h3>
                     </div>
+                    <!-- Barra de filtros -->
+                    <div class="container d-flex align-items-center mb-3">
+                        <!-- Botón del calendario -->
+                        <button class="btn btn-primary me-3" id="calendar-button">
+                            Elegir día
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
+                            </svg>
+                        </button>
+                        
+                        <div class="input-group mb-3 me-3">
+                            <!-- Filtros -->
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Filtros</button>
+                                <form class="dropdown-menu" id="filtros-busqueda">
+                                    <div class="dropdown-item">
+                                        <label>Hora de Inicio:</label>
+                                        <input class="form-control-sm" id="SearchHourStart" type="text" placeholder="10:00" data-sb-validations="required" />
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <label>Hora de Fin:</label>
+                                        <input class="form-control-sm"  id="SearchHourEnd" type="text" placeholder="11:30" data-sb-validations="required" />
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <label>Actividad gratuita:</label>
+                                        <input class="form-check-input" type="checkbox" id="SearchFree">
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <label>Parking cercano:</label>
+                                        <input class="form-check-input" type="checkbox" id="SearchFree">
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <label>Hostelería cercana:</label>
+                                        <input class="form-check-input" type="checkbox" id="SearchFree">
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Barra de búsqueda -->
+                            <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="button" id="button-addon2">Buscar</button>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-4 col-sm-6 mb-4">
                             <!-- Portfolio item 1-->
