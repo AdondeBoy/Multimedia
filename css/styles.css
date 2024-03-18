@@ -3208,9 +3208,19 @@ textarea.form-control-lg {
   margin-left: 0.255em;
   vertical-align: 0.255em;
   content: "";
-  border-top: 0.3em solid;
+  border-top: 0;
   border-right: 0.3em solid transparent;
-  border-bottom: 0;
+  border-bottom: 0.3em solid;
+  border-left: 0.3em solid transparent;
+}
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0.3em solid;
   border-left: 0.3em solid transparent;
 }
 .dropdown-toggle:empty::after {
@@ -3403,6 +3413,9 @@ textarea.form-control-lg {
 }
 .dropend .dropdown-toggle::after {
   vertical-align: 0;
+}
+.dropdown-toggle-rot  {
+  transform: rotate(180deg);
 }
 
 .dropstart .dropdown-menu[data-bs-popper] {
@@ -4149,6 +4162,17 @@ textarea.form-control-lg {
   --bs-navbar-brand-hover-color: #fff;
   --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.espacioLista {
+  height: 19rem;
+  overflow-y: scroll;
+}
+
+.espacioLista .list-group-item {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
 }
 
 .card {
@@ -11040,6 +11064,10 @@ header.masthead .masthead-heading {
   font-size: 2.5rem;
 }
 
+.botonesPeques {
+  overflow-x: auto;
+}
+
 #filtros-busqueda{
   width: max-content;
 }
@@ -11047,6 +11075,13 @@ header.masthead .masthead-heading {
 #filtros-busqueda .dropdown-item:hover, #filtros-busqueda .dropdown-item:focus {
   color: initial;
   background-color: initial;
+}
+
+#mapBuildingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 #portfolio .portfolio-item {
@@ -11113,6 +11148,15 @@ header.masthead .masthead-heading {
   text-align: center;
 }
 
+.button-group {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .portfolio-modal .modal-content h2, .portfolio-modal .modal-content .h2 {
   font-size: 3rem;
   line-height: 3rem;
@@ -11136,7 +11180,7 @@ header.masthead .masthead-heading {
   margin-bottom: 0.2rem;
 }
 .portfolio-modal .modal-content .btn-event {
-  margin: 0rem 2rem;
+  margin: 1rem;
 }
 .portfolio-modal .close-modal {
   position: absolute;

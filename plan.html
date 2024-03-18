@@ -29,22 +29,21 @@
                 <div class="container">
                     <a class="navbar-brand" href="index.html"><img src="assets/img/navbar-logo.svg" alt="..." /></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        Menu
+                        Menú
                         <i class="fas fa-bars ms-1"></i>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="#services">Mario</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#portfolio">Planificador</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </header>
         <!-- Panel de contenidos dinámico -->
-        <main class="py-2">
+        <main class="py-4">
             <!-- Principales edificios Grid-->
             <section class="page-section bg-light" id="portfolio">
                 <div class="container">
@@ -55,17 +54,17 @@
                     <!-- Barra de filtros -->
                     <div class="container d-flex align-items-center mb-3">
                         <!-- Botón del calendario -->
-                        <button class="btn btn-primary me-3" id="calendar-button">
+                        <button class="btn btn-primary me-4" id="calendar-button">
                             Elegir día
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                                 <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
                             </svg>
                         </button>
                         
-                        <div class="input-group mb-3 me-3">
+                        <div class="input-group mb-3">
                             <!-- Filtros -->
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Filtros</button>
+                                <button class="btn btn-primary dropdown-toggle me-2" data-bs-toggle="dropdown">Filtros</button>
                                 <form class="dropdown-menu" id="filtros-busqueda">
                                     <div class="dropdown-item">
                                         <label>Hora de Inicio:</label>
@@ -90,14 +89,21 @@
                                 </form>
                             </div>
                             <!-- Barra de búsqueda -->
-                            <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2">
-                            <button class="btn btn-primary" type="button" id="button-addon2">Buscar</button>
+                            <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="SearchButton">
+                            <button class="btn btn-primary" type="button" id="SearchButton">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6 mb-4">
-                            <!-- Portfolio item 1-->
+                        <div class="col-lg-8 col-sm-6 mb-4" id="mapBuildingContainer">
+                            <!-- Map img-->
+                            <div class="mb-2 d-flex justify-content-center">
+                                <img class="img-fluid" src="assets/img/tempMapa/Mapallorca.jpg" alt="ElMapa" />
+                            </div>
+                            
+                            <!-- Selected From Map-->
                             <div class="portfolio-item">
                                 <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
                                     <div class="portfolio-hover">
@@ -111,80 +117,82 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 mb-4">
-                            <!-- Portfolio item 2-->
-                            <div class="portfolio-item">
-                                <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
-                                    <div class="portfolio-hover">
-                                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+
+                        <div class="espacioLista col-lg-4 col-sm-6 mb-4">
+                            <ol class="list-group">
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
                                     </div>
-                                    <img class="img-fluid" src="assets/img/portfolio/2.jpg" alt="..." />
-                                </a>
-                                <div class="portfolio-caption">
-                                    <div class="portfolio-caption-heading">Parroquia de San Bartomeu</div>
-                                    <div class="portfolio-caption-subheading text-muted">Parroquia de estilo neogótico y modernista</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 mb-4">
-                            <!-- Portfolio item 3-->
-                            <div class="portfolio-item">
-                                <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                                    <div class="portfolio-hover">
-                                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary"> - </button>
                                     </div>
-                                    <img class="img-fluid" src="assets/img/portfolio/3.jpg" alt="..." />
-                                </a>
-                                <div class="portfolio-caption">
-                                    <div class="portfolio-caption-heading">Finish</div>
-                                    <div class="portfolio-caption-subheading text-muted">Identity</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
-                            <!-- Portfolio item 4-->
-                            <div class="portfolio-item">
-                                <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
-                                    <div class="portfolio-hover">
-                                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
                                     </div>
-                                    <img class="img-fluid" src="assets/img/portfolio/4.jpeg" alt="..." />
-                                </a>
-                                <div class="portfolio-caption">
-                                    <div class="portfolio-caption-heading">Lines</div>
-                                    <div class="portfolio-caption-subheading text-muted">Emblema de la arquitectura modernista</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                            <!-- Portfolio item 5-->
-                            <div class="portfolio-item">
-                                <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
-                                    <div class="portfolio-hover">
-                                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
                                     </div>
-                                    <img class="img-fluid" src="assets/img/portfolio/5.jpg" alt="..." />
-                                </a>
-                                <div class="portfolio-caption">
-                                    <div class="portfolio-caption-heading">Castell de l'Almudaina</div>
-                                    <div class="portfolio-caption-subheading text-muted">Residencia oficial de verano del rey</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <!-- Portfolio item 6-->
-                            <div class="portfolio-item">
-                                <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal6">
-                                    <div class="portfolio-hover">
-                                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
                                     </div>
-                                    <img class="img-fluid" src="assets/img/portfolio/6.jpg" alt="..." />
-                                </a>
-                                <div class="portfolio-caption">
-                                    <div class="portfolio-caption-heading">Castell de Bellver</div>
-                                    <div class="portfolio-caption-subheading text-muted">Actual Museo de Historia de Palma</div>
-                                </div>
-                            </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -279,199 +287,52 @@
                             <div class="col-lg-8">
                                 <div class="modal-body">
                                     <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <div>
+                                        <h2 class="text-uppercase">Catedral de Palma</h2>
+                                        <p class="item-intro text-muted mb-0">También conocida como La Seu.</p> 
+                                    </div>
+
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/video.png" alt="..." />
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/audio.png" alt="..." />
+
                                     <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Threads
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Illustration
+                                        <li class="list-inline-item">
+                                            <strong>Estilo:</strong>
+                                            Arquitectura gótica
                                         </li>
                                     </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 2 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
+                                    
                                     <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Explore
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Graphic Design
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 3 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Finish
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Identity
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 4 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/4.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Lines
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Branding
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 5 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/5.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Southwest
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Website Design
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 6 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/6.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Window
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Photography
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <div class="mx-5">
+                                            <div>
+                                                <img class="img-weather" src="assets/img/weather/sol.png" alt="..." />
+                                                <p class="item-intro text-muted mb-0">10:00</p>
+                                                <p class="item-intro text-muted mb-1">23ºC</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <ul class="list-inline">
+                                            <li class="mb-4">
+                                                <strong>Hora de Entrada:</strong>
+                                                <input class="form-control-sm" id="hourIn" type="text" placeholder="10:00" data-sb-validations="required" />
+                                            </li>
+                                            <li>
+                                                <strong>Hora de Salida:</strong>
+                                                <input class="form-control-sm" id="hourOut" type="text" placeholder="11:30" data-sb-validations="required" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="button-group">
+                                        <button class="btn btn-primary btn-xl text-uppercase" onclick="window.location.href = 'plan.html';" type="button">
+                                            Añadir al plan
+                                        </button>
+
+                                        <button class="btn btn-secondary btn-xl text-uppercase" onclick="window.location.href = 'https://www.catedraldemallorca.org';" type="button">
+                                            Más información
+                                        </button>
+                                    </div>   
                                 </div>
                             </div>
                         </div>
