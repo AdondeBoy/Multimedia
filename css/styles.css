@@ -2228,13 +2228,12 @@ textarea.form-control-lg {
 .form-check-input {
   width: 1em;
   height: 1em;
-  margin-top: 0.25em;
   vertical-align: top;
   background-color: #fff;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(0, 0, 0, 1);
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -3471,6 +3470,11 @@ textarea.form-control-lg {
   background-color: transparent;
   border: 0;
 }
+
+.dropdown-menu .filtro{
+  height: 2.75rem;
+}
+
 .dropdown-item:hover, .dropdown-item:focus {
   color: var(--bs-dropdown-link-hover-color);
   background-color: var(--bs-dropdown-link-hover-bg);
@@ -5332,11 +5336,29 @@ textarea.form-control-lg {
   min-height: calc(100% - var(--bs-modal-margin) * 2);
 }
 
+@media (min-width: 0px) {
+  :root {
+    --modal-content-width: 100%;
+  }
+}
+
+@media (min-width: 576px) {
+  :root {
+    --modal-content-width: 80%;
+  }
+}
+
+@media (min-width: 992px) {
+  :root {
+    --modal-content-width: 60%;
+  }
+}
+
 .modal-content {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: var(--modal-content-width);
   color: var(--bs-modal-color);
   pointer-events: auto;
   background-color: var(--bs-modal-bg);
@@ -11176,8 +11198,8 @@ header.masthead .masthead-heading {
   margin-bottom: 2rem;
 }
 .portfolio-modal .modal-content .img-weather {
-  height: 5rem;
-  margin-bottom: 0.2rem;
+  height: 3rem;
+  margin-bottom: 0.4rem;
 }
 .portfolio-modal .modal-content .btn-event {
   margin: 1rem;

@@ -48,7 +48,7 @@
             <section class="page-section bg-light" id="portfolio">
                 <div class="container">
                     <div class="text-center">
-                        <h2 class="section-heading text-uppercase mb-1">Construye tu ruta</h2>
+                        <h2 class="section-heading text-uppercase mb-2">Construye tu ruta</h2>
                         <h3 class="section-subheading text-muted mb-3">¡Organiza tu visita y no te quedes sin ver nada!</h3>
                     </div>
                     <!-- Barra de filtros -->
@@ -66,25 +66,45 @@
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle me-2" data-bs-toggle="dropdown">Filtros</button>
                                 <form class="dropdown-menu" id="filtros-busqueda">
-                                    <div class="dropdown-item">
-                                        <label>Hora de Inicio:</label>
-                                        <input class="form-control-sm" id="SearchHourStart" type="text" placeholder="10:00" data-sb-validations="required" />
+                                    <div class="dropdown-item filtro d-flex">
+                                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                            <label>Hora de Inicio:</label>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-end">
+                                            <input class="form-control-sm" id="SearchHourStart" type="text" placeholder="10:00" data-sb-validations="required" />
+                                        </div>
                                     </div>
-                                    <div class="dropdown-item">
-                                        <label>Hora de Fin:</label>
-                                        <input class="form-control-sm"  id="SearchHourEnd" type="text" placeholder="11:30" data-sb-validations="required" />
+                                    <div class="dropdown-item filtro d-flex">
+                                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                            <label>Hora de Fin:</label>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-end">
+                                            <input class="form-control-sm"  id="SearchHourEnd" type="text" placeholder="11:30" data-sb-validations="required" />
+                                        </div>
                                     </div>
-                                    <div class="dropdown-item">
-                                        <label>Actividad gratuita:</label>
-                                        <input class="form-check-input" type="checkbox" id="SearchFree">
+                                    <div class="dropdown-item filtro d-flex">
+                                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                            <label>Actividad gratuita:</label>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-start align-items-center">
+                                            <input class="form-check-input" type="checkbox" id="SearchFree">
+                                        </div>
                                     </div>
-                                    <div class="dropdown-item">
-                                        <label>Parking cercano:</label>
-                                        <input class="form-check-input" type="checkbox" id="SearchFree">
+                                    <div class="dropdown-item filtro d-flex">
+                                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                            <label>Parking cercano:</label>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-start align-items-center">
+                                            <input class="form-check-input" type="checkbox" id="SearchFree">
+                                        </div>
                                     </div>
-                                    <div class="dropdown-item">
-                                        <label>Hostelería cercana:</label>
-                                        <input class="form-check-input" type="checkbox" id="SearchFree">
+                                    <div class="dropdown-item filtro d-flex">
+                                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                            <label>Hostelería cercana:</label>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-start align-items-center">
+                                            <input class="form-check-input" type="checkbox" id="SearchFree">
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -279,7 +299,7 @@
         <!-- Portfolio Modals-->
         <!-- Portfolio item 1 modal popup-->
         <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog d-flex justify-content-center">
                 <div class="modal-content">
                     <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
                     <div class="container">
@@ -303,27 +323,38 @@
                                     </ul>
                                     
                                     <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <div class="mx-5">
-                                            <div>
-                                                <img class="img-weather" src="assets/img/weather/sol.png" alt="..." />
-                                                <p class="item-intro text-muted mb-0">10:00</p>
-                                                <p class="item-intro text-muted mb-1">23ºC</p>
-                                            </div>
+                                    <div class="mx-5 mb-2">
+                                        <div>
+                                            <img class="img-weather" src="assets/img/weather/sol.png" alt="..." />
+                                            <p class="item-intro text-muted mb-0">10:00</p>
+                                            <p class="item-intro text-muted mb-1">23ºC</p>
                                         </div>
-                                        
-                                        <ul class="list-inline">
-                                            <li class="mb-4">
-                                                <strong>Hora de Entrada:</strong>
-                                                <input class="form-control-sm" id="hourIn" type="text" placeholder="10:00" data-sb-validations="required" />
-                                            </li>
-                                            <li>
-                                                <strong>Hora de Salida:</strong>
-                                                <input class="form-control-sm" id="hourOut" type="text" placeholder="11:30" data-sb-validations="required" />
-                                            </li>
-                                        </ul>
                                     </div>
-                                    
+                                    <div class="row">
+                                        <div class="col-6 d-flex justify-content-center align-items-center">
+                                            <ul class="list-inline">
+                                                <li class="row mb-4">
+                                                    <div class="col-6 d-flex justify-content-start align-items-center">
+                                                        <strong>Hora de Entrada:</strong>
+                                                    </div>
+                                                    <div class="col-6 d-flex justify-content-end">
+                                                        <input class="form-control-sm" id="hourIn" type="text" placeholder="10:00" data-sb-validations="required" />
+                                                    </div>
+                                                </li>
+                                                <li class="row">
+                                                    <div class="col-6 d-flex justify-content-start align-items-center">
+                                                        <strong>Hora de Salida:</strong>
+                                                    </div>
+                                                    <div class="col-6 d-flex justify-content-end">
+                                                        <input class="form-control-sm" id="hourOut" type="text" placeholder="11:30" data-sb-validations="required" />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-6">
+
+                                        </div>
+                                    </div>
                                     <div class="button-group">
                                         <button class="btn btn-primary btn-xl text-uppercase" onclick="window.location.href = 'plan.html';" type="button">
                                             Añadir al plan
