@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
         <!-- JS Scripts -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
 
     </head>
     <body id="page-top">
@@ -120,7 +122,8 @@
                         <div class="col-lg-8 col-sm-6 mb-4" id="mapBuildingContainer">
                             <!-- Map img-->
                             <div class="mb-2 d-flex justify-content-center">
-                                <img class="img-fluid" src="assets/img/tempMapa/Mapallorca.jpg" alt="ElMapa" />
+                                <div id="map" style="width: 600px; height: 400px;"></div>
+                                <!-- <img class="img-fluid" src="assets/img/tempMapa/Mapallorca.jpg" alt="ElMapa" /> -->
                             </div>
                             
                             <!-- Selected From Map-->
@@ -521,5 +524,7 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="mapa.js"></script>
     </body>
 </html>

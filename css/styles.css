@@ -11225,6 +11225,11 @@ header.masthead .masthead-heading {
   opacity: 0.3;
 }
 
+#map {
+  height: 100%;
+  width: 100%;
+}
+
 .timeline {
   position: relative;
   padding: 0;
