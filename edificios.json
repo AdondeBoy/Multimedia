@@ -1,0 +1,71 @@
+{
+  "@context": "https://schema.org",
+  "edificios": [
+    {
+      "@type": "CivicStructure",
+      "name": "Catedral de Palma",
+      "alternateName": "La Seu",
+      "description": "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.jpg",
+      "openingHours": [
+      "Mo-Fr 10:00-17:15",
+      "Sa 10:00-14:15"
+      ],
+      "isAccessibleForFree": false,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plaza de la Seu, s/n",
+        "addressLocality": "Palma",
+        "postalCode": "07001",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.5675,
+        "longitude": 2.648611
+      },
+      "url": "http://catedraldemallorca.org/",
+      "tourBookingPage": "http://catedraldemallorca.org/",
+      "telephone": "+34 971 713 133",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingCount": 0
+      },
+      "smokingAllowed": false,
+      "parking": true
+    },
+
+    {
+      "@type": "CivicStructure",
+      "name": "Parroquia de Sant Bartomeu",
+      "alternateName": "Iglesia de Sant Bartomeu",
+      "description": "La Parroquia de Sant Bartomeu es un  templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/2.jpg",
+      "openingHours": [
+      "Mo-Fr 09:00-17:30",
+      "Sa 09:00-12:00"
+      ],
+      "isAccessibleForFree": true,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plaza de la Constitución, 1",
+        "addressLocality": "Sóller",
+        "postalCode": "07100",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.765,
+        "longitude": 2.715
+      },
+      "url": "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
+      "telephone": "+34 971 630 001",
+      "aggregateRating": {
+        "type": "AggregateRating",
+        "ratingCount": 0
+      },
+      "smokingAllowed": false,
+      "parking": false
+    }
+  ]
+}

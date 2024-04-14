@@ -1,0 +1,21 @@
+El archivo .json contiene el ejemplo de dos edificios: La Catedral de Palma y La Iglesia de San Bartolomé de Soller.
+Recopilamos los edificios en un array de objetos CivicStructure (https://schema.org/CivicStructure), que contiene los atributos que consideramos esenciales para
+recopilar la información necesaria de cada uno. Cuando un objeto concreto no presenta un atributo (como por ejemplo el teléfono),
+simplemente no se le añade ese atributo.
+
+Los atributos que utilizamos en los objetos CivicStructure son los siguientes:
+- name
+- *alternateName: Otro nombre posible del edificio
+- description
+- image: El link en nuestro dominio a una imagen del edificio
+- openingHours: Indica con texto el horario de apertura. Si siempre está abierto, el valor será "Mo-Su".
+- isAccessibleForFree: True si la entrada es gratuita.
+- address: Contiene los atributos de texto necesarios para determinar la dirección (*calle y número, localidad, código postal y código de país)
+- geo: Es un objeto GeoCoordinates. Sus atributos son latitude y longitude.
+- *url
+- *telephone
+- *aggregateRating: Se guarda el número de valoraciones (ratingCount) para ser usado en un sistema de likes.      
+- smokingAllowed: True si permite fumar.
+- parking: True si tiene parking cercano. *(Atributo inventado por nosotros, no validado por https://schema.org/)
+
+Atributos opcionales marcados por *
