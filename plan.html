@@ -18,10 +18,45 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-        <!-- JS Scripts -->
+        
+        <!-- Mapa -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
+        <!-- Calendario -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <!-- JS Calendario -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $(function() {
+                // Oculta el contenedor del calendario al inicio
+                $('#calendar-container').hide();
+            
+                // Inicializa el Datepicker en el contenedor del calendario
+                $('#calendar-container').datepicker({
+                  dateFormat: 'yy-mm-dd', // Formato de fecha deseado
+                  onSelect: function(dateText) {
+                    // Manejar la selección de fecha
+                    alert('Has seleccionado el día ' + dateText);
+                    // Oculta el contenedor del calendario después de seleccionar una fecha
+                    $('#calendar-container').hide();
+                  }
+                });
+            
+                // Muestra el calendario cuando se hace clic en el botón
+                $('#calendar-button').click(function() {
+                  $('#calendar-container').show();
+                });
+              });
+            /*
+            $(function() {
+                $("#calendar-container").datepicker();
+            });
+            */
+        </script>
+        
 
     </head>
     <body id="page-top">
@@ -53,7 +88,7 @@
                         <h2 class="section-heading text-uppercase mb-2">Construye tu ruta</h2>
                         <h3 class="section-subheading text-muted mb-3">¡Organiza tu visita y no te quedes sin ver nada!</h3>
                     </div>
-                    <!-- Barra de filtros -->
+                    <!-- Barra de búsqueda -->
                     <div class="container d-flex align-items-center mb-3">
                         <!-- Botón del calendario -->
                         <button class="btn btn-primary me-4" id="calendar-button">
@@ -62,7 +97,7 @@
                                 <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
                             </svg>
                         </button>
-                        
+                        <div type="button" id="calendar-container"></div>
                         <div class="input-group mb-3">
                             <!-- Filtros -->
                             <div class="dropdown">

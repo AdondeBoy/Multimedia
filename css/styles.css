@@ -11094,6 +11094,12 @@ header.masthead .masthead-heading {
   font-size: 2.5rem;
 }
 
+#calendar-container {
+  display: none;
+  position: absolute; /* Posición absoluta */
+  z-index: 9999; /* Z-index alto para superponer sobre el contenido */
+}
+
 .botonesPeques {
   overflow-x: auto;
 }
