@@ -2090,6 +2090,7 @@ progress {
 
 .form-control-sm {
   min-height: calc(1.5em + 0.5rem + 2px);
+  max-width: 90%;
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   border-radius: 0.25rem;
@@ -3229,7 +3230,7 @@ textarea.form-control-lg {
 }
 
 .dropdown-menu {
-  --bs-dropdown-zindex: 1000;
+  --bs-dropdown-zindex: 1001;
   --bs-dropdown-min-width: 10rem;
   --bs-dropdown-padding-x: 0;
   --bs-dropdown-padding-y: 0.5rem;
@@ -4171,14 +4172,13 @@ textarea.form-control-lg {
 }
 
 .espacioLista {
-  height: 19rem;
-  overflow-y: scroll;
+  height: 40rem;
+  overflow-y: auto;
 }
 
 .listaHorizontal {
   white-space: nowrap;
   overflow-x: scroll;
-
 }
 
 .espacioLista .list-group-item {
@@ -11182,6 +11182,21 @@ header.masthead .masthead-heading {
   padding-bottom: 6rem;
   overflow: hidden;
   text-align: center;
+}
+
+.hour-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hour-group {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .button-group {

@@ -31,6 +31,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script>
             $(function() {
+                var isShowing = false;
                 // Oculta el contenedor del calendario al inicio
                 $('#calendar-container').hide();
             
@@ -45,11 +46,32 @@
                   }
                 });
             
-                // Muestra el calendario cuando se hace clic en el botón
+                // Muestra el calendario cuando se hace clic en el botón,
+                // o lo oculta si ya se está mostrando
                 $('#calendar-button').click(function() {
-                  $('#calendar-container').show();
+                    if (!isShowing) {
+                        $('#calendar-container').show();
+                        isShowing = true;
+                    } else {
+                        $('#calendar-container').hide();
+                        isShowing = false;
+                    }
+                });
+
+                $(document).mouseup(function(e) 
+                {
+                    var container = $("#calendar-container");
+                    if (!container.is(e.target) && container.has(e.target).length === 0) 
+                    {
+                        container.hide();
+                    }
                 });
               });
+                // Si ya se está mostrando, se esconde el calendario
+                
+
+
+              
             /*
             $(function() {
                 $("#calendar-container").datepicker();
@@ -91,13 +113,15 @@
                     <!-- Barra de búsqueda -->
                     <div class="container d-flex align-items-center mb-3">
                         <!-- Botón del calendario -->
-                        <button class="btn btn-primary me-4" id="calendar-button">
-                            Elegir día
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                                <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
-                            </svg>
-                        </button>
-                        <div type="button" id="calendar-container"></div>
+                        <div class="d-block">
+                                <button class="btn btn-primary me-4" id="calendar-button">
+                                    Elegir día
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                        <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
+                                    </svg>
+                                </button>
+                                <div type="button" id="calendar-container"></div>
+                        </div>
                         <div class="input-group mb-3">
                             <!-- Filtros -->
                             <div class="dropdown">
@@ -107,7 +131,7 @@
                                         <div class="col-6 d-flex justify-content-start align-items-center me-2">
                                             <label>Hora de Inicio:</label>
                                         </div>
-                                        <div class="col-6 d-flex justify-content-end">
+                                        <div class="col-6 d-flex justify-content-start">
                                             <input class="form-control-sm" id="SearchHourStart" type="text" placeholder="10:00" data-sb-validations="required" />
                                         </div>
                                     </div>
@@ -115,7 +139,7 @@
                                         <div class="col-6 d-flex justify-content-start align-items-center me-2">
                                             <label>Hora de Fin:</label>
                                         </div>
-                                        <div class="col-6 d-flex justify-content-end">
+                                        <div class="col-6 d-flex justify-content-start">
                                             <input class="form-control-sm"  id="SearchHourEnd" type="text" placeholder="11:30" data-sb-validations="required" />
                                         </div>
                                     </div>
@@ -213,6 +237,198 @@
                                 <li class="list-group-item">
                                     <div class="col-8"> 
                                         <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 09:00 - 10:30: </strong> Catedral de Palma
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 10:30 - 11:30: </strong> Castell de l'Almudaina
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <button class="btn btn-secondary ms-5"> - </button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="col-8"> 
+                                        <strong> 12:30 - 14:00: </strong> Parroquia de San Bartomeu
                                     </div>
                                     <div class="col-4 d-flex justify-content-end">
                                         <button class="btn btn-secondary ms-5"> - </button>
@@ -444,37 +660,36 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-8 d-flex justify-content-center align-items-center">
-                                            <ul class="list-inline">
-                                                <li class="row mb-4">
-                                                    <div class="col-6 d-flex justify-content-start align-items-center">
+                                        <div class="col-6 d-flex justify-content-center align-items-center">
+                                            <div class="hour-list">
+                                                <div class="row mb-4 d-flex hour-group">
+                                                    <div class="d-flex justify-content-start align-items-center">
                                                         <strong>Hora de Entrada:</strong>
                                                     </div>
-                                                    <div class="col-6 d-flex justify-content-end">
+                                                    <div class="d-flex justify-content-start align-items-center">
                                                         <input class="form-control-sm" id="hourIn" type="text" placeholder="10:00" data-sb-validations="required" />
                                                     </div>
-                                                </li>
-                                                <li class="row">
-                                                    <div class="col-6 d-flex justify-content-start align-items-center">
+                                                </div>
+                                                <div class="row d-flex hour-group">
+                                                    <div class="d-flex justify-content-start align-items-center">
                                                         <strong>Hora de Salida:</strong>
                                                     </div>
-                                                    <div class="col-6 d-flex justify-content-end">
+                                                    <div class="d-flex justify-content-start align-items-center">
                                                         <input class="form-control-sm" id="hourOut" type="text" placeholder="11:30" data-sb-validations="required" />
                                                     </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-4">
-                                            <!-- Horarios -->
-                                            <div class="row">
-                                                <div class="d-flex justify-content-start align-items-center">
-                                                    <strong>Horarios:</strong>
                                                 </div>
-                                            </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-center">
                                             <!-- Día: hora inicio - hora fin -->
                                             <div class="row">
                                                 <div class="d-flex justify-content-start">
                                                     <ul class="list-inline">
+                                                        <li class="list-inline-item row">
+                                                            <div class="col-4">
+                                                                <strong>Horarios: </strong>
+                                                            </div>
+                                                        </li>
                                                         <li class="list-inline-item row">
                                                             <div class="col-4">
                                                                 <strong>Lunes: </strong>
