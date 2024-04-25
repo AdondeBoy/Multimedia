@@ -84,11 +84,12 @@ function crearSeccionPortfolio (edificiosJSON) {
 
     
     // Itera sobre los datos y genera el HTML dinámico
+    let i = 1;
     edificiosJSON.forEach(function (edificio) {
         let itemHTML = `
             <div class="col-lg-4 col-sm-6 mb-4">
                 <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal">
+                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal${i}">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
@@ -104,7 +105,11 @@ function crearSeccionPortfolio (edificiosJSON) {
 
         // Agrega el HTML generado al contenido de la sección
         divRowPortfolio.innerHTML += itemHTML;
+        i++;
     });
+
+    // crear pop-ups del portfolio
+    generarPopUpsInicio(edificiosJSON);
 }
 
 function crearSeccionTeam () {
@@ -203,6 +208,98 @@ function crearSeccionTeam () {
     nuevaSection.appendChild(divContainer);
 
     // Añade el <section> al <main>
-    let main = document.querySelector('main');
+    let main = document.getElementById('main');
     main.appendChild(nuevaSection);
+}
+
+function generarPopUpsInicio(edificiosJSON) {
+    // obtener <div> contenedor de los pop-ups
+    let popUpContainer = document.getElementById('portfolio-modals');
+
+    let i = 1;
+    edificiosJSON.forEach(function(edificio) {
+        generarPopUp(popUpContainer, edificio, i);
+    });
+}
+
+function generarPopUp (popUpsContainer, edificio, i) {
+    // crear contenedor <div> del pop-up
+    let popUp = document.createElement('div');
+    popUp.classList.add('portfolio-modal', 'modal', 'fade');
+    popUp.id = "portfolioModal" + i;
+    popUp.setAttribute('tabindex', '-1');
+    popUp.setAttribute('role', 'dialog');
+    popUp.setAttribute('aria-hidden', 'true');
+    
+    // generar contenido del pop-up
+    let popUpContent = generarContenidoPopUp(edificio);
+    popUp.appendChild(popUpContent);
+
+    // Agregar el contenedor del pop-up al div contenedor
+    popUpsContainer.appendChild(popUp);
+}
+
+function generarContenidoPopUp(edificio) {
+    // crear contenedor principal
+    let container1 = document.createElement('div');
+    container1.classList.add('modal-dialog', 'd-flex', 'justify-content-center');
+
+    // crear contenedor modal y engancharlo a container1
+    let container2 = document.createElement('div');
+    container2.classList.add('modal-content');
+    container1.appendChild(container2);
+
+    // generar contenedor icono para cerrar el diálogo
+    let closeModal = document.createElement('div');
+    closeModal.classList.add('close-modal');
+    closeModal.setAttribute('data-bs-dismiss', 'modal');
+
+    let closeImg = document.createElement('img');
+    closeImg.setAttribute('src', 'assets/img/close-icon.svg');
+    closeImg.setAttribute('alt', 'Close modal');
+    closeModal.appendChild(closeImg);
+    container2.appendChild(closeModal);
+
+    // crear contenedor de a información y engancharlo a container2
+    let container3 = document.createElement('div');
+    container3.classList.add('container');
+    container2.appendChild(container3);
+
+    // crear contenedor fila y engancharlo a contenedor 3
+    let container4 = document.createElement('div');
+    container4.classList.add('row', 'justify-content-center');
+    container3.appendChild(container4);
+
+    // crear contenedor columna y engancharlo a contenedor fila
+    let container5 = document.createElement('div');
+    container5.classList.add('col-lg-8');
+    container4.appendChild(container5);
+
+    // crear contenedor modal-body y engancharlo a contenedor columna
+    let modalBody = generarModalBodyContent(edificio);
+    container5.appendChild(modalBody);
+
+    return container1;
+}
+
+function generarModalBodyContent(edificio) {
+    let modalBody = document.createElement('div');
+    modalBody.classList.add('modal-body');
+
+    // añadir título
+    let titulo = document.createElement('h2');
+    titulo.classList.add('text-uppercase');
+    titulo.textContent = edificio.nombre;
+    modalBody.appendChild(titulo);
+
+    // añadir subtítulo con nombre alternativo si lo tiene
+    if (edificio?.alternateName !== undefined) {
+        // existe un nombre alternativo
+        let subtitulo = document.createElement('p');
+        subtitulo.classList.add('item-intro', 'text-muted', 'mb-0');
+        subtitulo.textContent = "También conocida como " + edificio.alternateName + ".";
+        modalBody.appendChild(subtitulo);
+    }
+
+    return modalBody;
 }
