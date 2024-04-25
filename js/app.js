@@ -276,13 +276,13 @@ function generarContenidoPopUp(edificio) {
     container4.appendChild(container5);
 
     // crear contenedor modal-body y engancharlo a contenedor columna
-    let modalBody = generarModalBodyContent(edificio);
+    let modalBody = generarModalBodyContent(edificio, null);
     container5.appendChild(modalBody);
 
     return container1;
 }
 
-function generarModalBodyContent(edificio) {
+function generarModalBodyContent(edificio, dia) {
     let modalBody = document.createElement('div');
     modalBody.classList.add('modal-body');
 
@@ -301,5 +301,200 @@ function generarModalBodyContent(edificio) {
         modalBody.appendChild(subtitulo);
     }
 
+    // añadir imagen (supongo que lo cambiaremos por un vídeo o maybe un slider con ambos)
+    let imagen = document.createElement('img');
+    imagen.classList.add('img-fluid', 'd-block', 'mx-auto');
+    imagen.setAttribute('src', edificio.imagen);
+    imagen.setAttribute('alt', edificio.nombre);
+    modalBody.appendChild(imagen);
+
+    // añadir descripción
+    let descripcion = document.createElement('p');
+    descripcion.textContent = edificio.descripcion;
+    modalBody.appendChild(descripcion);
+
+    // añadir clima (por defecto el día actual)
+    if (dia === null) {
+        dia = new Date().getDay();
+    }
+    let listaClima = document.createElement('div');
+    listaClima.classList.add('mx-5, mb-4, listaHorizontal, table-responsive');
+    
+
+    let listaClimaBody = document.createElement('div');
+    listaClimaBody.classList.add('d-flex');
+    // (implementar con API de weather)
+    // Cada 2h
+    //   let
+    //   obtenerTemperatura(coordenadas, dia, horaActual)
+    //   obtenerClina(coordenadas, dia, horaActual)
+    // loop
+    modalBody.appendChild(listaClima);
+
+    // añadir horas de visita y horarios
+    let horasVisita = document.createElement('div');
+    horasVisita.classList.add('row');
+
+    let horasVisitaBody = crearCamposVisita();
+    horasVisitaBody.classList.add('col-6, d-flex, justify-content-center, align-items-center');
+
+    /* chuletas
+    <div class="row">
+        // Parte de las horas input hecho
+        <div class="col-6 d-flex justify-content-center">
+            <!-- Día: hora inicio - hora fin -->
+            <div class="row">
+                <div class="d-flex justify-content-start">
+                    <ul class="list-inline">
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Horarios: </strong>
+                            </div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                        <li class="list-inline-item row">
+                            <div class="col-4">
+                                <strong>Lunes: </strong>
+                            </div>
+                            <div class="col-8">10:00 - 18:00</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    */
+
+
+
+
     return modalBody;
+}
+
+function crearItemClima(dia, hora, temperatura, clima) {
+    let item = document.createElement('div');
+    item.classList.add('mx-3');
+
+    let diaElement = document.createElement('div');
+    item.appendChild(diaElement);
+
+    let img = document.createElement('img');
+    img.classList.add('img-weather');
+    img.setAttribute('src', 'assets/img/weather/' + clima + '.png');
+    diaElement.appendChild(img);
+
+    let horaElement = document.createElement('p');
+    horaElement.classList.add('item-intro, text-muted, mb-0');
+    horaElement.textContent = hora;
+    diaElement.appendChild(horaElement);
+
+    let temperaturaElement = document.createElement('p');
+    temperaturaElement.classList.add('item-intro, text-muted, mb-0');
+    temperaturaElement.textContent = temperatura;
+    diaElement.appendChild(temperaturaElement);
+
+    return item; // O no ¿?
+}
+
+function crearCamposVisita() {
+    // Contenedor
+    let contenedor = document.createElement('div');
+    contenedor.classList.add('col-6, d-flex, justify-content-center, align-items-center');
+    // Lista de elementos
+    let horasVisita = document.createElement('div');
+    horasVisita.classList.add('hour-list');
+    // Contenedor de entrada
+    let horaEntrada = document.createElement('div');
+    horaEntrada.classList.add('row', 'mb-4', 'd-flex', 'hour-group');
+    // Contenedor de mensaje
+    let horaEntradaLabelContainer = document.createElement('div');
+    horaEntradaLabelContainer.classList.add('d-flex', 'justify-content-start', 'align-items-center');
+    // Mensaje
+    let horaEntradaLabel = document.createElement('strong');
+    horaEntradaLabel.textContent = 'Hora de Entrada:';
+    horaEntradaLabelContainer.appendChild(horaEntradaLabel);
+    // Contenedor de input
+    let horaEntradaInputContainer = document.createElement('input');
+    horaEntradaInputContainer.classList.add('d-flex justify-content-start align-items-center');
+    // Input
+    let horaEntradaInput = document.createElement('input');
+    horaEntradaInput.classList.add('form-control-sm');
+    horaEntradaInput.setAttribute('id', 'hourIn');
+    horaEntradaInput.setAttribute('type', 'text');
+    horaEntradaInput.setAttribute('placeholder', '10:00');
+    horaEntradaInput.setAttribute('data-sb-validations', 'required');
+    horaEntradaInputContainer.appendChild(horaEntradaInput);
+
+    horaEntrada.appendChild(horaEntradaLabelContainer);
+    horaEntrada.appendChild(horaEntradaInputContainer);
+    horasVisita.appendChild(horaEntrada);
+
+    // Contenedor de salida
+    let horaSalida = document.createElement('div');
+    horaSalida.classList.add('row', 'd-flex', 'hour-group');
+    // Contenedor de mensaje
+    let horaSalidaLabelContainer = document.createElement('div');
+    horaSalidaLabelContainer.classList.add('d-flex', 'justify-content-start', 'align-items-center');
+    // Mensaje
+    let horaSalidaLabel = document.createElement('strong');
+    horaSalidaLabel.textContent = 'Hora de Salida:';
+    horaSalidaLabelContainer.appendChild(horaSalidaLabel);
+    // Contenedor de input
+    let horaSalidaInputContainer = document.createElement('input');
+    horaSalidaInputContainer.classList.add('d-flex justify-content-start align-items-center');
+    // Input
+    let horaSalidaInput = document.createElement('input');
+    horaSalidaInput.classList.add('form-control-sm');
+    horaSalidaInput.setAttribute('id', 'hourOut');
+    horaSalidaInput.setAttribute('type', 'text');
+    horaSalidaInput.setAttribute('placeholder', '11:30');
+    horaSalidaInput.setAttribute('data-sb-validations', 'required');
+    horaSalidaInputContainer.appendChild(horaSalidaInput);
+
+    horaSalida.appendChild(horaSalidaLabelContainer);
+    horaSalida.appendChild(horaSalidaInputContainer);
+    horasVisita.appendChild(horaSalida);
+
+    return contenedor;
 }
