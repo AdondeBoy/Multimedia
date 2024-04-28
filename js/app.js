@@ -397,16 +397,15 @@ function generarModalBodyContent(edificio, dia, i) {
     horasVisita.appendChild(horarios1);
     
     modalBody.appendChild(horasVisita);
-    /*
-    // añadir botones
+
+    // Botones
     let grupoBotones = document.createElement('div');
     grupoBotones.classList.add('button-group');
 
-    // Botón de agregar
+    // Añadir al plan
     let botonAgregar = document.createElement('button');
     botonAgregar.classList.add('btn', 'btn-primary', 'btn-xl', 'text-uppercase');
     botonAgregar.setAttribute('type', 'button');
-    // onclick lleva a plan.html
     botonAgregar.onclick = function() {
         // Datos de sesión
         // - almacenar edifico en plan, con hora y salida
@@ -414,14 +413,41 @@ function generarModalBodyContent(edificio, dia, i) {
         window.location.href = 'plan.html';
     };
     botonAgregar.textContent = 'Añadir al plan';
+    grupoBotones.appendChild(botonAgregar);
 
+    // Más información (web del edificio)
+    let url = edificio.url; 
+    // El botón se genera solamente si tiene URL 
+    if (url !== undefined) {
+        let botonInfo = document.createElement('button');
+        botonInfo.classList.add('btn', 'btn-secondary', 'btn-xl', 'text-uppercase');
+        botonInfo.setAttribute('type', 'button');
+        botonInfo.onclick = function() {
+            window.location.href = url;
+        };
+        botonInfo.textContent = 'Más información';
+        grupoBotones.appendChild(botonInfo);
+    } 
 
+    /* también se podría hacer esto ¿? (creo que queda un poco mal)
+    let botonInfo = document.createElement('button');
+    botonInfo.classList.add('btn', 'btn-secondary', 'btn-xl', 'text-uppercase');
+    botonInfo.setAttribute('type', 'button');
+    // Check de URL
+    if (edificiosJSON[i].url !== undefined) {
+        botonInfo.classList.add('disabled');
+    } else {
+        botonInfo.onclick = function() {
+            window.location.href = edificiosJSON[i].url;
+        };
+    }
+    
 
-    // <button class="btn btn-primary btn-xl text-uppercase" onclick="window.location.href = 'plan.html';" type="button">
-    //     Añadir al plan
-    // </button>
+    botonInfo.textContent = 'Más información';
+    botones.appendChild(botonInfo);
     */
 
+    modalBody.appendChild(grupoBotones);
 
     return modalBody;
 }
@@ -509,7 +535,7 @@ function crearCamposVisita(i) {
     horaSalida.appendChild(horaSalidaLabelContainer);
     horaSalida.appendChild(horaSalidaInputContainer);
     horasVisita.appendChild(horaSalida);
-    contenedor.appendChild(horasVisita);
+    contenedor.appendChild(horasVisita);   
 
     return contenedor;
 }
