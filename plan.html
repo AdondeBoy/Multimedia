@@ -83,30 +83,29 @@
     </head>
     <body id="page-top">
         <!-- Menú de navegación -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-                <div class="container">
-                    <a class="navbar-brand" href="index.html"><img src="assets/img/Mashorca_Gordo.svg" alt="..." /></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        Menú
-                        <i class="fas fa-bars ms-1"></i>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarResponsive">
-                        <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#portfolio">Planificador</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
-                        </ul>
-                    </div>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="assets/img/Mashorca_Gordo.svg" alt="..." /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menú
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#planificador">Planificador</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
+                    </ul>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+        <header id="header"></header>
         <!-- Panel de contenidos dinámico -->
         <main class="py-4">
             <!-- Principales edificios Grid-->
             <section class="page-section bg-light" id="portfolio">
                 <div class="container">
-                    <div class="text-center">
+                    <div class="text-center py-2">
                         <h2 class="section-heading text-uppercase mb-2">Construye tu ruta</h2>
                         <h3 class="section-subheading text-muted mb-3">¡Organiza tu visita y no te quedes sin ver nada!</h3>
                     </div>
@@ -171,7 +170,7 @@
                             </div>
                             <!-- Barra de búsqueda -->
                             <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="SearchButton">
-                            <button class="btn btn-primary" type="button" id="SearchButton">
+                            <button class="btn btn-primary" type="submit" id="SearchButton">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -471,7 +470,7 @@
                     </div>
                 </div>
             </section>
-        
+        </main>
         <!-- Contact-->
         <section class="page-section" id="contact">
             <div class="container">

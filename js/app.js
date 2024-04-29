@@ -1,10 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', inicio());
+
+function inicio() {
     // Define los datos estáticos en un arreglo de objetos
     let lugares = [
         {
             nombre: "Catedral de Palma",
             descripcion: "También conocida como La Seu",
-            imagen: "assets/img/portfolio/1.jpg"
+            imagen: "assets/img/portfolio/1.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ]
         },
         {
             nombre: "Parroquia de San Bartomeu",
@@ -34,19 +45,20 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     
     let edificiosJSON = lugares;
+
+    // poner función en el logo
+    let aLogo = document.getElementById('logoMashorca');
+    // Al hacer click sobre el logo, se vuelve a la página de inicio
+    aLogo.onclick = logoToHome;
+
+    crearSlider();
     crearSeccionPortfolio(edificiosJSON);
     crearSeccionTeam();
-});
+}
 
 function crearSeccionPortfolio (edificiosJSON) {
-    // Crea el elemento <section> de clase 'page-section', 'bg-light'
-    let nuevaSection = document.createElement('section');
-    nuevaSection.classList.add('page-section', 'bg-light');
-    nuevaSection.id = 'portfolio';
-
-    // Crea el elemento <div> de clase "container"
-    let divContainer = document.createElement('div');
-    divContainer.classList.add('container');
+    // obtener el elemento <div> de clase "container"
+    let divContainer = document.getElementById('portfolioContainer');
 
     // Crea el elemento <div> de clase "text-center"
     let divTextCenter = document.createElement('div');
@@ -67,16 +79,8 @@ function crearSeccionPortfolio (edificiosJSON) {
 
     // Añade el <div> "text-center" al <div> "container"
     divContainer.appendChild(divTextCenter);
-
-    // Añade el <div> "container" al <section>
-    nuevaSection.appendChild(divContainer);
-
-    // Añade el <section> al <main>
-    let main = document.getElementById('main');
-    main.appendChild(nuevaSection);
     
     // Crea elemento div de clase row
-    // Crea el elemento <div> de clase "container"
     let divRowPortfolio = document.createElement('div');
     divRowPortfolio.classList.add('row');
     // añadir al container
@@ -377,17 +381,22 @@ function generarModalBodyContent(edificio, dia, i) {
     }
     
     for (let dia in horario) {
+        let diaHorario = horario[dia].split("$");
         let diaElement = document.createElement('li');
         diaElement.classList.add('list-inline-item', 'row');
         // Día
         let diaNombre = document.createElement('div');
-        diaNombre.classList.add('col-4');
-        diaNombre.textContent = dia + ":";
+        diaNombre.classList.add('col-2');
+        // El nombre del día es strong
+        let diaNombreTexto = document.createElement('strong');
+        diaNombreTexto.textContent = diaHorario[0] + ": ";
+        diaNombre.appendChild(diaNombreTexto);
+        
         diaElement.appendChild(diaNombre);
         // Horas
         let diaHoras = document.createElement('div');
-        diaHoras.classList.add('col-8');
-        diaHoras.textContent = horario[dia];
+        diaHoras.classList.add('col-10');
+        diaHoras.textContent = diaHorario[1];
         diaElement.appendChild(diaHoras);
         // Se añade el elemento a la lista
         horariosLista.appendChild(diaElement);
@@ -410,7 +419,10 @@ function generarModalBodyContent(edificio, dia, i) {
         // Datos de sesión
         // - almacenar edifico en plan, con hora y salida
         // - día (hoy)
-        window.location.href = 'plan.html';
+        window.location.href = '#';
+        borrarIndex();
+        plan();
+        // window.location.href = 'plan.html';
     };
     botonAgregar.textContent = 'Añadir al plan';
     grupoBotones.appendChild(botonAgregar);
@@ -538,4 +550,318 @@ function crearCamposVisita(i) {
     contenedor.appendChild(horasVisita);   
 
     return contenedor;
+}
+
+function logoToHome() {    
+    // Si ya está en la página de inicio, no hace nada
+    let container = document.getElementById('slider');
+    // Si el contenedor no existe
+    if (container === null) {
+        // Se elimina el plan
+        borrarPlan();
+        // Obtener header
+        let header = document.getElementById('header');
+        // Añadir clases al header
+        header.classList.add('masthead');
+        inicio();
+    }    
+}
+
+function crearSlider() {
+    // obtener header
+    let header = document.getElementById('header');
+    // añadir clases al header
+    header.classList.add('masthead');
+
+    // Crear el slider
+    let slider = document.createElement('div');
+    slider.classList.add('slider');
+    slider.setAttribute('id', 'slider');
+    header.appendChild(slider);
+
+    // Crear el contenedor de las imágenes
+    let swiperWrapper = document.createElement('div');
+    swiperWrapper.classList.add('swiper-wrapper');
+    slider.appendChild(swiperWrapper);
+
+    // Crear las imágenes
+    let img = document.createElement('img');
+    img.setAttribute('src', 'assets/img/slider/imagen1.jpg');
+    img.setAttribute('alt', 'Imagen slider 1');
+    let swiperSlide = document.createElement('div');
+    swiperSlide.classList.add('swiper-slide');
+    swiperSlide.appendChild(img);
+    swiperWrapper.appendChild(swiperSlide);
+
+    let img2 = document.createElement('img');
+    img2.setAttribute('src', 'assets/img/slider/imagen2.jpg');
+    img2.setAttribute('alt', 'Imagen slider 2');
+    let swiperSlide2 = document.createElement('div');
+    swiperSlide2.classList.add('swiper-slide');
+    swiperSlide2.appendChild(img2);
+    swiperWrapper.appendChild(swiperSlide2);
+
+    let img3 = document.createElement('img');
+    img3.setAttribute('src', 'assets/img/slider/imagen3.jpg');
+    img3.setAttribute('alt', 'Imagen slider 3');
+    let swiperSlide3 = document.createElement('div');
+    swiperSlide3.classList.add('swiper-slide');
+    swiperSlide3.appendChild(img3);
+    swiperWrapper.appendChild(swiperSlide3);
+
+    // Crear botones de navegación
+    let swiperPagination = document.createElement('div');
+    swiperPagination.classList.add('swiper-pagination');
+    slider.appendChild(swiperPagination);
+
+    // Crear contenedor
+    let container = document.createElement('div');
+    container.classList.add('container');
+    slider.appendChild(container);
+
+    // Crear subtítulo
+    let mastheadSubheading = document.createElement('div');
+    mastheadSubheading.classList.add('masthead-subheading');
+    mastheadSubheading.textContent = 'Diseña una ruta pensada únicamente para ti';
+    container.appendChild(mastheadSubheading);
+
+    // Crear título
+    let mastheadHeading = document.createElement('div');
+    mastheadHeading.classList.add('masthead-heading', 'text-uppercase');
+    mastheadHeading.textContent = '!Atrévete a conocer Mallorca!';
+    container.appendChild(mastheadHeading);
+
+    // Crear botón
+    let btn = document.createElement('a');
+    btn.classList.add('btn', 'btn-primary', 'btn-xl', 'text-uppercase');
+    btn.textContent = 'Planificar Ruta';
+    // al hacer click, llama a plan()
+    btn.onclick = function() {
+        window.location.href = '#';
+        borrarIndex();
+        plan();
+    };
+    container.appendChild(btn);
+
+
+
+    /*
+    <div class="slider" id="slider">
+                <!-- Aquí se generará el slider de imágenes -->
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="assets/img/slider/imagen1.jpg" alt="Imagen test 1"></div>
+                    <div class="swiper-slide"><img src="assets/img/slider/imagen2.jpg" alt="Imagen test 2"></div>
+                    <!-- <div class="swiper-slide"><img src="assets/img/slider/imagen3.gif" alt="Imagen test 3"></div> -->
+                    <!-- <div class="swiper-slide"><img src="assets/img/slider/imagen4.png" alt="Imagen test 4"></div> -->
+                </div>
+                <!-- Agregar botones de navegación si es necesario -->
+                <div class="swiper-pagination"></div>
+                <div class="container">
+                    <div class="masthead-subheading">Diseña una ruta pensada únicamente para ti</div>
+                    <div class="masthead-heading text-uppercase">!Atrévete a conocer Mallorca!</div>
+                    <a class="btn btn-primary btn-xl text-uppercase" href="plan.html">Planificar Ruta</a>
+                </div>
+            </div>
+    */
+}
+
+function borrarIndex() {
+    borrarSlider();
+    // Se borra el contenido del container
+    let container = document.getElementById('portfolioContainer');
+    container.innerHTML = '';
+    // borrar sección de equipo
+    let main = document.getElementById('main');
+    let team = document.getElementById('team');
+    if (team)
+        main.removeChild(team);
+}
+
+function borrarPlan() {
+    let container = document.getElementById('portfolioContainer');
+    container.innerHTML = ''; // Se borra el contenido del container
+}
+
+// borra el slider del header y le quita los estilos al header
+function borrarSlider() {
+    // borrar slider del header
+    let header = document.getElementById('header');
+    let slider = document.getElementById('slider');
+    if (slider)
+        header.removeChild(slider);
+    
+    // borrar clases del header
+    header.classList.remove('masthead');
+}
+
+function plan() {
+    // obtener el elemento <div> de clase "container"
+    let divContainer = document.getElementById('portfolioContainer');
+    
+    // Crea el elemento <div> de clase "text-center"
+    let divTextCenter = document.createElement('div');
+    divTextCenter.classList.add('text-center', 'py-5');
+
+    // Crea los elementos <h2> y <h3>
+    let h2 = document.createElement('h2');
+    h2.classList.add('section-heading', 'text-uppercase', 'mb-2');
+    h2.textContent = 'Construye tu ruta';
+
+    let h3 = document.createElement('h3');
+    h3.classList.add('section-subheading', 'text-muted', 'mb-3');
+    h3.textContent = '¡Organiza tu visita y no te quedes sin ver nada!';
+
+    // Añade los elementos <h2> y <h3> al <div> "text-center"
+    divTextCenter.appendChild(h2);
+    divTextCenter.appendChild(h3);
+
+    // Añade el <div> "text-center" al <div> "container"
+    divContainer.appendChild(divTextCenter);
+
+    let divBusqueda = crearCamposBusqueda();
+    divContainer.appendChild(divBusqueda);
+
+    // crear el <div> "row"
+    let divRowContainer = document.createElement('div');
+    divRowContainer.classList.add('row');
+    divContainer.appendChild(divRowContainer);
+
+    let mapContainer = crearMapa();
+    divRowContainer.appendChild(mapContainer);
+
+    let listContainer = crearLista();
+    divRowContainer.appendChild(listContainer);
+}
+
+function crearCamposBusqueda() {
+    // crear contenedor principal
+    let container = document.createElement('div');
+
+    let html = `
+        <!-- Barra de búsqueda -->
+        <div class="container d-flex align-items-center mb-3">
+            <!-- Botón del calendario -->
+            <div class="d-block">
+                    <button class="btn btn-primary me-4" id="calendar-button">
+                        Elegir día
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
+                        </svg>
+                    </button>
+                    <div type="button" id="calendar-container"></div>
+            </div>
+            <div class="input-group mb-3">
+                <!-- Filtros -->
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle me-2" data-bs-toggle="dropdown">Filtros</button>
+                    <form class="dropdown-menu" id="filtros-busqueda">
+                        <div class="dropdown-item filtro d-flex">
+                            <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                <label>Hora de Inicio:</label>
+                            </div>
+                            <div class="col-6 d-flex justify-content-start">
+                                <input class="form-control-sm" id="SearchHourStart" type="text" placeholder="10:00" data-sb-validations="required" />
+                            </div>
+                        </div>
+                        <div class="dropdown-item filtro d-flex">
+                            <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                <label>Hora de Fin:</label>
+                            </div>
+                            <div class="col-6 d-flex justify-content-start">
+                                <input class="form-control-sm"  id="SearchHourEnd" type="text" placeholder="11:30" data-sb-validations="required" />
+                            </div>
+                        </div>
+                        <div class="dropdown-item filtro d-flex">
+                            <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                <label>Actividad gratuita:</label>
+                            </div>
+                            <div class="col-6 d-flex justify-content-start align-items-center">
+                                <input class="form-check-input" type="checkbox" id="SearchFree">
+                            </div>
+                        </div>
+                        <div class="dropdown-item filtro d-flex">
+                            <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                <label>Parking cercano:</label>
+                            </div>
+                            <div class="col-6 d-flex justify-content-start align-items-center">
+                                <input class="form-check-input" type="checkbox" id="ParkingNear">
+                            </div>
+                        </div>
+                        <div class="dropdown-item filtro d-flex">
+                            <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                                <label>Hostelería cercana:</label>
+                            </div>
+                            <div class="col-6 d-flex justify-content-start align-items-center">
+                                <input class="form-check-input" type="checkbox" id="HosteleriaCercana">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Barra de búsqueda -->
+                <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="SearchButton">
+                <button class="btn btn-primary" type="submit" id="SearchButton">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        `;
+    container.innerHTML = html;
+
+    añadirEventosBusqueda();
+
+    return container
+}
+
+function añadirEventosBusqueda() {
+    let horaIn = document.getElementById('SearchHourStart');
+    let horaOut = document.getElementById('SearchHourEnd');
+    let searchFree = document.getElementById('SearchFree');
+    let parkingNear = document.getElementById('ParkingNear');
+    let HosteleriaCercana = document.getElementById('HosteleriaCercana');
+
+    
+}
+
+function crearMapa() {
+    // crear contenedor principal
+    let mapaContainer = document.createElement('div');
+    mapaContainer.classList.add('col-lg-8', 'col-sm-6', 'mb-4', 'd-flex', 'justify-content-center');
+    mapaContainer.id = 'mapBuildingContainer';
+
+    // crear mapa
+    let mapa = document.createElement('div');
+    mapa.id = 'map';
+    mapa.style.width = '600px';
+    mapa.style.height = '400px';
+    mapaContainer.appendChild(mapa);
+    
+    return mapaContainer;
+
+    /*
+    <div class="col-lg-8 col-sm-6 mb-4" id="mapBuildingContainer">
+        <!-- Map img-->
+        <div class="mb-2 d-flex justify-content-center">
+            <div id="map" style="width: 600px; height: 400px;"></div>
+            <!-- <img class="img-fluid" src="assets/img/tempMapa/Mapallorca.jpg" alt="ElMapa" /> -->
+        </div>
+        
+        <!-- Selected From Map-->
+        <div class="portfolio-item">
+            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
+                <div class="portfolio-hover">
+                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                </div>
+                <img class="img-fluid" src="assets/img/portfolio/1.jpg" alt="..." />
+            </a>
+            <div class="portfolio-caption">
+                <div class="portfolio-caption-heading">Catedral de Palma</div>
+                <div class="portfolio-caption-subheading text-muted">También conocida como La Seu</div>
+            </div>
+        </div>
+    </div>
+    */
+}
+
+function crearLista() {
+
 }
