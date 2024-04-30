@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', inicio());
 
 function inicio() {
+    // obtener día de hoy
+    setCurrentDate();
+
+    // completar el footer
+    let date = new Date(sessionStorage.getItem('date'));
+    document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
+
     // Define los datos estáticos en un arreglo de objetos
     let lugares = [
         {
@@ -54,6 +61,21 @@ function inicio() {
     crearSlider();
     crearSeccionPortfolio(edificiosJSON);
     crearSeccionTeam();
+}
+
+function setCurrentDate() {
+    sessionStorage.setItem('date', new Date());
+}
+
+function setDate (str) {
+    // Separar la cadena en año, mes y día
+    let partesFecha = str.split('-');
+    let year = parseInt(partesFecha[0], 10);
+    let month = parseInt(partesFecha[1], 10) - 1; // Los meses van de 0 a 11 en JavaScript
+    let day = parseInt(partesFecha[2], 10);
+
+    // Crear un objeto Date con la fecha
+    sessionStorage.setItem('date', Date(year, month, day));
 }
 
 function crearSeccionPortfolio (edificiosJSON) {
@@ -418,11 +440,10 @@ function generarModalBodyContent(edificio, dia, i) {
     botonAgregar.onclick = function() {
         // Datos de sesión
         // - almacenar edifico en plan, con hora y salida
-        // - día (hoy)
+        savePopUpData(edificio.nombre, i);
         window.location.href = '#';
         borrarIndex();
         plan();
-        // window.location.href = 'plan.html';
     };
     botonAgregar.textContent = 'Añadir al plan';
     grupoBotones.appendChild(botonAgregar);
@@ -464,7 +485,31 @@ function generarModalBodyContent(edificio, dia, i) {
     return modalBody;
 }
 
-function crearItemClima(dia, hora, temperatura, clima) {
+function savePopUpData(nombre, i) {
+    // sea el día que sea, ya está guardado tal y como corresponde en la session
+    // crear estructura de datos representativa de lo elegido
+    let struct = {
+        name: nombre,
+        hourIn: document.getElementById('hourIn' + i).value,
+        hourOut: document.getElementById('hourOut' + i).value
+    }
+
+    // añadir al plan
+    let plan = sessionStorage.getItem('plan');
+
+    if (plan) {
+        plan = JSON.parse(plan);
+        plan.push(struct);
+
+    } else {
+        // plan no existe, crear array de "structs"
+        plan = [struct];
+    }
+
+    sessionStorage.setItem('plan', JSON.stringify(plan));
+}
+
+function crearItemClima(hora, temperatura, clima) {
     let item = document.createElement('div');
     item.classList.add('mx-3');
 
@@ -585,29 +630,18 @@ function crearSlider() {
     slider.appendChild(swiperWrapper);
 
     // Crear las imágenes
-    let img = document.createElement('img');
-    img.setAttribute('src', 'assets/img/slider/imagen1.jpg');
-    img.setAttribute('alt', 'Imagen slider 1');
-    let swiperSlide = document.createElement('div');
-    swiperSlide.classList.add('swiper-slide');
-    swiperSlide.appendChild(img);
-    swiperWrapper.appendChild(swiperSlide);
-
-    let img2 = document.createElement('img');
-    img2.setAttribute('src', 'assets/img/slider/imagen2.jpg');
-    img2.setAttribute('alt', 'Imagen slider 2');
-    let swiperSlide2 = document.createElement('div');
-    swiperSlide2.classList.add('swiper-slide');
-    swiperSlide2.appendChild(img2);
-    swiperWrapper.appendChild(swiperSlide2);
-
-    let img3 = document.createElement('img');
-    img3.setAttribute('src', 'assets/img/slider/imagen3.jpg');
-    img3.setAttribute('alt', 'Imagen slider 3');
-    let swiperSlide3 = document.createElement('div');
-    swiperSlide3.classList.add('swiper-slide');
-    swiperSlide3.appendChild(img3);
-    swiperWrapper.appendChild(swiperSlide3);
+    let i = 1;
+    while (i <= 3) {
+        let img = document.createElement('img');
+        let path = "assets/img/slider/imagen" + i + ".jpg";
+        img.setAttribute('src', path);
+        img.setAttribute('alt', 'Imagen slider ' + i);
+        let swiperSlide = document.createElement('div');
+        swiperSlide.classList.add('swiper-slide');
+        swiperSlide.appendChild(img);
+        swiperWrapper.appendChild(swiperSlide);
+        i++;
+    }
 
     // Crear botones de navegación
     let swiperPagination = document.createElement('div');
@@ -642,27 +676,6 @@ function crearSlider() {
         plan();
     };
     container.appendChild(btn);
-
-
-
-    /*
-    <div class="slider" id="slider">
-                <!-- Aquí se generará el slider de imágenes -->
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="assets/img/slider/imagen1.jpg" alt="Imagen test 1"></div>
-                    <div class="swiper-slide"><img src="assets/img/slider/imagen2.jpg" alt="Imagen test 2"></div>
-                    <!-- <div class="swiper-slide"><img src="assets/img/slider/imagen3.gif" alt="Imagen test 3"></div> -->
-                    <!-- <div class="swiper-slide"><img src="assets/img/slider/imagen4.png" alt="Imagen test 4"></div> -->
-                </div>
-                <!-- Agregar botones de navegación si es necesario -->
-                <div class="swiper-pagination"></div>
-                <div class="container">
-                    <div class="masthead-subheading">Diseña una ruta pensada únicamente para ti</div>
-                    <div class="masthead-heading text-uppercase">!Atrévete a conocer Mallorca!</div>
-                    <a class="btn btn-primary btn-xl text-uppercase" href="plan.html">Planificar Ruta</a>
-                </div>
-            </div>
-    */
 }
 
 function borrarIndex() {
@@ -928,11 +941,17 @@ function swapSelectedPlace() {
 
     // generar pop up correspondiente
     // obtener <div> contenedor de los pop-ups
+    /*
     let popUpContainer = document.getElementById('portfolio-modals');
-    let edificio;
+    let nombreEdificio = sessionStorage.getItem("nombreEdificio");
+    let edificio = obtenerEdificioJSON(nombreEdificio);
+    generarPopUp(popUpContainer, edificio, 0);
+    */
+}
 
-    // edificio tiene que llevar el json del edificio
-    // generarPopUp(popUpContainer, edificio, 0);
+function obtenerEdificioJSON(nombreEdificio) {
+    // JIJIJIJA
+    return {};
 }
 
 function crearLista() {
@@ -959,14 +978,15 @@ function añadirElementoListaPlan(i) {
     li.classList.add('list-group-item');
     li.id="li_espacioLista" + i;
 
+    let horas, nombreSitio;
+
     let html = `
         <div class="col-8"> 
-            <strong> 09:00 - 10:30: </strong> Catedral de Palma
+            <strong> ${horas} </strong> ${nombreSitio}
         </div>
         `;
     li.innerHTML = html;
 
-    
     let div1 = document.createElement('div');
     div1.classList.add('col-4', 'd-flex', 'justify-content-end');
 
