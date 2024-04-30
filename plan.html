@@ -31,7 +31,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script>
             $(function() {
-                var isShowing = false;
+                let isShowing = false;
                 // Oculta el contenedor del calendario al inicio
                 $('#calendar-container').hide();
             
@@ -60,7 +60,7 @@
 
                 $(document).mouseup(function(e) 
                 {
-                    var container = $("#calendar-container");
+                    let container = $("#calendar-container");
                     if (!container.is(e.target) && container.has(e.target).length === 0) 
                     {
                         container.hide();
@@ -68,18 +68,12 @@
                 });
               });
                 // Si ya se está mostrando, se esconde el calendario
-                
-
-
-              
             /*
             $(function() {
                 $("#calendar-container").datepicker();
             });
             */
         </script>
-        
-
     </head>
     <body id="page-top">
         <!-- Menú de navegación -->

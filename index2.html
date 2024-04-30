@@ -19,10 +19,22 @@
         <link href="css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         
+        <!-- Mapa -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <!-- Calendario -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+
+        <!-- JS Calendario -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
         <!-- Load jQuery-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- JS Scripts -->
-
+        
     </head>
     <body id="page-top">
         <!-- Menú de navegación -->
@@ -142,6 +154,61 @@
             <!-- Slider-->
             <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
             <script src="js/slider.js"></script>
+
+            <!-- Calendario -->
+            <script>
+                $(function() {
+                    let isShowing = false;
+                    // Oculta el contenedor del calendario al inicio
+                    $('#calendar-container').hide();
+                
+                    // Inicializa el Datepicker en el contenedor del calendario
+                    $('#calendar-container').datepicker({
+                      dateFormat: 'yy-mm-dd', // Formato de fecha deseado
+                      onSelect: function(dateText) {
+                        // Manejar la selección de fecha
+                        alert('Has seleccionado el día ' + dateText);
+                        // Oculta el contenedor del calendario después de seleccionar una fecha
+                        $('#calendar-container').hide();
+                      }
+                    });
+                
+                    // Muestra el calendario cuando se hace clic en el botón,
+                    // o lo oculta si ya se está mostrando
+                    $('#calendar-button').click(function() {
+                        if (!isShowing) {
+                            $('#calendar-container').show();
+                            isShowing = true;
+                        } else {
+                            $('#calendar-container').hide();
+                            isShowing = false;
+                        }
+                    });
+    
+                    $(document).mouseup(function(e) 
+                    {
+                        let container = $("#calendar-container");
+                        if (!container.is(e.target) && container.has(e.target).length === 0) 
+                        {
+                            container.hide();
+                        }
+                    });
+                  });
+                    // Si ya se está mostrando, se esconde el calendario
+                    
+    
+    
+                  
+                /*
+                $(function() {
+                    $("#calendar-container").datepicker();
+                });
+                */
+            </script>
+
+            <!-- Mapa -->
+            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+            <script src="mapa.js"></script>
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
