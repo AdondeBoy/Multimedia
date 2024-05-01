@@ -742,6 +742,7 @@ function plan() {
 
     let divBusqueda = crearCamposBusqueda();
     divContainer.appendChild(divBusqueda);
+    calendario();
 
     // crear el <div> "row"
     let divRowContainer = document.createElement('div');
@@ -750,30 +751,52 @@ function plan() {
 
     let mapContainer = crearMapa();
     divRowContainer.appendChild(mapContainer);
+    initMapa();
 
     let listContainer = crearLista();
     divRowContainer.appendChild(listContainer);
 
     // esto es para ver como queda, luego NO DEBE ESTAR
     añadirElementoListaPlan(0);
+
 }
 
 function crearCamposBusqueda() {
     // crear contenedor principal
     let container = document.createElement('div');
     container.classList.add('container', 'd-flex', 'align-items-center', 'mb-3');
+    
+    // crear contenedor de botón de calendario
+    let calendarContainer = document.createElement('div');
+    calendarContainer.classList.add('d-block');
+    container.appendChild(calendarContainer);
+
+    // crear botón de calendario
+    let calendarButton = document.createElement('button');
+    calendarButton.classList.add('btn', 'btn-primary', 'me-4');
+    calendarButton.setAttribute('id', 'calendar-button');
+    calendarButton.textContent = 'Elegir día';
+    calendarContainer.appendChild(calendarButton);
+
+    // crear icono de calendario
+    let calendarIcon = document.createElement('svg');
+    calendarIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    calendarIcon.setAttribute('viewBox', '0 0 24 24');
+    calendarIcon.setAttribute('width', '24');
+    calendarIcon.setAttribute('height', '24');
+    calendarIcon.setAttribute('fill', 'currentColor');
+    let path = document.createElement('path');
+    path.setAttribute('d', 'M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z');
+    calendarIcon.appendChild(path);
+    calendarButton.appendChild(calendarIcon);
+
+    // crear contenedor de calendario
+    let calendarContainer2 = document.createElement('div');
+    calendarContainer2.setAttribute('type', 'button');
+    calendarContainer2.setAttribute('id', 'calendar-container');
+    calendarContainer.appendChild(calendarContainer2);
 
     let html = `
-        <!-- Botón del calendario -->
-        <div class="d-block">
-                <button class="btn btn-primary me-4" id="calendar-button">
-                    Elegir día
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                        <path d="M6.75 0a.75.75 0 0 1 .75.75V3h9V.75a.75.75 0 0 1 1.5 0V3h2.75c.966 0 1.75.784 1.75 1.75v16a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-16C1.5 3.784 2.284 3 3.25 3H6V.75A.75.75 0 0 1 6.75 0ZM21 9.5H3v11.25c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25Zm-17.75-5a.25.25 0 0 0-.25.25V8h18V4.75a.25.25 0 0 0-.25-.25Z"></path>
-                    </svg>
-                </button>
-                <div type="button" id="calendar-container"></div>
-        </div>
         <div class="input-group mb-3">
             <!-- Filtros -->
             <div class="dropdown">
@@ -828,10 +851,11 @@ function crearCamposBusqueda() {
             </button>
         </div>
         `;
-    container.innerHTML = html;
+    // Se inserta el html sin reemplazar lo anterior
+    container.innerHTML += html;
 
-    //calendario();
-    añadirEventosBusqueda();
+    
+    //añadirEventosBusqueda();
 
     return container
 }
@@ -840,7 +864,14 @@ function crearCamposBusqueda() {
 function calendario() {
     let isShowing = false;
     // Oculta el contenedor del calendario al inicio
-    let calContainer = document.getElementById('calendar-container');
+    let calContainer = $('#calendar-container');
+    // Se checkea que exista el contenedor
+    if (calContainer.length === 0) {
+        // Se crea un elemento para indicarlo
+        console.error('No se ha encontrado el contenedor del calendario');
+        return;
+    }
+    // Se esconde el calendario
     calContainer.hide();
     
     // Inicializa el Datepicker en el contenedor del calendario
@@ -853,10 +884,10 @@ function calendario() {
         calContainer.hide();
       }
     });
-
+    let calButton = $('#calendar-button');
     // Muestra el calendario cuando se hace clic en el botón,
     // o lo oculta si ya se está mostrando
-    calContainer.click(function() {
+    calButton.click(function() {
         if (!isShowing) {
             calContainer.show();
             isShowing = true;
@@ -866,15 +897,15 @@ function calendario() {
         }
     });
 
-    document.mouseup(function(e) 
+    $(document).mouseup(function(e) 
     {
-        let calContainer2 = document.getElementById('calendar-container');
+        let calContainer2 = $('#calendar-container');
         if (!calContainer2.is(e.target) && calContainer2.has(e.target).length === 0) 
         {
             calContainer2.hide();
         }
     });
-  }
+}
 
 function añadirEventosBusqueda() {
     let horaIn = document.getElementById('SearchHourStart');
@@ -887,25 +918,41 @@ function añadirEventosBusqueda() {
 }
 
 function crearMapa() {
-    // crear contenedor principal
+    // crear contenedor principal (mapa y card del edificio seleccionado)
+    let mainContainer = document.createElement('div');
+    mainContainer.classList.add('col-lg-8', 'col-sm-6', 'mb-4');
+    mainContainer.setAttribute('id', 'mapContainer');
+
+    // crear contenedor del mapa
     let mapaContainer = document.createElement('div');
-    mapaContainer.classList.add('col-lg-8', 'col-sm-6', 'mb-4', 'd-flex', 'justify-content-center');
-    mapaContainer.id = 'mapBuildingContainer';
+    mapaContainer.classList.add('mb-2', 'd-flex', 'justify-content-center');
+    mainContainer.appendChild(mapaContainer);
 
-    // Contenido HTML para agregar al mapaContainer
+    // crear el mapa
+    let map = document.createElement('div');
+    map.setAttribute('id', 'map');
+    map.setAttribute('style', 'width: 600px; height: 400px;');
+    // map.style.width = '600px';
+    // map.style.height = '400px';
+    mapaContainer.appendChild(map);
+
+    // Contenido HTML para agregar al contenedor principal (card del edificio seleccionado)
+    /*
+    let contenedorCard = document.createElement('div');
+    contenedorCard.classList.add('portfolio-item');
+    contenedorCard.setAttribute('id', 'mapSelectedPlace');
+    contenedorCard.setAttribute('hidden', 'true');
+    */
+   
+    // Estaría bien en alt poner el nombre del edificio
     let html = `
-        <div class="mb-2 d-flex justify-content-center">
-            <div id="map" style="width: 600px; height: 400px;"></div>
-            <!-- <img class="img-fluid" src="assets/img/tempMapa/Mapallorca.jpg" alt="ElMapa" /> -->
-        </div>
-
         <!-- Selected From Map-->
-        <div class="portfolio-item" id="mapSelectedPlace" hidden="true">
+        <div class="portfolio-item" id="mapSelectedPlace">
             <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal0">
                 <div class="portfolio-hover">
                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                 </div>
-                <img id="mapSelectedPlaceImg" class="img-fluid" src="" alt="..." />
+                <img id="mapSelectedPlaceImg" class="img-fluid" src="" alt="Missing image..." />
             </a>
             <div class="portfolio-caption">
                 <div class="portfolio-caption-heading" id="mapSelectedPlaceTitle"></div>
@@ -915,15 +962,24 @@ function crearMapa() {
         `;
     
     // Establecer el contenido HTML en el mapaContainer
-    mapaContainer.innerHTML = html;
+    mainContainer.innerHTML += html;
     
-    return mapaContainer;
+    return mainContainer;
+}
+
+function initMapa() {
+    // Inicializar el mapa y establecer su punto de vista en tus coordenadas y zoom
+    // var map = L.map('map').setView([39.616775, 2.95], 9); // Coordenadas de Mallorca
+    var map = L.map('map').setView([39.59393, 2.67895], 20); // Coordenadas de Carlos
+    // Añadir una capa de mapa de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 }
 
 function swapSelectedPlace() {
     let selectedPlace = document.getElementById("mapSelectedPlace");
     
-    // comprobar si está oculto (primera seleccion dobre el mapa)
+    // comprobar si está oculto (primera seleccion sobre el mapa)
     if (selectedPlace.getAttribute("hidden")) {
         // está oculto
         selectedPlace.removeAttribute("hidden");
@@ -962,7 +1018,7 @@ function crearLista() {
     // Crear la lista ordenada
     let listaOrdenada = document.createElement('ol');
     listaOrdenada.classList.add('list-group');
-    listaOrdenada.id="ol_espacioLista"
+    listaOrdenada.setAttribute('id', 'ol_espacioLista');
 
     // Agregar la lista ordenada al contenedor principal
     espacioListaContainer.appendChild(listaOrdenada);
@@ -976,23 +1032,29 @@ function añadirElementoListaPlan(i) {
     
     let li = document.createElement('li');
     li.classList.add('list-group-item');
-    li.id="li_espacioLista" + i;
+    li.setAttribute('id', 'li_espacioLista' + i);
 
     let horas, nombreSitio;
+    if (horas === undefined) {
+        horas = "N/A";
+    }
+    if (nombreSitio === undefined) {
+        nombreSitio = "N/A";
+    }
 
     let html = `
         <div class="col-8"> 
             <strong> ${horas} </strong> ${nombreSitio}
         </div>
         `;
-    li.innerHTML = html;
+    li.innerHTML += html;
 
     let div1 = document.createElement('div');
     div1.classList.add('col-4', 'd-flex', 'justify-content-end');
 
     let but = document.createElement('button');
     but.classList.add('btn', 'btn-secondary');
-    but.innerHTML = '-';
+    but.innerHTML += '<i class="fa-solid fa-trash"></i>';
     but.onclick = function() {eliminarElementoListaPlan(i);};
 
     div1.appendChild(but);

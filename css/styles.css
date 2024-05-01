@@ -11150,6 +11150,8 @@ header.masthead .masthead-heading {
 }
 #portfolio .portfolio-link {
   aspect-ratio: 4/3;
+  opacity: 1;
+  background: #e0e0df;
 }
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
   font-size: 1.25rem;
