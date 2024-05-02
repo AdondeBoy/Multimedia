@@ -4,6 +4,10 @@ function inicio() {
     // obtener día de hoy
     setCurrentDate();
 
+    // inicializar contador si no existe todavía
+    if (sessionStorage.getItem('i') === null)
+        sessionStorage.setItem('i', '0');
+
     // completar el footer
     let date = new Date(sessionStorage.getItem('date'));
     document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
@@ -64,7 +68,16 @@ function inicio() {
 }
 
 function setCurrentDate() {
-    sessionStorage.setItem('date', new Date());
+    // Obtener la fecha actual
+    let fechaActual = new Date();
+
+    // Obtener el año, el mes y el día
+    let year = fechaActual.getFullYear();
+    let month = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11, por eso se suma 1
+    let day = String(fechaActual.getDate()).padStart(2, '0');
+
+    // Formatear la fecha en 'yy-mm-dd'
+    sessionStorage.setItem('date', `${year}-${month}-${day}`);
 }
 
 function setDate (str) {
@@ -437,17 +450,31 @@ function generarModalBodyContent(edificio, dia, i) {
     let botonAgregar = document.createElement('button');
     botonAgregar.classList.add('btn', 'btn-primary', 'btn-xl', 'text-uppercase');
     botonAgregar.setAttribute('type', 'button');
-    botonAgregar.onclick = function() {
-        // Datos de sesión
-        // - almacenar edifico en plan, con hora y salida
-        savePopUpData(edificio.nombre, i);
-        window.location.href = '#';
-        borrarIndex();
-        plan();
-    };
+    botonAgregar.setAttribute('data-bs-dismiss', 'modal');
     botonAgregar.textContent = 'Añadir al plan';
     grupoBotones.appendChild(botonAgregar);
 
+    // añadir una función u otra en función de en qué página estemos (principal/plan)
+    if (isPlan()) {
+        // añadir elemento al plan directamente
+        botonAgregar.onclick = function() {
+            // - almacenar edifico en plan, con hora y salida
+            savePopUpData(i, edificio.nombre);
+            añadirElementoListaPlan(parseInt(sessionStorage.getItem('i')) - 1, edificio.nombre, document.getElementById('hourIn' + i).value, document.getElementById('hourOut' + i).value);
+        }
+
+    } else {
+        // desde index, guardar elemento en el plan de la sesión y generar plan
+        botonAgregar.onclick = function() {
+            // Datos de sesión
+            // - almacenar edifico en plan, con hora y salida
+            savePopUpData(i, edificio.nombre);
+            window.location.href = '#';
+            borrarIndex();
+            plan();
+        };
+    }
+    
     // Más información (web del edificio)
     let url = edificio.url; 
     // El botón se genera solamente si tiene URL 
@@ -485,20 +512,25 @@ function generarModalBodyContent(edificio, dia, i) {
     return modalBody;
 }
 
-function savePopUpData(nombre, i) {
+function savePopUpData(j, nombre) {
     // sea el día que sea, ya está guardado tal y como corresponde en la session
     // crear estructura de datos representativa de lo elegido
     let struct = {
+        i: parseInt(sessionStorage.getItem('i')),
         name: nombre,
-        hourIn: document.getElementById('hourIn' + i).value,
-        hourOut: document.getElementById('hourOut' + i).value
+        hourIn: document.getElementById('hourIn' + j).value,
+        hourOut: document.getElementById('hourOut' + j).value
     }
 
-    // añadir al plan
-    let plan = sessionStorage.getItem('plan');
+    // incrementar i
+    sessionStorage.setItem('i', struct.i + 1);
 
-    if (plan) {
-        plan = JSON.parse(plan);
+    // añadir al plan
+    let planStr = sessionStorage.getItem('plan');
+    let plan;
+
+    if (planStr) {
+        plan = JSON.parse(planStr);
         plan.push(struct);
 
     } else {
@@ -702,6 +734,10 @@ function borrarPlan() {
     // borrar pop-ups
     let popUpsContainer = document.getElementById('portfolio-modals');
     popUpsContainer.innerHTML = '';
+
+    // borrar plan de sessionStorage
+    // sessionStorage.removeItem('plan');
+    sessionStorage.setItem('i', '0');
 }
 
 // borra el slider del header y le quita los estilos al header
@@ -714,6 +750,10 @@ function borrarSlider() {
     
     // borrar clases del header
     header.classList.remove('masthead');
+}
+
+function isPlan() {
+    return document.getElementById('ol_espacioLista') != null;
 }
 
 function plan() {
@@ -756,9 +796,17 @@ function plan() {
     let listContainer = crearLista();
     divRowContainer.appendChild(listContainer);
 
-    // esto es para ver como queda, luego NO DEBE ESTAR
-    añadirElementoListaPlan(0);
+    // generar elementos de la lista de plan si los hay
+    let planStr = sessionStorage.getItem('plan');
 
+    if (planStr) {
+        // hay elementos en el plan
+        let plan = JSON.parse(planStr);
+        for (let j = 0; j < plan.length; j++) {
+            añadirElementoListaPlan(plan[j].i, plan[j].name, plan[j].hourIn, plan[j].hourOut);
+        }
+        
+    }
 }
 
 function crearCamposBusqueda() {
@@ -860,7 +908,7 @@ function crearCamposBusqueda() {
     return container
 }
 
-// es el script del calendario adaptado (no funciona)
+// Es el script del calendario adaptado
 function calendario() {
     let isShowing = false;
     // Oculta el contenedor del calendario al inicio
@@ -876,14 +924,27 @@ function calendario() {
     
     // Inicializa el Datepicker en el contenedor del calendario
     calContainer.datepicker({
-      dateFormat: 'yy-mm-dd', // Formato de fecha deseado
-      onSelect: function(dateText) {
-        // Manejar la selección de fecha
-        alert('Has seleccionado el día ' + dateText);
-        // Oculta el contenedor del calendario después de seleccionar una fecha
-        calContainer.hide();
-      }
+        minDate: 0, // Fecha mínima permitida
+        dateFormat: 'yy-mm-dd', // Formato de fecha deseado
+        onSelect: function(dateText) {
+            // Manejar la selección de fecha
+            // Se presenta un mensaje al usuario para confirmar el cambio de fecha
+            let userConfirmation = confirm("¿Quieres cambiar la fecha del plan? Perderás tu progreso del plan actual.\n\nFecha actual: " + sessionStorage.getItem('date'));
+            if (userConfirmation) {
+                // alert('Has seleccionado el día ' + dateText);
+                // actualizar día en sessionStorage
+                sessionStorage.setItem('date', dateText)
+                // Oculta el contenedor del calendario después de seleccionar una fecha
+                calContainer.hide();
+                isShowing = false;
+            } else {
+                // Si el usuario cancela, se restaura la fecha original
+                calContainer.datepicker('setDate', sessionStorage.getItem('date'));
+            }
+            
+        }
     });
+    
     let calButton = $('#calendar-button');
     // Muestra el calendario cuando se hace clic en el botón,
     // o lo oculta si ya se está mostrando
@@ -1026,7 +1087,7 @@ function crearLista() {
     return espacioListaContainer;
 }
 
-function añadirElementoListaPlan(i) {
+function añadirElementoListaPlan(i, nombreSitio, horaIn, horaOut) {
     // Contenido HTML para agregar al mapaContainer
     let ol = document.getElementById("ol_espacioLista");
     
@@ -1034,10 +1095,13 @@ function añadirElementoListaPlan(i) {
     li.classList.add('list-group-item');
     li.setAttribute('id', 'li_espacioLista' + i);
 
-    let horas, nombreSitio;
-    if (horas === undefined) {
+    let horas;
+    if (horaIn != "" && horaOut != "") {
+        horas = horaIn + " - " + horaOut + ":";
+    } else { 
         horas = "N/A";
     }
+
     if (nombreSitio === undefined) {
         nombreSitio = "N/A";
     }
@@ -1063,8 +1127,25 @@ function añadirElementoListaPlan(i) {
 }
 
 function eliminarElementoListaPlan(i) {
+    // eliminar visualmente
     let ol = document.getElementById("ol_espacioLista");
     let li = document.getElementById("li_espacioLista"+i);
-
     ol.removeChild(li);
+
+    // eliminar de la sesión
+    let planStr = sessionStorage.getItem('plan');
+
+    if (planStr) {
+        // hay elementos en el plan
+        let plan = JSON.parse(planStr);
+
+        let j = 0;
+        while (j < plan.length && plan[j].i != i)
+            j++
+
+        if (j < plan.length)
+            plan.splice(j, 1);
+
+        sessionStorage.setItem('plan', JSON.stringify(plan));
+    }
 }
