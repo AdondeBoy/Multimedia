@@ -467,9 +467,6 @@ function generarModalBodyContent(edificio, i) {
     // Obtener datos de la API del clima
     let hora = 0;
     let offsetDias = new Date(sessionStorage.getItem('date')).getDate() - new Date().getDate();
-    console.log("jejehoy " + new Date());
-    console.log("jejedate " + new Date(sessionStorage.getItem('date')));
-    console.log("jejeoffsetdias " + offsetDias);
     // Si la fecha almacenada es la de hoy, solo se mostrará el clima para las horas futuras
     if (offsetDias === 0) {
         hora = new Date().getHours();
@@ -583,7 +580,6 @@ function generarModalBodyContent(edificio, i) {
         botonAgregar.onclick = function() {
             if (sessionStorage.getItem('plan') === null || sessionStorage.getItem('plan') === '[]') {
                 // borrar placeholder de la lista
-                console.log('El pepe');
                 let ol = document.getElementById('ol_espacioLista');
                 ol.innerHTML = '';
             }
@@ -628,7 +624,6 @@ function obtenerDatosClima(latitud, longitud, hora, indice) {
     // Obtener la temperatura y el clima de la API
     const apiKeyWeather = '1ff240de287dae93a6e61f1f4a04bf0a';
     let urlClima = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitud}&lon=${longitud}&appid=${apiKeyWeather}&units=metric`;
-    console.log(urlClima);
 
     return new Promise((resolve, reject) => {
         fetch(urlClima)
@@ -649,7 +644,6 @@ function obtenerDatosClima(latitud, longitud, hora, indice) {
                     reject('No se han podido obtener el item');
                     return;
                 }
-                console.log("jejesiu"+item.innerHTML);
                 resolve(item);
             })
             .catch(error => {
@@ -1095,8 +1089,9 @@ function calendario() {
                 let diaLista = document.getElementById('diaLista');
                 diaLista.textContent = "Día " + dateText;
 
-                let modalBody = document.getElementById('modalBody0');
+                let modalBody = document.getElementById('portfolioModal0');
                 if (modalBody !== null) {
+                    console.log("Cambiando fecha en el pop-up");
                     // volver a generar pop up para actualizar el tiempo
                     swapSelectedPlace();
                 }
@@ -1476,6 +1471,7 @@ function getUserPosition() {
 }
 
 function swapSelectedPlace() {
+    console.log("swapSelectedPlace");
     // comprobar si está oculto (primera seleccion sobre el mapa)
     let popUpPortfolioHover = document.getElementById("popUpPortfolioHover");
     if (popUpPortfolioHover.getAttribute("hidden"))
