@@ -1029,22 +1029,212 @@ function crearMapa() {
 }
 
 function initMapa() {
+    // método de geolocalizacion
+    getUserPosition();
+
+    let lat = parseFloat(sessionStorage.getItem('crd-latitude'));
+    let lon = parseFloat(sessionStorage.getItem('crd-longitude'));
+    
     // Inicializar el mapa y establecer su punto de vista en tus coordenadas y zoom
     // var map = L.map('map').setView([39.616775, 2.95], 9); // Coordenadas de Mallorca
-    var map = L.map('map').setView([39.59393, 2.67895], 20); // Coordenadas de Carlos
+
+    // Se imprimen lat y lon en consola
+    console.log(lat);
+    console.log(lon);
+
+    let map = L.map('map').setView([lat, lon], 10);
+    let markerCasa = L.marker([lat, lon]).addTo(map);
     // Añadir una capa de mapa de OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+    
+
+    // Añadir marcadores al mapa
+    // Coordenadas de los edificios
+    añadirMarcadoresMapa(map);
+}
+
+function añadirMarcadoresMapa(map) {
+    let lugares = [
+        {
+            nombre: "Catedral de Palma",
+            descripcion: "También conocida como La Seu",
+            imagen: "assets/img/portfolio/1.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.5711,
+            lon: 2.6463
+        },
+        {
+            nombre: "Parroquia de San Bartomeu",
+            descripcion: "Parroquia de estilo neogótico y modernista",
+            imagen: "assets/img/portfolio/2.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.765942,
+            lon: 2.715518
+        },
+        {
+            nombre: "Talaiots",
+            descripcion: "Piedras",
+            imagen: "assets/img/portfolio/3.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.55443557349407,
+            lon: 2.706647944936505
+        },
+        {
+            nombre: "Edificio",
+            descripcion: "Emblema de la arquitectura modernista",
+            imagen: "assets/img/portfolio/4.jpeg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.576435992206605,
+            lon: 2.6532397998618347
+        },
+        {
+            nombre: "Castell de l'Almudaina",
+            descripcion: "Residencia oficial de verano del rey",
+            imagen: "assets/img/portfolio/5.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.5711,
+            lon: 2.6463
+        },
+        {
+            nombre: "Castell de Bellver",
+            descripcion: "Actual Museo de Historia de Palma",
+            imagen: "assets/img/portfolio/6.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.5711,
+            lon: 2.6463
+        }
+    ];
+    // Añadir marcadores al mapa
+    // Coordenadas de los edificios
+    let marker = L.marker([39.59393, 2.67895]).addTo(map);
+    marker.bindPopup("<b>Casa de Carlos</b><br>Dominio público.").openPopup();
+
+    let struct = {
+        name: nombre,
+        img: imagen,
+        latitude: parseFloat(lat),
+        longitude: parseFloat(lon),
+    }
+
+    for (let i = 0; i < lugares.length; i++) {
+        let lugar = lugares[i];
+        if (lugar.lat === undefined || lugar.lon === undefined) {
+            // Se comunica en consola
+            console.error('El lugar ' + lugar.nombre + ' no tiene coordenadas');
+        }
+        let marker = L.marker([lugar.lat, lugar.lon]).addTo(map);
+        marker.bindPopup("<b>" + lugar.nombre + "</b><br>" + lugar.descripcion + "<br><img src='" + lugar.imagen + "' alt='Imagen del edificio' style='width: 100px; height: auto;'>").openPopup();
+    }
+    /*
+    let struct = {
+        i: parseInt(sessionStorage.getItem('i')),
+        name: nombre,
+        hourIn: document.getElementById('hourIn' + j).value,
+        hourOut: document.getElementById('hourOut' + j).value
+    }
+
+    // incrementar i
+    sessionStorage.setItem('i', struct.i + 1);
+
+    // añadir al plan
+    let planStr = sessionStorage.getItem('plan');
+    let plan;
+
+    if (planStr) {
+        plan = JSON.parse(planStr);
+        plan.push(struct);
+
+    } else {
+        // plan no existe, crear array de "structs"
+        plan = [struct];
+    }
+    */
+}
+
+function getUserPosition() {
+    let options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+       };
+    
+    function success(pos) {
+        let crd = pos.coords;
+        sessionStorage.setItem('crd-latitude', "" + crd.latitude);
+        sessionStorage.setItem('crd-longitude', "" + crd.longitude);
+    };
+
+    function error(err) {
+        // Se notifica en consola
+        console.error('No se ha podido obtener la ubicación del usuario');
+        // casa de Carlos
+        sessionStorage.setItem('crd-latitude', "39.59393");
+        sessionStorage.setItem('crd-longitude', "2.67895");
+    };
+    
+    navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
 function swapSelectedPlace() {
     let selectedPlace = document.getElementById("mapSelectedPlace");
     
     // comprobar si está oculto (primera seleccion sobre el mapa)
+    /*
     if (selectedPlace.getAttribute("hidden")) {
         // está oculto
         selectedPlace.removeAttribute("hidden");
     }
+    */
 
     // los elementos ya existen
     let heading = document.getElementById("mapSelectedPlaceTitle");
