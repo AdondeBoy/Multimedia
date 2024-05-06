@@ -1,14 +1,18 @@
 document.addEventListener('DOMContentLoaded', inicio());
 
-function inicio() {
-    // obtener día de hoy
-    setCurrentDate();
+let map;
 
-    // inicializar contador si no existe todavía
+function inicio() {
+    // Obtener día de hoy
+    setCurrentDate();
+    // Obtener geolocalización
+    getUserPosition();
+
+    // Inicializar contador si no existe todavía
     if (sessionStorage.getItem('i') === null)
         sessionStorage.setItem('i', '0');
 
-    // completar el footer
+    // Completar el footer
     let date = new Date(sessionStorage.getItem('date'));
     document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
 
@@ -78,17 +82,6 @@ function setCurrentDate() {
 
     // Formatear la fecha en 'yy-mm-dd'
     sessionStorage.setItem('date', `${year}-${month}-${day}`);
-}
-
-function setDate (str) {
-    // Separar la cadena en año, mes y día
-    let partesFecha = str.split('-');
-    let year = parseInt(partesFecha[0], 10);
-    let month = parseInt(partesFecha[1], 10) - 1; // Los meses van de 0 a 11 en JavaScript
-    let day = parseInt(partesFecha[2], 10);
-
-    // Crear un objeto Date con la fecha
-    sessionStorage.setItem('date', Date(year, month, day));
 }
 
 function crearSeccionPortfolio (edificiosJSON) {
@@ -458,6 +451,13 @@ function generarModalBodyContent(edificio, dia, i) {
     if (isPlan()) {
         // añadir elemento al plan directamente
         botonAgregar.onclick = function() {
+            if (sessionStorage.getItem('plan') === null || sessionStorage.getItem('plan') === '[]') {
+                // borrar placeholder de la lista
+                console.log('El pepe');
+                let ol = document.getElementById('ol_espacioLista');
+                ol.innerHTML = '';
+            }
+            
             // - almacenar edifico en plan, con hora y salida
             savePopUpData(i, edificio.nombre);
             añadirElementoListaPlan(parseInt(sessionStorage.getItem('i')) - 1, edificio.nombre, document.getElementById('hourIn' + i).value, document.getElementById('hourOut' + i).value);
@@ -795,6 +795,7 @@ function plan() {
 
     let listContainer = crearLista();
     divRowContainer.appendChild(listContainer);
+    
 
     // generar elementos de la lista de plan si los hay
     let planStr = sessionStorage.getItem('plan');
@@ -805,7 +806,6 @@ function plan() {
         for (let j = 0; j < plan.length; j++) {
             añadirElementoListaPlan(plan[j].i, plan[j].name, plan[j].hourIn, plan[j].hourOut);
         }
-        
     }
 }
 
@@ -934,6 +934,8 @@ function calendario() {
                 // alert('Has seleccionado el día ' + dateText);
                 // actualizar día en sessionStorage
                 sessionStorage.setItem('date', dateText)
+                let diaLista = document.getElementById('diaLista');
+                diaLista.textContent = "Día " + dateText;
                 // Oculta el contenedor del calendario después de seleccionar una fecha
                 calContainer.hide();
                 isShowing = false;
@@ -1010,14 +1012,14 @@ function crearMapa() {
         <!-- Selected From Map-->
         <div class="portfolio-item" id="mapSelectedPlace">
             <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal0">
-                <div class="portfolio-hover">
+                <div id="popUpPortfolioHover" class="portfolio-hover" hidden="true">
                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                 </div>
-                <img id="mapSelectedPlaceImg" class="img-fluid" src="" alt="Missing image..." />
+                <img id="mapSelectedPlaceImg" class="img-fluid" src="" alt="Missing image..." hidden="true"/>
             </a>
             <div class="portfolio-caption">
-                <div class="portfolio-caption-heading" id="mapSelectedPlaceTitle"></div>
-                <div class="portfolio-caption-subheading text-muted" id="mapSelectedPlaceSubtitle"></div>
+                <div class="portfolio-caption-heading" id="mapSelectedPlaceTitle">Busca tu destino</div>
+                <div class="portfolio-caption-subheading text-muted" id="mapSelectedPlaceSubtitle">Puedes usar tanto la barra de búsqueda como el mapa</div>
             </div>
         </div>
         `;
@@ -1029,33 +1031,27 @@ function crearMapa() {
 }
 
 function initMapa() {
-    // método de geolocalizacion
-    getUserPosition();
-
+    
+    // Se comprueba si el mapa ya se ha inicializado anteriormente
     let lat = parseFloat(sessionStorage.getItem('crd-latitude'));
     let lon = parseFloat(sessionStorage.getItem('crd-longitude'));
-    
-    // Inicializar el mapa y establecer su punto de vista en tus coordenadas y zoom
-    // var map = L.map('map').setView([39.616775, 2.95], 9); // Coordenadas de Mallorca
 
-    // Se imprimen lat y lon en consola
     console.log(lat);
     console.log(lon);
-
-    let map = L.map('map').setView([lat, lon], 10);
-    let markerCasa = L.marker([lat, lon]).addTo(map);
+    // Inicializar el mapa y establecer su punto de vista en tus coordenadas y zoom
+    // var map = L.map('map').setView([39.616775, 2.95], 9); // Coordenadas de Mallorca
+    map = L.map('map').setView([lat, lon], 10.5);
+    // let markerCasa = L.marker([lat, lon]).addTo(map);
     // Añadir una capa de mapa de OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
-    
-
     // Añadir marcadores al mapa
     // Coordenadas de los edificios
-    añadirMarcadoresMapa(map);
+    añadirMarcadoresMapa();
 }
 
-function añadirMarcadoresMapa(map) {
+function añadirMarcadoresMapa() {
     let lugares = [
         {
             nombre: "Catedral de Palma",
@@ -1070,8 +1066,8 @@ function añadirMarcadoresMapa(map) {
                 "Sa$10:00 - 13:00",
                 "Do$10:00 - 13:00"
             ],
-            lat: 39.5711,
-            lon: 2.6463
+            lat: 39.56751097483424,
+            lon: 2.648302373075007
         },
         {
             nombre: "Parroquia de San Bartomeu",
@@ -1156,51 +1152,50 @@ function añadirMarcadoresMapa(map) {
     ];
     // Añadir marcadores al mapa
     // Coordenadas de los edificios
-    let marker = L.marker([39.59393, 2.67895]).addTo(map);
-    marker.bindPopup("<b>Casa de Carlos</b><br>Dominio público.").openPopup();
-
-    let struct = {
-        name: nombre,
-        img: imagen,
-        latitude: parseFloat(lat),
-        longitude: parseFloat(lon),
-    }
+    let marker = L.marker([39.59398458121737, 2.678878006135083]).addTo(map);
+    marker.bindPopup("<b>Casa de Carlos</b><br>Dominio público.");
 
     for (let i = 0; i < lugares.length; i++) {
         let lugar = lugares[i];
         if (lugar.lat === undefined || lugar.lon === undefined) {
             // Se comunica en consola
             console.error('El lugar ' + lugar.nombre + ' no tiene coordenadas');
+        } else {
+            let marker = L.marker([lugar.lat, lugar.lon]).addTo(map);
+            //Imagen centrada
+            marker.bindPopup("<b>" + lugar.nombre + "</b><br>" + lugar.descripcion + "<br><div class = 'align-items-center justify-content-center'><img src='"
+                            + lugar.imagen + "' alt='Imagen del edificio' style='width: 100px; height: auto;'></div>");
+            // Al hacer clic en el marcador, se muestra la información del edificio en un pop-up
+            marker.on('click', function() {
+                // Se guarda el nombre del edificio en la sesión
+                sessionStorage.setItem("mapSelectedPlace", lugar.nombre);
+                // Se muestra el pop-up
+                swapSelectedPlace();
+                resetMapa();
+            });
         }
-        let marker = L.marker([lugar.lat, lugar.lon]).addTo(map);
-        marker.bindPopup("<b>" + lugar.nombre + "</b><br>" + lugar.descripcion + "<br><img src='" + lugar.imagen + "' alt='Imagen del edificio' style='width: 100px; height: auto;'>").openPopup();
     }
-    /*
-    let struct = {
-        i: parseInt(sessionStorage.getItem('i')),
-        name: nombre,
-        hourIn: document.getElementById('hourIn' + j).value,
-        hourOut: document.getElementById('hourOut' + j).value
-    }
-
-    // incrementar i
-    sessionStorage.setItem('i', struct.i + 1);
-
-    // añadir al plan
-    let planStr = sessionStorage.getItem('plan');
-    let plan;
-
-    if (planStr) {
-        plan = JSON.parse(planStr);
-        plan.push(struct);
-
-    } else {
-        // plan no existe, crear array de "structs"
-        plan = [struct];
-    }
-    */
 }
 
+function resetMapa() {
+    // borrar marcadores
+    borrarMarkers();
+    // Se notifica por consola
+    console.log('Mapa reseteado');
+    // reiniciar marcadores
+    añadirMarcadoresMapa();
+}
+
+function borrarMarkers() {
+    let panelMarker = document.querySelector('.leaflet-marker-pane');
+    let panelShadow = document.querySelector('.leaflet-shadow-pane');
+    let panelPopup = document.querySelector('.leaflet-popup-pane');
+    panelMarker.innerHTML = "";
+    panelShadow.innerHTML = "";
+    panelPopup.innerHTML = "";
+}
+
+// guarda la posición del usuario o una posición por defecto 
 function getUserPosition() {
     let options = {
         enableHighAccuracy: true,
@@ -1214,63 +1209,188 @@ function getUserPosition() {
         sessionStorage.setItem('crd-longitude', "" + crd.longitude);
     };
 
-    function error(err) {
+    function error() {
         // Se notifica en consola
         console.error('No se ha podido obtener la ubicación del usuario');
         // casa de Carlos
-        sessionStorage.setItem('crd-latitude', "39.59393");
-        sessionStorage.setItem('crd-longitude', "2.67895");
+        sessionStorage.setItem('crd-latitude', "39.59398458121737");
+        sessionStorage.setItem('crd-longitude', "2.678878006135083");
     };
     
     navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
 function swapSelectedPlace() {
-    let selectedPlace = document.getElementById("mapSelectedPlace");
-    
     // comprobar si está oculto (primera seleccion sobre el mapa)
-    /*
-    if (selectedPlace.getAttribute("hidden")) {
+    let popUpPortfolioHover = document.getElementById("popUpPortfolioHover");
+    if (popUpPortfolioHover.getAttribute("hidden"))
         // está oculto
-        selectedPlace.removeAttribute("hidden");
-    }
-    */
+        popUpPortfolioHover.removeAttribute("hidden");
 
     // los elementos ya existen
     let heading = document.getElementById("mapSelectedPlaceTitle");
     let subHeading = document.getElementById("mapSelectedPlaceSubtitle");
     let img = document.getElementById("mapSelectedPlaceImg");
 
-    // personalizar texto e imagen en función del lugar elegido en el mapa
-    heading.innerText = "Catedral de Palma";
-    subHeading.innerText = "También conocida como la Seu";
-    img.setAttribute("src", "assets/img/portfolio/1.jpg");
+    if (img.getAttribute("hidden"))
+        img.removeAttribute("hidden");
 
     // generar pop up correspondiente
     // obtener <div> contenedor de los pop-ups
-    /*
     let popUpContainer = document.getElementById('portfolio-modals');
-    let nombreEdificio = sessionStorage.getItem("nombreEdificio");
-    let edificio = obtenerEdificioJSON(nombreEdificio);
+    popUpContainer.innerHTML = "";
+    let nombreSelectedPlace = sessionStorage.getItem("mapSelectedPlace");
+    let edificio = obtenerEdificioJSON(nombreSelectedPlace);
+
+    // personalizar texto e imagen en función del lugar elegido en el mapa
+    heading.innerText = nombreSelectedPlace;
+    subHeading.innerText = edificio.descripcion;
+    img.setAttribute("src", edificio.imagen);
+    
     generarPopUp(popUpContainer, edificio, 0);
-    */
 }
 
 function obtenerEdificioJSON(nombreEdificio) {
     // JIJIJIJA
-    return {};
+    let lugares = [
+        {
+            nombre: "Catedral de Palma",
+            descripcion: "También conocida como La Seu",
+            imagen: "assets/img/portfolio/1.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.56751097483424,
+            lon: 2.648302373075007
+        },
+        {
+            nombre: "Parroquia de San Bartomeu",
+            descripcion: "Parroquia de estilo neogótico y modernista",
+            imagen: "assets/img/portfolio/2.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.765942,
+            lon: 2.715518
+        },
+        {
+            nombre: "Talaiots",
+            descripcion: "Piedras",
+            imagen: "assets/img/portfolio/3.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.55443557349407,
+            lon: 2.706647944936505
+        },
+        {
+            nombre: "Edificio",
+            descripcion: "Emblema de la arquitectura modernista",
+            imagen: "assets/img/portfolio/4.jpeg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.576435992206605,
+            lon: 2.6532397998618347
+        },
+        {
+            nombre: "Castell de l'Almudaina",
+            descripcion: "Residencia oficial de verano del rey",
+            imagen: "assets/img/portfolio/5.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.5711,
+            lon: 2.6463
+        },
+        {
+            nombre: "Castell de Bellver",
+            descripcion: "Actual Museo de Historia de Palma",
+            imagen: "assets/img/portfolio/6.jpg",
+            horario: [
+                "Lu$10:00 - 13:00",
+                "Ma$10:00 - 13:00",
+                "Mi$10:00 - 13:00",
+                "Ju$10:00 - 13:00",
+                "Vi$10:00 - 13:00",
+                "Sa$10:00 - 13:00",
+                "Do$10:00 - 13:00"
+            ],
+            lat: 39.5711,
+            lon: 2.6463
+        }
+    ];
+
+    let i = 0;
+    while ( i < lugares.length - 1 && lugares[i].nombre !== nombreEdificio) {
+        i++;
+    }
+
+    return lugares[i];
 }
 
 function crearLista() {
     // Crear el contenedor principal
     let espacioListaContainer = document.createElement('div');
-    espacioListaContainer.classList.add('espacioLista', 'col-lg-4', 'col-sm-6', 'mb-4');
+    espacioListaContainer.classList.add('col-lg-4', 'col-sm-6', 'mb-4');
+
+    // Crear div para poner el día
+    let divDia = document.createElement('div');
+    divDia.classList.add('d-flex', 'justify-content-center');
+    espacioListaContainer.appendChild(divDia);
+
+    // h3 con el día actual
+    let h3 = document.createElement('h3');
+    h3.classList.add('section-heading', 'text-uppercase');
+    h3.setAttribute('id', 'diaLista');
+    h3.textContent = 'Día ' + sessionStorage.getItem('date');
+    divDia.appendChild(h3);
 
     // Crear la lista ordenada
     let listaOrdenada = document.createElement('ol');
-    listaOrdenada.classList.add('list-group');
+    listaOrdenada.classList.add('espacioLista','list-group');
     listaOrdenada.setAttribute('id', 'ol_espacioLista');
 
+    // Crear mensaje placeholder en la listcontainer si no hay nada en plan
+    if (sessionStorage.getItem('plan') === null || sessionStorage.getItem('plan') === '[]') {
+        let mensaje = document.createElement('div');
+        // Márgen left y right
+        mensaje.classList.add('text-center' , 'text-muted' , 'mt-3', 'me-3', 'ms-3', 'fs-5');
+        mensaje.setAttribute('id', 'aventura');
+        mensaje.textContent = 'Aquí se mostrarán los destinos de tu próxima aventura...';
+        listaOrdenada.appendChild(mensaje);
+    }
+    
     // Agregar la lista ordenada al contenedor principal
     espacioListaContainer.appendChild(listaOrdenada);
 

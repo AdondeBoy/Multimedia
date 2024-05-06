@@ -4174,6 +4174,8 @@ textarea.form-control-lg {
 .espacioLista {
   height: 40rem;
   overflow-y: auto;
+  border: 1px solid darkgray;
+  background-color: white;
 }
 
 .listaHorizontal {
