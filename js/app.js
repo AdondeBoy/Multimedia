@@ -521,7 +521,7 @@ function generarModalBodyContent(edificio, i) {
     horariosLista.appendChild(horariosTitulo);
     
     // Se recorren los días de la semana del json con el horario
-    let horario = edificio.horario;
+    let horario = edificio?.horario;
     if (horario === undefined) {
         let diaElement = document.createElement('li');
         diaElement.classList.add('list-inline-item', 'row');
@@ -602,7 +602,7 @@ function generarModalBodyContent(edificio, i) {
     }
     
     // Más información (web del edificio)
-    let url = edificio.url; 
+    let url = edificio?.url; 
     // El botón se genera solamente si tiene URL 
     if (url !== undefined) {
         let botonInfo = document.createElement('button');
