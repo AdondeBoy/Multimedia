@@ -1413,6 +1413,11 @@ function añadirMarcadoresMapa() {
                     // Se muestra el pop-up
                     swapSelectedPlace();
                     resetMapa();
+
+                    // Scroll al card para ver mejor el cambio
+                    var element = document.getElementById('mapSelectedPlace');
+
+                    element.scrollIntoView({behavior: 'smooth', block: 'center'});
                 });
             //}
         }
