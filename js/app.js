@@ -1691,6 +1691,8 @@ function añadirElementoListaPlan(i, nombreSitio, horaIn, horaOut) {
 
     if (nombreSitio === undefined) {
         nombreSitio = "N/A";
+    } else {
+        li.onclick = function() {window.location.href = "#portfolioModal0"}
     }
 
     let html = `
