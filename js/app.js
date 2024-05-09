@@ -459,11 +459,11 @@ function generarModalBodyContent(edificio, i) {
     // añadir clima  
     let listaClima = document.createElement('div');
     listaClima.setAttribute('hidden', 'true');
-    listaClima.classList.add('mx-5', 'mb-4', 'listaHorizontal', 'table-responsive');
+    listaClima.classList.add('mb-4', 'listaHorizontal');
     
     let listaClimaBody = document.createElement('div');
     listaClimaBody.setAttribute('id', 'clima');
-    listaClimaBody.classList.add('d-flex');
+    listaClimaBody.classList.add('d-flex', 'justify-content-center');
     // Obtener datos de la API del clima
     let hora = 0;
     let offsetDias = new Date(sessionStorage.getItem('date')).getDate() - new Date().getDate();

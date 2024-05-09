@@ -4180,7 +4180,7 @@ textarea.form-control-lg {
 
 .listaHorizontal {
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .espacioLista .list-group-item {
