@@ -1,12 +1,24 @@
 {
   "@context": "https://schema.org",
-  "edificios": [
+  "@type": "ItemList",
+  "name": "Edificios históricos",
+  "itemListElement": [
     {
       "@type": "CivicStructure",
       "name": "Catedral de Palma",
       "alternateName": "La Seu",
-      "description": "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
+      "description": {
+        "@type": "TextObject",
+        "description": "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
+        "alternativeHeadline": "También conocida como La Seu",
+        "genre": "Arquitectura gótica"
+      }, 
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.jpg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
       "openingHours": [
       "Mo-Fr 10:00-17:15",
       "Sa 10:00-14:15"
@@ -39,8 +51,18 @@
       "@type": "CivicStructure",
       "name": "Parroquia de Sant Bartomeu",
       "alternateName": "Iglesia de Sant Bartomeu",
-      "description": "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
+      "description": {
+        "@type": "TextObject",
+        "description": "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
+        "alternativeHeadline": "Parroquia de estilo neogótico y modernista",
+        "genre": "Arquitectura gótica"
+      }, 
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/2.jpg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
       "openingHours": [
       "Mo-Fr 09:00-17:30",
       "Sa 09:00-12:00"
@@ -71,8 +93,18 @@
     {
       "@type": "CivicStructure",
       "name": "Castell de Bellver",
-      "description": "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
+      "description": {
+        "@type": "TextObject",
+        "description": "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
+        "alternativeHeadline": "Actual Museo de Historia de Palma",
+        "genre": "Castillo medieval gótico"
+      },
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/6.jpg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
       "openingHours": [
       "Tu-Fr 10:00-18:00",
       "Su 10:00-15:00"
@@ -98,6 +130,47 @@
       },
       "smokingAllowed": false,
       "parking": false
+    },
+
+    {
+      "@type": "CivicStructure",
+      "name": "Iglesia de Santa Eulalia",
+      "description": {
+        "@type": "TextObject",
+        "description": "La parroquia más antigua de Palma, en la que fue bautizado Ramon Llull (1232) y donde fue coronado Jaume II, rey de Mallorca (1276). Una iglesia gótica espectacular, de tres naves. Un campanario de 50 m de altura que constituye el mejor mirador de Palma y sus alrededores.",
+        "alternativeHeadline": "Iglesia gótica cerca del paseo marítimo",
+        "genre": "Arquitectura gótica"
+      },
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/6.jpg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
+      "openingHours": [
+      "Mo-Sa 10:00-18:00"
+      ],
+      "isAccessibleForFree": false,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Distrito Centro",
+        "addressLocality": "Palma",
+        "postalCode": "07001",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.569637329900054,
+        "longitude": 2.651280523293253
+      },
+      "url": "https://www.spiritualmallorca.com/santaeulalia",
+      "aggregateRating": {
+        "type": "AggregateRating",
+        "ratingCount": 0
+      },
+      "smokingAllowed": false,
+      "parking": true
     }
-  ]
+  ],
+  "itemListOrder": "Unordered"
 }
