@@ -1166,7 +1166,6 @@ function crearCamposBusqueda() {
         `;
     // Se inserta el html sin reemplazar lo anterior
     container.innerHTML += html;
-    console.log(document.getElementById('botonFiltros'));
 
     return container
 }
@@ -1254,7 +1253,13 @@ function añadirEventosBusqueda() {
 		// limpiar valor horas de sessionStorage
 		sessionStorage.setItem('hourInFiltros', "");
 		sessionStorage.setItem('hourOutFiltros', "");
-        sessionStorage.setItem('distanciaFiltros', radio.value);
+
+        if (radio.value !== "") {
+            sessionStorage.setItem('distanciaFiltros', radio.value);
+        } else {
+            sessionStorage.setItem('distanciaFiltros', '0');
+        }
+        
 		// comprobar valor horas filtros
 		checkHorasFiltros(horaIn.value, horaOut.value);
 		
@@ -1262,8 +1267,6 @@ function añadirEventosBusqueda() {
 		sessionStorage.setItem('searchFree', "" + searchFree.checked);
 		sessionStorage.setItem('parkingNear', "" + parkingNear.checked);
 		sessionStorage.setItem('HosteleriaCercana', "" + HosteleriaCercana.checked);
-
-        console.log("Valor de Act Gratuita: " + searchFree.checked);
         
         // reiniciar mapa
         resetMapa();
@@ -1545,13 +1548,6 @@ function añadirMarcadoresMapa() {
 }
 
 function checkCondicionesFiltros(lugar) {
-    // Print de debug para ver los valores
-    console.log("Filtros:");
-    console.log("Hora Inicio: " + sessionStorage.getItem('hourInFiltros'));
-    console.log("Hora Fin: " + sessionStorage.getItem('hourOutFiltros'));
-    console.log("Actividad Gratuita: " + sessionStorage.getItem('searchFree'));
-    console.log("Parking Cercano: " + sessionStorage.getItem('parkingNear'));
-    console.log("Hostelería Cercana: " + sessionStorage.getItem('HosteleriaCercana'));
 	// comprobar horas, entrada gratuita, ...
 	return  (sessionStorage.getItem('searchFree') === "false" || lugar?.isAccessibleForFree === true) &&
 			// comprobar parking cercano
@@ -1599,9 +1595,16 @@ function borrarMarkers() {
     panelShadow.innerHTML = "";
     panelPopup.innerHTML = "";
     // Se borra también el círculo de área
-    let panelCirculo = document.querySelector('.leaflet-interactive');
+    let panelCirculo = document.querySelector('.leaflet-overlay-pane');
+
+
     if (panelCirculo) {
-        panelCirculo.innerHTML = "";
+        let paths = panelCirculo.querySelectorAll('path');
+
+        // Elimina cada elemento <path>
+        paths.forEach(function(path) {
+            path.remove();
+        });
     }
 }
 
