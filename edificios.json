@@ -11,17 +11,17 @@
         "@type": "TextObject",
         "description": "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
         "alternativeHeadline": "También conocida como La Seu",
-        "genre": "Arquitectura gótica"
+        "genre": "Gótico"
       }, 
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.jpg",
       "subjectOf": {
         "@type": "CreativeWork",
-        "audio": "",
-        "video": ""
+        "audio": "assets/video/matrices.mp4",
+        "video": "assets/audio/fonerAudio.mp3"
       },
       "openingHours": [
-      "Mo-Fr 10:00-17:15",
-      "Sa 10:00-14:15"
+        "Mo-Fr 10:00-17:15",
+        "Sa 10:00-14:15"
       ],
       "isAccessibleForFree": false,
       "address": {
@@ -55,7 +55,7 @@
         "@type": "TextObject",
         "description": "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
         "alternativeHeadline": "Parroquia de estilo neogótico y modernista",
-        "genre": "Arquitectura gótica"
+        "genre": "Gótico"
       }, 
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/2.jpg",
       "subjectOf": {
@@ -139,9 +139,9 @@
         "@type": "TextObject",
         "description": "La parroquia más antigua de Palma, en la que fue bautizado Ramon Llull (1232) y donde fue coronado Jaume II, rey de Mallorca (1276). Una iglesia gótica espectacular, de tres naves. Un campanario de 50 m de altura que constituye el mejor mirador de Palma y sus alrededores.",
         "alternativeHeadline": "Iglesia gótica cerca del paseo marítimo",
-        "genre": "Arquitectura gótica"
+        "genre": "Gótico"
       },
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/6.jpg",
+      "image": "",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",

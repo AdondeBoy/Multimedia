@@ -28,6 +28,8 @@ function inicio() {
 			estilo: "Arquitectura gótica",
 			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
             imagen: "assets/img/portfolio/1.jpg",
+            video: "assets/video/matrices.mp4",
+            audio: "assets/audio/fonerAudio.mp3",
             horario: [
                 "Lu$10:00 - 17:15",
                 "Ma$10:00 - 17:15",
@@ -152,6 +154,89 @@ function inicio() {
     crearSeccionPortfolio(edificiosJSON);
     crearSeccionTeam();
     scriptSlider();
+}
+
+async function leerJSON (){
+    // Hacer una solicitud GET al archivo JSON utilizando fetch()
+    fetch('edificios.json')
+    .then(function(response) {
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            throw new Error('Error al cargar el archivo JSON: ' + response.status);
+        }
+        // Convertir la respuesta a JSON
+        return response.json();
+    })
+    .then(function(edificios) {
+        // guardar edificios en edificiosJSON
+        return edificios;
+    })
+    .catch(function(error) {
+        // Capturar y manejar cualquier error que ocurra durante la solicitud
+        console.error('Error al cargar el archivo JSON:', error);
+        return null;
+    });
+}
+
+async function obtenerObjetosEdificiosJSON() {
+    let objetoJSON = await leerJSON();
+    let lugares = [];
+
+    if (objetoJSON) {
+        let listaObjetos = JSON.parse(objetoJSON).itemListElement;
+
+        listaObjetos.forEach(function(objeto) {
+            let struct = {
+                nombre: objeto.name,
+                subtitulo: objeto.description.alternativeHeadline,
+                descripcion: objeto.description.description,
+                estilo: objeto.description.genre,
+                horario: convertirHorariosJson(objeto.openingHours),
+                imagen: objeto.image,
+                video: objeto.subjectOf.video,
+                audio: objeto.subjectOf.audio,
+                lat: objeto.geo.latitude,
+                lon: objeto.geo.longitude,
+                url: objeto.url,
+                likes: objeto.aggregateRating.ratingCount,
+                isAccessibleForFree: objeto.isAccessibleForFree,
+                parking: objeto.parking
+            };
+
+            lugares.push(struct);
+        });
+    }
+
+    return lugares;
+}
+
+function convertirHorariosJson(openingHours) {
+    const diasSemanaIng = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+    const diasSemanaEsp = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
+    const horario = [];
+
+    openingHours.forEach(function(horarioDia) {
+        const dias = horarioDia.split(" ")[0].split("-");
+        const horas = horarioDia.split(" ")[1].split("-");
+
+        let inicioDia = diasSemanaIng.indexOf(dias[0]);
+        let finDia = diasSemanaIng.indexOf(dias[dias.length - 1]);
+
+        // Asegurarse de que el inicio del día sea menor o igual al final del día
+        if (inicioDia > finDia) {
+            finDia += 7;
+        }
+
+        // Iterar sobre todos los días de la semana y agregar los horarios correspondientes
+        for (let i = 0; i < 7; i++) {
+            let dia = diasSemanaEsp[i];
+            if (i >= inicioDia && i <= finDia) {
+                horario.push(`${dia}$${horas[0]} - ${horas[1]}`);
+            }
+        }
+    });
+
+    return horario;
 }
 
 function setCurrentDate() {
@@ -432,11 +517,28 @@ function generarModalBodyContent(edificio, i) {
     }
     
     // añadir imagen (supongo que lo cambiaremos por un vídeo o maybe un slider con ambos)
-    let imagen = document.createElement('img');
-    imagen.classList.add('img-fluid', 'd-block', 'mx-auto');
-    imagen.setAttribute('src', edificio.imagen);
-    imagen.setAttribute('alt', edificio.nombre);
-    modalBody.appendChild(imagen);
+    if (edificio?.video === undefined || edificio?.video !== "") {
+        let imagen = document.createElement('img');
+        imagen.classList.add('img-fluid', 'd-block', 'mx-auto');
+        imagen.setAttribute('src', edificio.imagen);
+        imagen.setAttribute('alt', edificio.nombre);
+        modalBody.appendChild(imagen);
+    } else {
+        let video = document.createElement('video');
+        video.classList.add('img-fluid', 'd-block', 'mx-auto');
+        video.setAttribute('src', edificio.video);
+        video.setAttribute('alt', edificio.nombre);
+        video.setAttribute('controls', 'true');
+        modalBody.appendChild(video);
+    }
+
+    if (edificio?.audio !== undefined || edificio?.audio !== "") {
+        let audio = document.createElement('audio');
+        audio.classList.add('d-block', 'mx-auto', 'mb-4', 'mt-2');
+        audio.setAttribute('src', edificio.audio);
+        audio.setAttribute('controls', 'true');
+        modalBody.appendChild(audio);
+    }
 
     // añadir estilo si existe
     if (edificio?.estilo !== undefined) {
@@ -933,6 +1035,7 @@ function plan() {
 
     let divBusqueda = crearCamposBusqueda();
     divContainer.appendChild(divBusqueda);
+    añadirEventosBusqueda();
     calendario();
 
     // crear el <div> "row"
@@ -1019,6 +1122,14 @@ function crearCamposBusqueda() {
                     </div>
                     <div class="dropdown-item filtro d-flex">
                         <div class="col-6 d-flex justify-content-start align-items-center me-2">
+                            <label>Distancia máxima (km):</label>
+                        </div>
+                        <div class="col-6 d-flex justify-content-start">
+                            <input class="form-control-sm"  id="SearchRadius" type="text" placeholder="10" data-sb-validations="required" />
+                        </div>
+                    </div>
+                    <div class="dropdown-item filtro d-flex">
+                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
                             <label>Actividad gratuita:</label>
                         </div>
                         <div class="col-6 d-flex justify-content-start align-items-center">
@@ -1055,8 +1166,7 @@ function crearCamposBusqueda() {
         `;
     // Se inserta el html sin reemplazar lo anterior
     container.innerHTML += html;
-
-    //añadirEventosBusqueda();
+    console.log(document.getElementById('botonFiltros'));
 
     return container
 }
@@ -1137,12 +1247,14 @@ function añadirEventosBusqueda() {
     let parkingNear = document.getElementById('ParkingNear');
     let HosteleriaCercana = document.getElementById('HosteleriaCercana');
     let botonFiltros = document.getElementById('botonFiltros');
+    let radio = document.getElementById('SearchRadius');
     
 	botonFiltros.onclick = function () {
 		// comprobar valores de todos los filtros
 		// limpiar valor horas de sessionStorage
 		sessionStorage.setItem('hourInFiltros', "");
 		sessionStorage.setItem('hourOutFiltros', "");
+        sessionStorage.setItem('distanciaFiltros', radio.value);
 		// comprobar valor horas filtros
 		checkHorasFiltros(horaIn.value, horaOut.value);
 		
@@ -1160,6 +1272,7 @@ function añadirEventosBusqueda() {
     // inicializar campos en sessionStorage
     sessionStorage.setItem('hourInFiltros', "");
     sessionStorage.setItem('hourOutFiltros', "");
+    sessionStorage.setItem('distanciaFiltros', "0");
     sessionStorage.setItem('searchFree', "false");
     sessionStorage.setItem('parkingNear', "false");
     sessionStorage.setItem('HosteleriaCercana', "false");
@@ -1266,12 +1379,24 @@ function initMapa() {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
+    let marker = L.marker([39.59398458121737, 2.678878006135083]).addTo(map);
+    marker.bindPopup("<b>Casa de Carlos</b><br>Dominio público.");
+
     // Añadir marcadores al mapa
     // Coordenadas de los edificios
     añadirMarcadoresMapa();
 }
 
 function añadirMarcadoresMapa() {
+    if (sessionStorage.getItem('distanciaFiltros') !== "0") {
+        // no hay distancia máxima
+        let circle = L.circle([parseFloat(sessionStorage.getItem('crd-latitude')), parseFloat(sessionStorage.getItem('crd-longitude'))], {
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.1,
+            radius: parseInt(sessionStorage.getItem('distanciaFiltros')) * 1000
+        }).addTo(map);
+    }
     let lugares = [
         {
             nombre: "Catedral de Palma",
@@ -1392,8 +1517,6 @@ function añadirMarcadoresMapa() {
 
     // Añadir marcadores al mapa
     // Coordenadas de los edificios
-    let marker = L.marker([39.59398458121737, 2.678878006135083]).addTo(map);
-    marker.bindPopup("<b>Casa de Carlos</b><br>Dominio público.");
 
     for (let i = 0; i < lugares.length; i++) {
         let lugar = lugares[i];
@@ -1401,11 +1524,8 @@ function añadirMarcadoresMapa() {
             // Se comunica en consola
             console.error('El lugar ' + lugar.nombre + ' no tiene coordenadas');
         } else {
-            // if (checkCondicionesFiltros(lugar)) {
+            if (checkCondicionesFiltros(lugar)) {
                 let marker = L.marker([lugar.lat, lugar.lon]).addTo(map);
-                //Imagen centrada
-                marker.bindPopup("<b>" + lugar.nombre + "</b><br>" + lugar.descripcion + "<br><div class = 'align-items-center justify-content-center'><img src='"
-                                + lugar.imagen + "' alt='Imagen del edificio' style='width: 100px; height: auto;'></div>");
                 // Al hacer clic en el marcador, se muestra la información del edificio en un pop-up
                 marker.on('click', function() {
                     // Se guarda el nombre del edificio en la sesión
@@ -1419,17 +1539,47 @@ function añadirMarcadoresMapa() {
 
                     element.scrollIntoView({behavior: 'smooth', block: 'center'});
                 });
-            //}
+            }
         }
     }
 }
 
 function checkCondicionesFiltros(lugar) {
+    // Print de debug para ver los valores
+    console.log("Filtros:");
+    console.log("Hora Inicio: " + sessionStorage.getItem('hourInFiltros'));
+    console.log("Hora Fin: " + sessionStorage.getItem('hourOutFiltros'));
+    console.log("Actividad Gratuita: " + sessionStorage.getItem('searchFree'));
+    console.log("Parking Cercano: " + sessionStorage.getItem('parkingNear'));
+    console.log("Hostelería Cercana: " + sessionStorage.getItem('HosteleriaCercana'));
 	// comprobar horas, entrada gratuita, ...
 	return  (sessionStorage.getItem('searchFree') === "false" || lugar?.isAccessibleForFree === true) &&
 			// comprobar parking cercano
 			(sessionStorage.getItem('parkingNear') === "false" || lugar?.parking === true) &&
-            (sessionStorage.getItem('HosteleriaCercana') === "false");		
+            // comprobar hostelería cercana
+            (sessionStorage.getItem('HosteleriaCercana') === "false") && 
+            // comprobar distancia
+            (sessionStorage.getItem('distanciaFiltros') === "0" || calcularDistancia(lugar.lat, lugar.lon) <= parseInt(sessionStorage.getItem('distanciaFiltros')))
+            ;		
+}
+
+function calcularDistancia(lat, lon) {
+    let lat1 = parseFloat(sessionStorage.getItem('crd-latitude'));
+    let lon1 = parseFloat(sessionStorage.getItem('crd-longitude'));
+    let lat2 = lat;
+    let lon2 = lon;
+
+    // Fórmula de Haversine (calcular distancia entre dos puntos en la Tierra dadas sus coordenadas)
+    let R = 6371; // Radio de la Tierra en km
+    let dLat = (lat2 - lat1) * Math.PI / 180;
+    let dLon = (lon2 - lon1) * Math.PI / 180;
+    let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c; // Distancia en km
+    return d;
 }
 
 function resetMapa() {
@@ -1448,6 +1598,11 @@ function borrarMarkers() {
     panelMarker.innerHTML = "";
     panelShadow.innerHTML = "";
     panelPopup.innerHTML = "";
+    // Se borra también el círculo de área
+    let panelCirculo = document.querySelector('.leaflet-interactive');
+    if (panelCirculo) {
+        panelCirculo.innerHTML = "";
+    }
 }
 
 // guarda la posición del usuario o una posición por defecto 
@@ -1517,6 +1672,8 @@ function obtenerEdificioJSON(nombreEdificio) {
 			estilo: "Arquitectura gótica",
 			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
             imagen: "assets/img/portfolio/1.jpg",
+            video: "assets/video/matrices.mp4",
+            audio: "assets/audio/fonerAudio.mp3",
             horario: [
                 "Lu$10:00 - 17:15",
                 "Ma$10:00 - 17:15",
