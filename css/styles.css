@@ -11189,6 +11189,10 @@ header.masthead .masthead-heading {
   text-align: center;
 }
 
+.search-z-index {
+  z-index: 10000 !important;
+}
+
 .hour-list {
   display: flex;
   flex-wrap: wrap;
