@@ -877,7 +877,7 @@ function crearCamposVisita(i) {
     return contenedor;
 }
 
-function goHome() {    
+function goHome() {
     // Si ya está en la página de inicio, no hace nada
     let container = document.getElementById('slider');
     // Si el contenedor no existe
@@ -1181,12 +1181,9 @@ function crearCamposBusqueda() {
 
 function buscar(valor) {
     // Comprobar valor
-    console.log("Nombre = " + valor);
     if (!estaEnJson(valor)) {
         alert('No se ha encontrado ningún edificio con ese nombre');
         return;
-    } else {
-        console.log('Edificio encontrado');
     }
     // Se guarda el nombre del edificio en la sesión
     sessionStorage.setItem("mapSelectedPlace", valor);
@@ -1533,7 +1530,6 @@ function calendario() {
 
                 let modalBody = document.getElementById('portfolioModal0');
                 if (modalBody !== null) {
-                    console.log("Cambiando fecha en el pop-up");
                     // volver a generar pop up para actualizar el tiempo
                     swapSelectedPlace();
                 }
@@ -1581,7 +1577,8 @@ function añadirEventosBusqueda() {
     let botonFiltros = document.getElementById('botonFiltros');
     let radio = document.getElementById('SearchRadius');
     
-	botonFiltros.onclick = function () {
+	botonFiltros.onclick = function (event) {
+        event.preventDefault();
 		// comprobar valores de todos los filtros
 		// limpiar valor horas de sessionStorage
 		sessionStorage.setItem('hourInFiltros', "");
@@ -1600,11 +1597,10 @@ function añadirEventosBusqueda() {
 		sessionStorage.setItem('searchFree', "" + searchFree.checked);
 		sessionStorage.setItem('parkingNear', "" + parkingNear.checked);
 		sessionStorage.setItem('HosteleriaCercana', "" + HosteleriaCercana.checked);
-        
         // reiniciar mapa
         resetMapa();
 	}
-
+    
     // inicializar campos en sessionStorage
     sessionStorage.setItem('hourInFiltros', "");
     sessionStorage.setItem('hourOutFiltros', "");
@@ -1913,8 +1909,6 @@ function calcularDistancia(lat, lon) {
 function resetMapa() {
     // borrar marcadores
     borrarMarkers();
-    // Se notifica por consola
-    console.log('Mapa reseteado');
     // reiniciar marcadores
     añadirMarcadoresMapa();
 }
@@ -1966,7 +1960,6 @@ function getUserPosition() {
 }
 
 function swapSelectedPlace() {
-    console.log("swapSelectedPlace");
     // comprobar si está oculto (primera seleccion sobre el mapa)
     let popUpPortfolioHover = document.getElementById("popUpPortfolioHover");
     if (popUpPortfolioHover.getAttribute("hidden"))
