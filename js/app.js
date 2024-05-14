@@ -20,6 +20,13 @@ function inicio() {
     let date = new Date(sessionStorage.getItem('date'));
     document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
 
+     // poner función en el logo y en el botón de inicio
+     let aLogo = document.getElementById('logoMashorca');
+     let aInicio = document.getElementById('inicio');
+     // Al hacer click sobre el logo o el botón de inicio, se vuelve a la página de inicio
+     aLogo.onclick = goHome;
+     aInicio.onclick = goHome;
+
     // Define los datos estáticos en un arreglo de objetos
     let lugares = [
         {
@@ -142,16 +149,20 @@ function inicio() {
     ];
     
     let edificiosJSON = lugares;
+    crearSeccionPortfolio(edificiosJSON);
 
-    // poner función en el logo y en el botón de inicio
-    let aLogo = document.getElementById('logoMashorca');
-    let aInicio = document.getElementById('inicio');
-    // Al hacer click sobre el logo o el botón de inicio, se vuelve a la página de inicio
-    aLogo.onclick = goHome;
-    aInicio.onclick = goHome;
+    /*
+    leerJSON().then(edificiosJSON => {
+        console.log("edificios:", edificiosJSON);
+        crearSeccionPortfolio(edificiosJSON);
+    }); 
+
+    let edificiosJSON = obtenerObjetosEdificiosJSON();
+    console.log("edificios: " + edificiosJSON);
+    crearSeccionPortfolio(edificiosJSON);
+    */
 
     crearSlider();
-    crearSeccionPortfolio(edificiosJSON);
     crearSeccionTeam();
     scriptSlider();
 }
@@ -165,11 +176,39 @@ async function leerJSON (){
             throw new Error('Error al cargar el archivo JSON: ' + response.status);
         }
         // Convertir la respuesta a JSON
-        return response.json();
+        console.log("response" + response.json());
+        // return response.json();
     })
-    .then(function(edificios) {
+    .then(function(objetoJSON) {
         // guardar edificios en edificiosJSON
-        return edificios;
+        let lugares = [];
+
+        console.log("objetoJSON: " + objetoJSON);
+
+        let listaObjetos = JSON.parse(objetoJSON).itemListElement;
+
+        listaObjetos.forEach(function(objeto) {
+            let struct = {
+                nombre: objeto.name,
+                subtitulo: objeto.description.alternativeHeadline,
+                descripcion: objeto.description.description,
+                estilo: objeto.description.genre,
+                horario: convertirHorariosJson(objeto.openingHours),
+                imagen: objeto.image,
+                video: objeto.subjectOf.video,
+                audio: objeto.subjectOf.audio,
+                lat: objeto.geo.latitude,
+                lon: objeto.geo.longitude,
+                url: objeto.url,
+                likes: objeto.aggregateRating.ratingCount,
+                isAccessibleForFree: objeto.isAccessibleForFree,
+                parking: objeto.parking
+            };
+
+            lugares.push(struct);
+        });
+
+        return lugares;
     })
     .catch(function(error) {
         // Capturar y manejar cualquier error que ocurra durante la solicitud
@@ -178,9 +217,42 @@ async function leerJSON (){
     });
 }
 
-async function obtenerObjetosEdificiosJSON() {
-    let objetoJSON = await leerJSON();
+function obtenerObjetosEdificiosJSON() {
+    leerJSON().then(objetoJSON => {
+        let lugares = [];
+
+        console.log("objetoJSON: " + objetoJSON);
+
+        let listaObjetos = JSON.parse(objetoJSON).itemListElement;
+
+        listaObjetos.forEach(function(objeto) {
+            let struct = {
+                nombre: objeto.name,
+                subtitulo: objeto.description.alternativeHeadline,
+                descripcion: objeto.description.description,
+                estilo: objeto.description.genre,
+                horario: convertirHorariosJson(objeto.openingHours),
+                imagen: objeto.image,
+                video: objeto.subjectOf.video,
+                audio: objeto.subjectOf.audio,
+                lat: objeto.geo.latitude,
+                lon: objeto.geo.longitude,
+                url: objeto.url,
+                likes: objeto.aggregateRating.ratingCount,
+                isAccessibleForFree: objeto.isAccessibleForFree,
+                parking: objeto.parking
+            };
+
+            lugares.push(struct);
+        });
+
+        return lugares;
+    });
+
+    /*
     let lugares = [];
+    let objetoJSON = leerJSON();
+    
 
     if (objetoJSON) {
         let listaObjetos = JSON.parse(objetoJSON).itemListElement;
@@ -208,6 +280,7 @@ async function obtenerObjetosEdificiosJSON() {
     }
 
     return lugares;
+    */
 }
 
 function convertirHorariosJson(openingHours) {
