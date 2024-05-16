@@ -283,10 +283,21 @@ function obtenerObjetosEdificiosJSON() {
     */
 }
 
+/**
+ * Convierte los horarios de apertura de un edificio en formato JSON a un formato más legible (día1: horai - horaf, día2: horai - horaf, ...)
+ * @param {*} openingHours 
+ * @returns 
+ */
 function convertirHorariosJson(openingHours) {
     const diasSemanaIng = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
     const diasSemanaEsp = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
     const horario = [];
+
+    // Si no hay horario, se devuelve undefined, significando que está abierto permanentemente
+
+    if (openingHours === undefined) {
+        return undefined;
+    }
 
     openingHours.forEach(function(horarioDia) {
         const dias = horarioDia.split(" ")[0].split("-");
@@ -505,11 +516,38 @@ function generarPopUpsInicio(edificiosJSON) {
     let i = 0;
     edificiosJSON.forEach(function(edificio) {
         generarPopUp(popUpContainer, edificio, i);
+
+        // Obtener campos de input
+        let hourIn = document.getElementById('hourIn' + i);
+        let hourOut = document.getElementById('hourOut' + i);
+        
+        // Función para comprobar si los campos de input tienen valor
+        function checkInput(i) {
+            let botonAgregar = document.getElementById('botonAgregar' + i);
+            let hourIn = document.getElementById('hourIn' + i);
+            let hourOut = document.getElementById('hourOut' + i);
+
+            console.log('hourIn' + i + ': ' + hourIn);
+
+            if (hourIn.value && hourOut.value && hourIn.value < hourOut.value) {
+                botonAgregar.disabled = false;
+            } else {
+                botonAgregar.disabled = true;
+            }
+        }
+
+        // Se checkean los campos de input para habilitar o deshabilitar el botón de añadir al plan
+        (function(i) {
+            hourIn.addEventListener('change', function() { checkInput(i); });
+            hourOut.addEventListener('change', function() { checkInput(i); });
+            checkInput(i);
+        })(i);
+
         i++;
     });
 }
 
-function generarPopUp (popUpsContainer, edificio, i) {
+function generarPopUp(popUpsContainer, edificio, i) {
     // crear contenedor <div> del pop-up
     let popUp = document.createElement('div');
     popUp.classList.add('portfolio-modal', 'modal', 'fade');
@@ -563,7 +601,7 @@ function generarContenidoPopUp(edificio, i) {
     container4.appendChild(container5);
 
     // crear contenedor modal-body y engancharlo a contenedor columna
-    let modalBody = generarModalBodyContent(edificio, null, i);
+    let modalBody = generarModalBodyContent(edificio, i);
     container5.appendChild(modalBody);
 
     return container1;
@@ -697,6 +735,7 @@ function generarModalBodyContent(edificio, i) {
     
     // Se recorren los días de la semana del json con el horario
     let horario = edificio?.horario;
+    // Si no hay horario, se muestra que está permanentemente abierto
     if (horario === undefined) {
         let diaElement = document.createElement('li');
         diaElement.classList.add('list-inline-item', 'row');
@@ -745,6 +784,7 @@ function generarModalBodyContent(edificio, i) {
     let botonAgregar = document.createElement('button');
     botonAgregar.classList.add('btn', 'btn-primary', 'btn-xl', 'text-uppercase');
     botonAgregar.setAttribute('type', 'button');
+    botonAgregar.setAttribute('id', 'botonAgregar' + i);
     botonAgregar.setAttribute('data-bs-dismiss', 'modal');
     botonAgregar.textContent = 'Añadir al plan';
     grupoBotones.appendChild(botonAgregar);
@@ -888,6 +928,7 @@ function crearItemClima(hora, temperatura, clima) {
 }
 
 function crearCamposVisita(i) {
+    console.log("crearCamposVisita: " + i);
     // Contenedor
     let contenedor = document.createElement('div');
     contenedor.classList.add('col-6', 'd-flex', 'justify-content-start', 'align-items-center');
@@ -911,7 +952,7 @@ function crearCamposVisita(i) {
     let horaEntradaInput = document.createElement('input');
     horaEntradaInput.classList.add('form-control-sm');
     horaEntradaInput.setAttribute('id', 'hourIn' + i);
-    horaEntradaInput.setAttribute('type', 'text');
+    horaEntradaInput.setAttribute('type', 'time');
     horaEntradaInput.setAttribute('placeholder', '10:00');
     horaEntradaInput.setAttribute('data-sb-validations', 'required');
     horaEntradaInputContainer.appendChild(horaEntradaInput);
@@ -937,7 +978,7 @@ function crearCamposVisita(i) {
     let horaSalidaInput = document.createElement('input');
     horaSalidaInput.classList.add('form-control-sm');
     horaSalidaInput.setAttribute('id', 'hourOut' + i);
-    horaSalidaInput.setAttribute('type', 'text');
+    horaSalidaInput.setAttribute('type', 'time');
     horaSalidaInput.setAttribute('placeholder', '11:30');
     horaSalidaInput.setAttribute('data-sb-validations', 'required');
     horaSalidaInputContainer.appendChild(horaSalidaInput);
@@ -2065,6 +2106,28 @@ function swapSelectedPlace() {
     map.setView([edificio.lat, edificio.lon], 15);
     
     generarPopUp(popUpContainer, edificio, 0);
+
+    // Obtener campos de input
+    let hourIn = document.getElementById('hourIn0');
+    let hourOut = document.getElementById('hourOut0');
+    
+    // Función para comprobar si los campos de input tienen valor
+    function checkInput() {
+        let botonAgregar = document.getElementById('botonAgregar0');
+        let hourIn = document.getElementById('hourIn0');
+        let hourOut = document.getElementById('hourOut0');
+
+        if (hourIn.value && hourOut.value && hourIn.value < hourOut.value) {
+            botonAgregar.disabled = false;
+        } else {
+            botonAgregar.disabled = true;
+        }
+    }
+
+    // Se checkean los campos de input para habilitar o deshabilitar el botón de añadir al plan
+    hourIn.addEventListener('change', function() { checkInput(); });
+    hourOut.addEventListener('change', function() { checkInput(); });
+    checkInput();
 }
 
 function obtenerEdificioJSON(nombreEdificio) {
@@ -2302,28 +2365,6 @@ function eliminarElementoListaPlan(i) {
 
         sessionStorage.setItem('plan', JSON.stringify(plan));
     }
-}
-
-/**
- * Se pasa el formato del horario del json (Mo-Sa 10:00-20:00 Su 10:00-15:00) al nuestro (Lunes: 10:00 - 20:00 Martes: 10:00 - 20:00 ...)
- * @param {*} horario 
- */
-function parseHorario(horario) { // Beta, hecho por copilot
-    let horarioParseado = [];
-    let dias = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-    let diasParseados = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-    let horas = horario.split(" ");
-    let i = 0;
-    let j = 0;
-    while (i < horas.length) {
-        let dia = horas[i];
-        let hora = horas[i + 1];
-        let diaParseado = diasParseados[dias.indexOf(dia)];
-        horarioParseado[j] = diaParseado + ": " + hora;
-        j++;
-        i += 2;
-    }
-    return horarioParseado;
 }
 
 function scriptSlider() {
