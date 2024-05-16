@@ -2304,6 +2304,28 @@ function eliminarElementoListaPlan(i) {
     }
 }
 
+/**
+ * Se pasa el formato del horario del json (Mo-Sa 10:00-20:00 Su 10:00-15:00) al nuestro (Lunes: 10:00 - 20:00 Martes: 10:00 - 20:00 ...)
+ * @param {*} horario 
+ */
+function parseHorario(horario) { // Beta, hecho por copilot
+    let horarioParseado = [];
+    let dias = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+    let diasParseados = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+    let horas = horario.split(" ");
+    let i = 0;
+    let j = 0;
+    while (i < horas.length) {
+        let dia = horas[i];
+        let hora = horas[i + 1];
+        let diaParseado = diasParseados[dias.indexOf(dia)];
+        horarioParseado[j] = diaParseado + ": " + hora;
+        j++;
+        i += 2;
+    }
+    return horarioParseado;
+}
+
 function scriptSlider() {
     var swiper = new Swiper(".slider", {
         loop: true,
