@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', inicio());
 
 let map;
 // const apiKeyWeather = '1ff240de287dae93a6e61f1f4a04bf0a';
+let edificiosJsonPrueba;
 
 function inicio() {
     // Obtener día de hoy
@@ -29,49 +30,6 @@ function inicio() {
 
     // Define los datos estáticos en un arreglo de objetos
     let lugares = [
-        {
-            nombre: "Catedral de Palma",
-            subtitulo: "También conocida como La Seu",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
-            imagen: "assets/img/portfolio/1.jpg",
-            video: "assets/video/matrices.mp4",
-            audio: "assets/audio/fonerAudio.mp3",
-            horario: [
-                "Lu$10:00 - 17:15",
-                "Ma$10:00 - 17:15",
-                "Mi$10:00 - 17:15",
-                "Ju$10:00 - 17:15",
-                "Vi$10:00 - 17:15",
-                "Sa$10:00 - 14:15",
-                "Do$10:00 - 14:15"
-            ],
-            lat: 39.56751097483424,
-            lon: 2.648302373075007,
-			url: "http://catedraldemallorca.org/",
-            isAccessibleForFree: false,
-            parking: true
-        },
-        {
-            nombre: "Parroquia de San Bartomeu",
-            subtitulo: "Parroquia de estilo neogótico y modernista",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
-            imagen: "assets/img/portfolio/2.jpg",
-            horario: [
-                "Lu$09:00 - 17:30",
-                "Ma$09:00 - 17:30",
-                "Mi$09:00 - 17:30",
-                "Ju$09:00 - 17:30",
-                "Vi$09:00 - 17:30",
-                "Sa$09:00 - 12:00"
-            ],
-            lat: 39.765942,
-            lon: 2.715518,
-			url: "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
-            isAccessibleForFree: true,
-            parking: false
-        },
         {
             nombre: "Talaiots",
             subtitulo: "Piedras",
@@ -126,37 +84,19 @@ function inicio() {
             isAccessibleForFree: false,
             parking: false
         },
-        {
-            nombre: "Castell de Bellver",
-            subtitulo: "Actual Museo de Historia de Palma",
-			estilo: "Castillo medieval gótico",
-			descripcion: "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
-            imagen: "assets/img/portfolio/6.jpg",
-            horario: [
-                "Ma$10:00 - 18:00",
-                "Mi$10:00 - 18:00",
-                "Ju$10:00 - 18:00",
-                "Vi$10:00 - 18:00",
-                "Sa$10:00 - 18:00",
-                "Do$10:00 - 15:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-			url: "https://castelldebellver.palma.es/es/",
-            isAccessibleForFree: false,
-            parking: true
-        }
     ];
-    
-    let edificiosJSON = lugares;
-    crearSeccionPortfolio(edificiosJSON);
 
     /*
-    leerJSON().then(edificiosJSON => {
-        console.log("edificios:", edificiosJSON);
-        crearSeccionPortfolio(edificiosJSON);
+    let edificiosJSON = lugares;
+    crearSeccionPortfolio(edificiosJSON);
+    */
+    
+    leerJSONEdificios().then(x => {
+        console.log("edificios:", edificiosJsonPrueba);
+        crearSeccionPortfolio(edificiosJsonPrueba);
     }); 
 
+    /*
     let edificiosJSON = obtenerObjetosEdificiosJSON();
     console.log("edificios: " + edificiosJSON);
     crearSeccionPortfolio(edificiosJSON);
@@ -167,27 +107,18 @@ function inicio() {
     scriptSlider();
 }
 
-async function leerJSON (){
+async function leerJSONEdificios (){
     // Hacer una solicitud GET al archivo JSON utilizando fetch()
-    fetch('edificios.json')
-    .then(function(response) {
-        // Verificar si la respuesta es exitosa
-        if (!response.ok) {
-            throw new Error('Error al cargar el archivo JSON: ' + response.status);
-        }
-        // Convertir la respuesta a JSON
-        console.log("response" + response.json());
-        // return response.json();
-    })
-    .then(function(objetoJSON) {
+    try {
+        const response = await fetch('edificios.json');
+        const objetoJSON = await response.json();
         // guardar edificios en edificiosJSON
-        let lugares = [];
-
         console.log("objetoJSON: " + objetoJSON);
+        edificiosJsonPrueba = [];
 
-        let listaObjetos = JSON.parse(objetoJSON).itemListElement;
+        let listaObjetos = objetoJSON.itemListElement;
 
-        listaObjetos.forEach(function(objeto) {
+        listaObjetos.forEach(function (objeto) {
             let struct = {
                 nombre: objeto.name,
                 subtitulo: objeto.description.alternativeHeadline,
@@ -205,82 +136,12 @@ async function leerJSON (){
                 parking: objeto.parking
             };
 
-            lugares.push(struct);
+            edificiosJsonPrueba.push(struct);
         });
-
-        return lugares;
-    })
-    .catch(function(error) {
+    } catch (error) {
         // Capturar y manejar cualquier error que ocurra durante la solicitud
         console.error('Error al cargar el archivo JSON:', error);
-        return null;
-    });
-}
-
-function obtenerObjetosEdificiosJSON() {
-    leerJSON().then(objetoJSON => {
-        let lugares = [];
-
-        console.log("objetoJSON: " + objetoJSON);
-
-        let listaObjetos = JSON.parse(objetoJSON).itemListElement;
-
-        listaObjetos.forEach(function(objeto) {
-            let struct = {
-                nombre: objeto.name,
-                subtitulo: objeto.description.alternativeHeadline,
-                descripcion: objeto.description.description,
-                estilo: objeto.description.genre,
-                horario: convertirHorariosJson(objeto.openingHours),
-                imagen: objeto.image,
-                video: objeto.subjectOf.video,
-                audio: objeto.subjectOf.audio,
-                lat: objeto.geo.latitude,
-                lon: objeto.geo.longitude,
-                url: objeto.url,
-                likes: objeto.aggregateRating.ratingCount,
-                isAccessibleForFree: objeto.isAccessibleForFree,
-                parking: objeto.parking
-            };
-
-            lugares.push(struct);
-        });
-
-        return lugares;
-    });
-
-    /*
-    let lugares = [];
-    let objetoJSON = leerJSON();
-    
-
-    if (objetoJSON) {
-        let listaObjetos = JSON.parse(objetoJSON).itemListElement;
-
-        listaObjetos.forEach(function(objeto) {
-            let struct = {
-                nombre: objeto.name,
-                subtitulo: objeto.description.alternativeHeadline,
-                descripcion: objeto.description.description,
-                estilo: objeto.description.genre,
-                horario: convertirHorariosJson(objeto.openingHours),
-                imagen: objeto.image,
-                video: objeto.subjectOf.video,
-                audio: objeto.subjectOf.audio,
-                lat: objeto.geo.latitude,
-                lon: objeto.geo.longitude,
-                url: objeto.url,
-                likes: objeto.aggregateRating.ratingCount,
-                isAccessibleForFree: objeto.isAccessibleForFree,
-                parking: objeto.parking
-            };
-
-            lugares.push(struct);
-        });
     }
-
-    return lugares;
-    */
 }
 
 /**
