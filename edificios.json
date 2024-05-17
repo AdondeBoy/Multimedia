@@ -170,7 +170,96 @@
       },
       "smokingAllowed": false,
       "parking": true
-    }
+    },
+
+    {
+      "@type": "CivicStructure",
+      "name": "Talaiots",
+      "description": {
+        "@type": "TextObject",
+        "description": "Las construcciones prehistóricas mallorquinas más conocidas, los talaiots, son restos de poblados prehistóricos.",
+        "alternativeHeadline": "Piedras",
+        "genre": "Prehistórico"
+      },
+      "image": "assets/img/portfolio/3.jpg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
+      "isAccessibleForFree": true,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.55443557349407,
+        "longitude": 2.706647944936505
+      },
+      "aggregateRating": {
+        "type": "AggregateRating",
+        "ratingCount": 0
+      },
+      "smokingAllowed": true,
+      "parking": true
+  },
+  {
+      "name": "Edificio",
+      "description": {
+        "@type": "TextObject",
+        "description": "Este edificio del centro de Palma es uno de los estandartes de la arquitectura modernista de la ciudad.",
+        "alternativeHeadline": "Edificio Modernista",
+        "genre": "Modernista"
+      },
+      "image": "assets/img/portfolio/4.jpeg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
+      "openingHours": [
+        "Mo-Su 10:00-13:00"
+        ],
+      "isAccessibleForFree": false,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.576435992206605,
+        "longitude": 2.6532397998618347
+      },
+      "aggregateRating": {
+        "type": "AggregateRating",
+        "ratingCount": 0
+      },
+      "smokingAllowed": true,
+      "parking": false
+  },
+  {
+      "name": "Castell de l'Almudaina",
+      "description": {
+        "@type": "TextObject",
+        "description": "El castillo real de la Almudaina se sitúa en el punto de la ciudad de Mallorca donde constan asentamientos desde época romana y que ha sido la sede del poder en la isla posiblemente desde entonces. Restos de la alcazaba árabe, sobre la que hay referencias de los siglos XII y XIII, pueden rastrearse aún en la forma del castillo actual. El castillo fue levantado a principios del siglo XIV entre 1305 y 1314 para Jaime II y floreció como sede de la corte de los reyes de Mallorca en la primera mitad de aquella centuria..",
+        "alternativeHeadline": "Residencia oficial de verano de S.M el rey",
+        "genre": "Castillo Medieval"
+      },
+      "image": "assets/img/portfolio/5.jpg",
+      "subjectOf": {
+        "@type": "CreativeWork",
+        "audio": "",
+        "video": ""
+      },
+      "openingHours": [
+        "Mo-Su 10:00-13:00"
+        ],
+      "isAccessibleForFree": false,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude":  39.5711,
+        "longitude": 2.6463
+      },
+      "aggregateRating": {
+        "type": "AggregateRating",
+        "ratingCount": 0
+      },
+      "smokingAllowed": true,
+      "parking": false
+  }
   ],
   "itemListOrder": "Unordered"
 }

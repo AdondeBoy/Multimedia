@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', inicio());
 
 let map;
 // const apiKeyWeather = '1ff240de287dae93a6e61f1f4a04bf0a';
-let edificiosJsonPrueba;
+let edificiosJSON;
 
 function inicio() {
     // Obtener día de hoy
@@ -86,21 +86,10 @@ function inicio() {
         },
     ];
 
-    /*
-    let edificiosJSON = lugares;
-    crearSeccionPortfolio(edificiosJSON);
-    */
-    
     leerJSONEdificios().then(x => {
-        console.log("edificios:", edificiosJsonPrueba);
-        crearSeccionPortfolio(edificiosJsonPrueba);
+        console.log("edificios:", edificiosJSON);
+        crearSeccionPortfolio();
     }); 
-
-    /*
-    let edificiosJSON = obtenerObjetosEdificiosJSON();
-    console.log("edificios: " + edificiosJSON);
-    crearSeccionPortfolio(edificiosJSON);
-    */
 
     crearSlider();
     crearSeccionTeam();
@@ -114,7 +103,7 @@ async function leerJSONEdificios (){
         const objetoJSON = await response.json();
         // guardar edificios en edificiosJSON
         console.log("objetoJSON: " + objetoJSON);
-        edificiosJsonPrueba = [];
+        edificiosJSON = [];
 
         let listaObjetos = objetoJSON.itemListElement;
 
@@ -136,7 +125,7 @@ async function leerJSONEdificios (){
                 parking: objeto.parking
             };
 
-            edificiosJsonPrueba.push(struct);
+            edificiosJSON.push(struct);
         });
     } catch (error) {
         // Capturar y manejar cualquier error que ocurra durante la solicitud
@@ -205,7 +194,7 @@ function setNavPorfolioHidden (bool) {
         navP.removeAttribute('hidden');
 }
 
-function crearSeccionPortfolio (edificiosJSON) {
+function crearSeccionPortfolio () {
     // obtener el elemento <div> de clase "container"
     let divContainer = document.getElementById('portfolioContainer');
 
@@ -267,7 +256,7 @@ function crearSeccionPortfolio (edificiosJSON) {
     });
 
     // crear pop-ups del portfolio
-    generarPopUpsInicio(edificiosJSON);
+    generarPopUpsInicio();
 }
 
 function crearSeccionTeam () {
@@ -370,7 +359,7 @@ function crearSeccionTeam () {
     main.appendChild(nuevaSection);
 }
 
-function generarPopUpsInicio(edificiosJSON) {
+function generarPopUpsInicio() {
     // obtener <div> contenedor de los pop-ups
     let popUpContainer = document.getElementById('portfolio-modals');
 
@@ -1824,8 +1813,8 @@ function añadirMarcadoresMapa() {
     // Añadir marcadores al mapa
     // Coordenadas de los edificios
 
-    for (let i = 0; i < lugares.length; i++) {
-        let lugar = lugares[i];
+    for (let i = 0; i < edificiosJSON.length; i++) {
+        let lugar = edificiosJSON[i];
         if (lugar.lat === undefined || lugar.lon === undefined) {
             // Se comunica en consola
             console.error('El lugar ' + lugar.nombre + ' no tiene coordenadas');
@@ -2113,11 +2102,11 @@ function obtenerEdificioJSON(nombreEdificio) {
     ];
 
     let i = 0;
-    while ( i < lugares.length - 1 && lugares[i].nombre !== nombreEdificio) {
+    while ( i < edificiosJSON.length - 1 && edificiosJSON[i].nombre !== nombreEdificio) {
         i++;
     }
 
-    return lugares[i];
+    return edificiosJSON[i];
 }
 
 function crearLista() {
