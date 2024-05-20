@@ -200,9 +200,10 @@
       "smokingAllowed": true,
       "parking": true
   },
-  {
-      "name": "Edificio",
-      "description": {
+  { 
+    "@type": "CivicStructure",  
+    "name": "Edificio",
+    "description": {
         "@type": "TextObject",
         "description": "Este edificio del centro de Palma es uno de los estandartes de la arquitectura modernista de la ciudad.",
         "alternativeHeadline": "Edificio Modernista",
@@ -231,6 +232,7 @@
       "parking": false
   },
   {
+      "@type": "CivicStructure",
       "name": "Castell de l'Almudaina",
       "description": {
         "@type": "TextObject",
