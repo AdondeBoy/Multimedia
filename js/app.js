@@ -28,66 +28,7 @@ function inicio() {
      aLogo.onclick = goHome;
      aInicio.onclick = goHome;
 
-    // Define los datos estáticos en un arreglo de objetos
-    let lugares = [
-        {
-            nombre: "Talaiots",
-            subtitulo: "Piedras",
-            imagen: "assets/img/portfolio/3.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.55443557349407,
-            lon: 2.706647944936505,
-            isAccessibleForFree: true,
-            parking: true
-        },
-        {
-            nombre: "Edificio",
-            subtitulo: "Emblema de la arquitectura modernista",
-            imagen: "assets/img/portfolio/4.jpeg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.576435992206605,
-            lon: 2.6532397998618347,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de l'Almudaina",
-            subtitulo: "Residencia oficial de verano del rey",
-            imagen: "assets/img/portfolio/5.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-            isAccessibleForFree: false,
-            parking: false
-        },
-    ];
-
-    leerJSONEdificios().then(x => {
-        console.log("edificios:", edificiosJSON);
+    leerJSONEdificios().then(() => {
         crearSeccionPortfolio();
     }); 
 
@@ -96,18 +37,68 @@ function inicio() {
     scriptSlider();
 }
 
-async function leerJSONEdificios (){
+async function leerJSONEdificios () {
     // Hacer una solicitud GET al archivo JSON utilizando fetch()
     try {
-        const response = await fetch('edificios.json');
-        const objetoJSON = await response.json();
-        // guardar edificios en edificiosJSON
-        console.log("objetoJSON: " + objetoJSON);
+        const path = ['edificios.json'];
+        let response = [];
+        let objetosJSON = [];
+
+        for (let i = 0; i < path.length; i++) {
+            response[i] = await fetch(path[i]);
+            objetosJSON[i] = await response[i].json();
+        }
+
+        // guardar elementos en edificiosJSON
         edificiosJSON = [];
+        getEdificiosObjJson(objetosJSON[0]);
+        
+    } catch (error) {
+        // Capturar y manejar cualquier error que ocurra durante la solicitud
+        console.error('Error al cargar el archivo JSON:', error);
+    }
+}
 
-        let listaObjetos = objetoJSON.itemListElement;
+function getEdificiosObjJson (objetoJSON) {
+    let listaObjetos = objetoJSON.itemListElement;
 
-        listaObjetos.forEach(function (objeto) {
+    listaObjetos.forEach(function (objeto) {
+        let struct = {
+            nombre: objeto.name,
+            subtitulo: objeto.description.alternativeHeadline,
+            descripcion: objeto.description.description,
+            estilo: objeto.description.genre,
+            horario: convertirHorariosJson(objeto.openingHours),
+            imagen: objeto.image,
+            video: objeto.subjectOf.video,
+            audio: objeto.subjectOf.audio,
+            lat: objeto.geo.latitude,
+            lon: objeto.geo.longitude,
+            url: objeto.url,
+            likes: objeto.aggregateRating.ratingCount,
+            isAccessibleForFree: objeto.isAccessibleForFree,
+            parking: objeto.parking
+        };
+
+        edificiosJSON.push(struct);
+    });
+}
+
+function getEventosTeatroObjJson (objetoJSON) {
+    let listaObjetos = objetoJSON.itemListElement;
+
+    listaObjetos.forEach(function (objeto) {
+        if (objeto.address.addressRegion === "Mallorca") {
+            let currLat = objeto.geo.latitude;
+            let currLon = objeto.geo.longitude;
+            let nameTeatre = objeto.name;
+
+            let event = objeto.event;
+
+            event.forEach(function (evento) {
+            
+            });
+
             let struct = {
                 nombre: objeto.name,
                 subtitulo: objeto.description.alternativeHeadline,
@@ -126,12 +117,10 @@ async function leerJSONEdificios (){
             };
 
             edificiosJSON.push(struct);
-        });
-    } catch (error) {
-        // Capturar y manejar cualquier error que ocurra durante la solicitud
-        console.error('Error al cargar el archivo JSON:', error);
-    }
+        }
+    });
 }
+
 
 /**
  * Convierte los horarios de apertura de un edificio en formato JSON a un formato más legible (día1: horai - horaf, día2: horai - horaf, ...)
@@ -229,30 +218,32 @@ function crearSeccionPortfolio () {
     let i = 0;
 
     edificiosJSON.forEach(function (edificio) {
-        let  subtitulo = "";
-        if (edificio?.subtitulo !== undefined)
-            subtitulo = edificio.subtitulo;
+        if (i < 6) {
+            let  subtitulo = "";
+            if (edificio?.subtitulo !== undefined)
+                subtitulo = edificio.subtitulo;
 
-        let itemHTML = `
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal${i}">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+            let itemHTML = `
+                <div class="col-lg-4 col-sm-6 mb-4">
+                    <div class="portfolio-item">
+                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal${i}">
+                            <div class="portfolio-hover">
+                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="${edificio.imagen}" alt="..." />
+                        </a>
+                        <div class="portfolio-caption">
+                            <div class="portfolio-caption-heading">${edificio.nombre}</div>
+                            <div class="portfolio-caption-subheading text-muted">${subtitulo}</div>
                         </div>
-                        <img class="img-fluid" src="${edificio.imagen}" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">${edificio.nombre}</div>
-                        <div class="portfolio-caption-subheading text-muted">${subtitulo}</div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
 
-        // Agrega el HTML generado al contenido de la sección
-        divRowPortfolio.innerHTML += itemHTML;
-        i++;
+            // Agrega el HTML generado al contenido de la sección
+            divRowPortfolio.innerHTML += itemHTML;
+                i++;
+        }
     });
 
     // crear pop-ups del portfolio
@@ -377,8 +368,6 @@ function generarPopUpsInicio() {
             let hourIn = document.getElementById('hourIn' + i);
             let hourOut = document.getElementById('hourOut' + i);
 
-            console.log('hourIn' + i + ': ' + hourIn);
-
             if (hourIn.value && hourOut.value && hourIn.value < hourOut.value) {
                 botonAgregar.disabled = false;
             } else {
@@ -469,16 +458,16 @@ function generarModalBodyContent(edificio, i) {
     modalBody.appendChild(titulo);
 
     // añadir subtítulo con nombre alternativo si lo tiene
-    if (edificio?.subtitulo !== undefined) {
+    if (edificio?.subtitulo !== undefined && edificio.subtitulo !== "") {
         // existe un subtitulo
         let subtitulo = document.createElement('p');
-        subtitulo.classList.add('item-intro', 'text-muted', 'mb-0');
+        subtitulo.classList.add('item-intro', 'text-muted', 'mt-2', 'mb-4');
         subtitulo.textContent =  edificio.subtitulo + ".";
         modalBody.appendChild(subtitulo);
     }
     
     // añadir imagen (supongo que lo cambiaremos por un vídeo o maybe un slider con ambos)
-    if (edificio?.video === undefined || edificio?.video !== "") {
+    if (edificio?.video === undefined || edificio?.video === "") {
         let imagen = document.createElement('img');
         imagen.classList.add('img-fluid', 'd-block', 'mx-auto');
         imagen.setAttribute('src', edificio.imagen);
@@ -493,7 +482,7 @@ function generarModalBodyContent(edificio, i) {
         modalBody.appendChild(video);
     }
 
-    if (edificio?.audio !== undefined || edificio?.audio !== "") {
+    if (edificio?.audio !== undefined && edificio?.audio !== "") {
         let audio = document.createElement('audio');
         audio.classList.add('d-block', 'mx-auto', 'mb-4', 'mt-2');
         audio.setAttribute('src', edificio.audio);
@@ -514,9 +503,34 @@ function generarModalBodyContent(edificio, i) {
         modalBody.appendChild(divEstilo);
     }
 
+    // añadir div para el botón de descripción
+    let divBotonDescripcion = document.createElement('div');
+    divBotonDescripcion.classList.add('d-flex', 'justify-content-center');
+    modalBody.appendChild(divBotonDescripcion);
+
+    // añadir botón de descripción
+    
+    let collapse = document.createElement('button');
+    collapse.classList.add('btn', 'btn-primary', 'mb-4', 'mt-2', 'text-center', 'px-4', 'py-3', 'fw-bolder');
+    collapse.style.fontFamily = 'Montserrat';
+    collapse.setAttribute('data-bs-toggle', 'collapse');
+    collapse.setAttribute('data-bs-target', '#descripcion' + i);
+    collapse.textContent = "Descripción" + " ↓";
+    divBotonDescripcion.appendChild(collapse);
+
+    collapse.onclick = function() {
+        if (collapse.textContent.includes("↓")) {
+            collapse.textContent = "Descripción" + " ↑";
+        } else {
+            collapse.textContent = "Descripción" + " ↓";
+        }
+    }
+
     // añadir descripción
     let descripcion = document.createElement('p');
+    descripcion.id = 'descripcion' + i;
     descripcion.textContent = edificio.descripcion;
+    descripcion.classList.add('collapse');
     modalBody.appendChild(descripcion);
     
     // añadir clima  
@@ -778,7 +792,6 @@ function crearItemClima(hora, temperatura, clima) {
 }
 
 function crearCamposVisita(i) {
-    console.log("crearCamposVisita: " + i);
     // Contenedor
     let contenedor = document.createElement('div');
     contenedor.classList.add('col-6', 'd-flex', 'justify-content-start', 'align-items-center');
@@ -1115,14 +1128,6 @@ function crearCamposBusqueda() {
                         </div>
                         <div class="col-6 d-flex justify-content-start align-items-center">
                             <input class="form-check-input" type="checkbox" id="ParkingNear">
-                        </div>
-                    </div>
-                    <div class="dropdown-item filtro d-flex">
-                        <div class="col-6 d-flex justify-content-start align-items-center me-2">
-                            <label>Hostelería cercana:</label>
-                        </div>
-                        <div class="col-6 d-flex justify-content-start align-items-center">
-                            <input class="form-check-input" type="checkbox" id="HosteleriaCercana">
                         </div>
                     </div>
                     <div class="dropdown-item d-flex justify-content-center">
@@ -1537,7 +1542,6 @@ function añadirEventosBusqueda() {
     let horaOut = document.getElementById('SearchHourEnd');
     let searchFree = document.getElementById('SearchFree');
     let parkingNear = document.getElementById('ParkingNear');
-    let HosteleriaCercana = document.getElementById('HosteleriaCercana');
     let botonFiltros = document.getElementById('botonFiltros');
     let radio = document.getElementById('SearchRadius');
     
@@ -1560,7 +1564,6 @@ function añadirEventosBusqueda() {
 		// actualizar valores en session de los checkbox
 		sessionStorage.setItem('searchFree', "" + searchFree.checked);
 		sessionStorage.setItem('parkingNear', "" + parkingNear.checked);
-		sessionStorage.setItem('HosteleriaCercana', "" + HosteleriaCercana.checked);
         // reiniciar mapa
         resetMapa();
 	}
@@ -1571,7 +1574,6 @@ function añadirEventosBusqueda() {
     sessionStorage.setItem('distanciaFiltros', "0");
     sessionStorage.setItem('searchFree', "false");
     sessionStorage.setItem('parkingNear', "false");
-    sessionStorage.setItem('HosteleriaCercana', "false");
 }
 
 // comprueba que los parámetros son textos de horas y que horaIn < horaOut
@@ -1692,123 +1694,6 @@ function añadirMarcadoresMapa() {
             radius: parseInt(sessionStorage.getItem('distanciaFiltros')) * 1000
         }).addTo(map);
     }
-    let lugares = [
-        {
-            nombre: "Catedral de Palma",
-            subtitulo: "También conocida como La Seu",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
-            imagen: "assets/img/portfolio/1.jpg",
-            horario: [
-                "Lu$10:00 - 17:15",
-                "Ma$10:00 - 17:15",
-                "Mi$10:00 - 17:15",
-                "Ju$10:00 - 17:15",
-                "Vi$10:00 - 17:15",
-                "Sa$10:00 - 14:15",
-                "Do$10:00 - 14:15"
-            ],
-            lat: 39.56751097483424,
-            lon: 2.648302373075007,
-			url: "http://catedraldemallorca.org/",
-            isAccessibleForFree: false,
-            parking: true
-        },
-        {
-            nombre: "Parroquia de San Bartomeu",
-            subtitulo: "Parroquia de estilo neogótico y modernista",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
-            imagen: "assets/img/portfolio/2.jpg",
-            horario: [
-                "Lu$09:00 - 17:30",
-                "Ma$09:00 - 17:30",
-                "Mi$09:00 - 17:30",
-                "Ju$09:00 - 17:30",
-                "Vi$09:00 - 17:30",
-                "Sa$09:00 - 12:00"
-            ],
-            lat: 39.765942,
-            lon: 2.715518,
-			url: "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
-            isAccessibleForFree: true,
-            parking: false
-        },
-        {
-            nombre: "Talaiots",
-            subtitulo: "Piedras",
-            imagen: "assets/img/portfolio/3.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.55443557349407,
-            lon: 2.706647944936505,
-            isAccessibleForFree: true,
-            parking: true
-        },
-        {
-            nombre: "Edificio",
-            subtitulo: "Emblema de la arquitectura modernista",
-            imagen: "assets/img/portfolio/4.jpeg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.576435992206605,
-            lon: 2.6532397998618347,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de l'Almudaina",
-            subtitulo: "Residencia oficial de verano del rey",
-            imagen: "assets/img/portfolio/5.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de Bellver",
-            subtitulo: "Actual Museo de Historia de Palma",
-			estilo: "Castillo medieval gótico",
-			descripcion: "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
-            imagen: "assets/img/portfolio/6.jpg",
-            horario: [
-                "Ma$10:00 - 18:00",
-                "Mi$10:00 - 18:00",
-                "Ju$10:00 - 18:00",
-                "Vi$10:00 - 18:00",
-                "Sa$10:00 - 18:00",
-                "Do$10:00 - 15:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-			url: "https://castelldebellver.palma.es/es/",
-            isAccessibleForFree: false,
-            parking: true
-        }
-    ];
 
     // Añadir marcadores al mapa
     // Coordenadas de los edificios
@@ -1844,11 +1729,39 @@ function checkCondicionesFiltros(lugar) {
 	return  (sessionStorage.getItem('searchFree') === "false" || lugar?.isAccessibleForFree === true) &&
 			// comprobar parking cercano
 			(sessionStorage.getItem('parkingNear') === "false" || lugar?.parking === true) &&
-            // comprobar hostelería cercana
-            (sessionStorage.getItem('HosteleriaCercana') === "false") && 
             // comprobar distancia
             (sessionStorage.getItem('distanciaFiltros') === "0" || calcularDistancia(lugar.lat, lugar.lon) <= parseInt(sessionStorage.getItem('distanciaFiltros')))
+            // comprobar horas
+            && ((sessionStorage.getItem('hourInFiltros') === "" && sessionStorage.getItem('hourOutFiltros') === "") || checkHorario(lugar));
             ;		
+}
+
+function checkHorario(lugar) {
+    let horaIn = sessionStorage.getItem('hourInFiltros');
+    let horaOut = sessionStorage.getItem('hourOutFiltros');
+    let horario = lugar.horario;
+    let dia = (new Date(sessionStorage.getItem('date')).getDay() - 1) % 7; // Día de la semana (0-6 empezando por Monday)
+    let horaInCorrecta = false;
+    let horaOutCorrecta = false;
+
+    for (let i = 0; i < horario.length; i++) {
+        let parts = horario[i].split('$'); // Separar día y horario
+        let diaHorario = parseInt(parts[0]); // Día del horario
+        let horarioDia = parts[1].split(' - '); // Separar hora de entrada y salida
+        let horaInHorario = horarioDia[0].split(':'); // Separar horas y minutos
+        let horaOutHorario = horarioDia[1].split(':');
+        
+        if (diaHorario === dia) {
+            if ((horaIn == '') || (parseInt(horaInHorario[0]) < parseInt(horaIn) && parseInt(horaInHorario[0]) < parseInt(horaOut))) {
+                horaInCorrecta = true;
+            }
+            if ((horaOut == '') || (parseInt(horaOutHorario[0]) > parseInt(horaIn) && parseInt(horaOutHorario[0]) > parseInt(horaOut))) {
+                horaOutCorrecta = true;
+            }
+        }
+    }
+
+    return horaInCorrecta && horaOutCorrecta;
 }
 
 function calcularDistancia(lat, lon) {
@@ -1981,126 +1894,6 @@ function swapSelectedPlace() {
 }
 
 function obtenerEdificioJSON(nombreEdificio) {
-    let lugares = [
-        {
-            nombre: "Catedral de Palma",
-            subtitulo: "También conocida como La Seu",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
-            imagen: "assets/img/portfolio/1.jpg",
-            video: "assets/video/matrices.mp4",
-            audio: "assets/audio/fonerAudio.mp3",
-            horario: [
-                "Lu$10:00 - 17:15",
-                "Ma$10:00 - 17:15",
-                "Mi$10:00 - 17:15",
-                "Ju$10:00 - 17:15",
-                "Vi$10:00 - 17:15",
-                "Sa$10:00 - 14:15",
-                "Do$10:00 - 14:15"
-            ],
-            lat: 39.56751097483424,
-            lon: 2.648302373075007,
-			url: "http://catedraldemallorca.org/",
-            isAccessibleForFree: false,
-            parking: true
-        },
-        {
-            nombre: "Parroquia de San Bartomeu",
-            subtitulo: "Parroquia de estilo neogótico y modernista",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
-            imagen: "assets/img/portfolio/2.jpg",
-            horario: [
-                "Lu$09:00 - 17:30",
-                "Ma$09:00 - 17:30",
-                "Mi$09:00 - 17:30",
-                "Ju$09:00 - 17:30",
-                "Vi$09:00 - 17:30",
-                "Sa$09:00 - 12:00"
-            ],
-            lat: 39.765942,
-            lon: 2.715518,
-			url: "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
-            isAccessibleForFree: true,
-            parking: false
-        },
-        {
-            nombre: "Talaiots",
-            subtitulo: "Piedras",
-            imagen: "assets/img/portfolio/3.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.55443557349407,
-            lon: 2.706647944936505,
-            isAccessibleForFree: true,
-            parking: true
-        },
-        {
-            nombre: "Edificio",
-            subtitulo: "Emblema de la arquitectura modernista",
-            imagen: "assets/img/portfolio/4.jpeg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.576435992206605,
-            lon: 2.6532397998618347,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de l'Almudaina",
-            subtitulo: "Residencia oficial de verano del rey",
-            imagen: "assets/img/portfolio/5.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de Bellver",
-            subtitulo: "Actual Museo de Historia de Palma",
-			estilo: "Castillo medieval gótico",
-			descripcion: "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
-            imagen: "assets/img/portfolio/6.jpg",
-            horario: [
-                "Ma$10:00 - 18:00",
-                "Mi$10:00 - 18:00",
-                "Ju$10:00 - 18:00",
-                "Vi$10:00 - 18:00",
-                "Sa$10:00 - 18:00",
-                "Do$10:00 - 15:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-			url: "https://castelldebellver.palma.es/es/",
-            isAccessibleForFree: false,
-            parking: true
-        }
-    ];
-
     let i = 0;
     while ( i < edificiosJSON.length - 1 && edificiosJSON[i].nombre !== nombreEdificio) {
         i++;

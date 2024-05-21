@@ -16,8 +16,8 @@
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.jpg",
       "subjectOf": {
         "@type": "CreativeWork",
-        "audio": "assets/video/matrices.mp4",
-        "video": "assets/audio/fonerAudio.mp3"
+        "video": "assets/video/matrices.mp4",
+        "audio": "assets/audio/fonerAudio.mp3"
       },
       "openingHours": [
         "Mo-Fr 10:00-17:15",
