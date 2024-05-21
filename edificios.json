@@ -16,8 +16,8 @@
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.jpg",
       "subjectOf": {
         "@type": "CreativeWork",
-        "video": "assets/video/matrices.mp4",
-        "audio": "assets/audio/fonerAudio.mp3"
+        "video": "https://www.mallorcaroute.com/assets/video/matrices.mp4",
+        "audio": "https://www.mallorcaroute.com/assets/audio/fonerAudio.mp3"
       },
       "openingHours": [
         "Mo-Fr 10:00-17:15",
@@ -148,7 +148,7 @@
         "video": ""
       },
       "openingHours": [
-      "Mo-Sa 10:00-18:00"
+        "Mo-Sa 10:00-18:00"
       ],
       "isAccessibleForFree": false,
       "address": {
@@ -181,7 +181,7 @@
         "alternativeHeadline": "Piedras",
         "genre": "Prehistórico"
       },
-      "image": "assets/img/portfolio/3.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/3.jpg",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
@@ -209,7 +209,7 @@
         "alternativeHeadline": "Edificio Modernista",
         "genre": "Modernista"
       },
-      "image": "assets/img/portfolio/4.jpeg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/4.jpeg",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
@@ -240,7 +240,7 @@
         "alternativeHeadline": "Residencia oficial de verano de S.M el rey",
         "genre": "Castillo Medieval"
       },
-      "image": "assets/img/portfolio/5.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/5.jpg",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",

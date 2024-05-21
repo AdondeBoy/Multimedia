@@ -40,7 +40,7 @@ function inicio() {
 async function leerJSONEdificios () {
     // Hacer una solicitud GET al archivo JSON utilizando fetch()
     try {
-        const path = ['edificios.json'];
+        const path = ['edificios.json', 'https://www.descobreixteatre.com/assets/json/Teatre.json'];
         let response = [];
         let objetosJSON = [];
 
@@ -52,6 +52,7 @@ async function leerJSONEdificios () {
         // guardar elementos en edificiosJSON
         edificiosJSON = [];
         getEdificiosObjJson(objetosJSON[0]);
+        getEventosTeatroObjJson(objetosJSON[1]);
         
     } catch (error) {
         // Capturar y manejar cualquier error que ocurra durante la solicitud
@@ -85,6 +86,7 @@ function getEdificiosObjJson (objetoJSON) {
 }
 
 function getEventosTeatroObjJson (objetoJSON) {
+    let globalPath = "https://www.descobreixteatre.com/";
     let listaObjetos = objetoJSON.itemListElement;
 
     listaObjetos.forEach(function (objeto) {
@@ -92,31 +94,29 @@ function getEventosTeatroObjJson (objetoJSON) {
             let currLat = objeto.geo.latitude;
             let currLon = objeto.geo.longitude;
             let nameTeatre = objeto.name;
-
+            let ciudad = objeto.address.addressLocality;
             let event = objeto.event;
 
             event.forEach(function (evento) {
-            
+                let struct = {
+                    nombre: evento.name + " (" + ciudad + ")",
+                    subtitulo: nameTeatre,
+                    descripcion: evento.description,
+                    imagen: globalPath + objeto.image.contentUrl,
+                    video: "",
+                    audio: "",
+                    lat: currLat,
+                    lon: currLon,
+                    isAccessibleForFree: false,
+                    fecha: evento.startDate,
+                    parking: true
+                };
+
+                if (evento.additionalProperty[0].value)
+                    struct.video = globalPath + evento.additionalProperty[0].url;
+
+                edificiosJSON.push(struct);
             });
-
-            let struct = {
-                nombre: objeto.name,
-                subtitulo: objeto.description.alternativeHeadline,
-                descripcion: objeto.description.description,
-                estilo: objeto.description.genre,
-                horario: convertirHorariosJson(objeto.openingHours),
-                imagen: objeto.image,
-                video: objeto.subjectOf.video,
-                audio: objeto.subjectOf.audio,
-                lat: objeto.geo.latitude,
-                lon: objeto.geo.longitude,
-                url: objeto.url,
-                likes: objeto.aggregateRating.ratingCount,
-                isAccessibleForFree: objeto.isAccessibleForFree,
-                parking: objeto.parking
-            };
-
-            edificiosJSON.push(struct);
         }
     });
 }
@@ -1199,126 +1199,9 @@ function mostrarResultados(results) {
 }
 
 function estaEnJson(nombre) {
-    let results = [
-        {
-            nombre: "Catedral de Palma",
-            subtitulo: "También conocida como La Seu",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
-            imagen: "assets/img/portfolio/1.jpg",
-            horario: [
-                "Lu$10:00 - 17:15",
-                "Ma$10:00 - 17:15",
-                "Mi$10:00 - 17:15",
-                "Ju$10:00 - 17:15",
-                "Vi$10:00 - 17:15",
-                "Sa$10:00 - 14:15",
-                "Do$10:00 - 14:15"
-            ],
-            lat: 39.56751097483424,
-            lon: 2.648302373075007,
-			url: "http://catedraldemallorca.org/",
-            isAccessibleForFree: false,
-            parking: true
-        },
-        {
-            nombre: "Parroquia de San Bartomeu",
-            subtitulo: "Parroquia de estilo neogótico y modernista",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
-            imagen: "assets/img/portfolio/2.jpg",
-            horario: [
-                "Lu$09:00 - 17:30",
-                "Ma$09:00 - 17:30",
-                "Mi$09:00 - 17:30",
-                "Ju$09:00 - 17:30",
-                "Vi$09:00 - 17:30",
-                "Sa$09:00 - 12:00"
-            ],
-            lat: 39.765942,
-            lon: 2.715518,
-			url: "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
-            isAccessibleForFree: true,
-            parking: false
-        },
-        {
-            nombre: "Talaiots",
-            subtitulo: "Piedras",
-            imagen: "assets/img/portfolio/3.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.55443557349407,
-            lon: 2.706647944936505,
-            isAccessibleForFree: true,
-            parking: true
-        },
-        {
-            nombre: "Edificio",
-            subtitulo: "Emblema de la arquitectura modernista",
-            imagen: "assets/img/portfolio/4.jpeg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.576435992206605,
-            lon: 2.6532397998618347,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de l'Almudaina",
-            subtitulo: "Residencia oficial de verano del rey",
-            imagen: "assets/img/portfolio/5.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de Bellver",
-            subtitulo: "Actual Museo de Historia de Palma",
-			estilo: "Castillo medieval gótico",
-			descripcion: "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
-            imagen: "assets/img/portfolio/6.jpg",
-            horario: [
-                "Ma$10:00 - 18:00",
-                "Mi$10:00 - 18:00",
-                "Ju$10:00 - 18:00",
-                "Vi$10:00 - 18:00",
-                "Sa$10:00 - 18:00",
-                "Do$10:00 - 15:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-			url: "https://castelldebellver.palma.es/es/",
-            isAccessibleForFree: false,
-            parking: true
-        }
-    ];
     // Se recorren los nombres para comprobar que exista
-    for (let i = 0; i < results.length; i++) {
-        if (results[i].nombre === nombre) {
+    for (let i = 0; i < edificiosJSON.length; i++) {
+        if (edificiosJSON[i].nombre === nombre) {
             return true;
         }
     }
@@ -1326,127 +1209,13 @@ function estaEnJson(nombre) {
 }
 
 function buscarEnJson() {
-    // buscar en el json (simulado)
-    let results = [
-        {
-            nombre: "Catedral de Palma",
-            subtitulo: "También conocida como La Seu",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Catedral de Mallorca es un templo de estilo gótico levantino construido a la orilla de la bahía de Palma. Se trata de una de las catedrales más altas de Europa y uno de los edificios más emblemáticos de la isla de Mallorca.",
-            imagen: "assets/img/portfolio/1.jpg",
-            horario: [
-                "Lu$10:00 - 17:15",
-                "Ma$10:00 - 17:15",
-                "Mi$10:00 - 17:15",
-                "Ju$10:00 - 17:15",
-                "Vi$10:00 - 17:15",
-                "Sa$10:00 - 14:15",
-                "Do$10:00 - 14:15"
-            ],
-            lat: 39.56751097483424,
-            lon: 2.648302373075007,
-			url: "http://catedraldemallorca.org/",
-            isAccessibleForFree: false,
-            parking: true
-        },
-        {
-            nombre: "Parroquia de San Bartomeu",
-            subtitulo: "Parroquia de estilo neogótico y modernista",
-			estilo: "Arquitectura gótica",
-			descripcion: "La Parroquia de Sant Bartomeu es un templo de estilo neogótico situado en el centro de la localidad de Sóller, en la isla de Mallorca. Se trata de una iglesia de gran belleza arquitectónica y de gran valor histórico y cultural.",
-            imagen: "assets/img/portfolio/2.jpg",
-            horario: [
-                "Lu$09:00 - 17:30",
-                "Ma$09:00 - 17:30",
-                "Mi$09:00 - 17:30",
-                "Ju$09:00 - 17:30",
-                "Vi$09:00 - 17:30",
-                "Sa$09:00 - 12:00"
-            ],
-            lat: 39.765942,
-            lon: 2.715518,
-			url: "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
-            isAccessibleForFree: true,
-            parking: false
-        },
-        {
-            nombre: "Talaiots",
-            subtitulo: "Piedras",
-            imagen: "assets/img/portfolio/3.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.55443557349407,
-            lon: 2.706647944936505,
-            isAccessibleForFree: true,
-            parking: true
-        },
-        {
-            nombre: "Edificio",
-            subtitulo: "Emblema de la arquitectura modernista",
-            imagen: "assets/img/portfolio/4.jpeg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.576435992206605,
-            lon: 2.6532397998618347,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de l'Almudaina",
-            subtitulo: "Residencia oficial de verano del rey",
-            imagen: "assets/img/portfolio/5.jpg",
-            horario: [
-                "Lu$10:00 - 13:00",
-                "Ma$10:00 - 13:00",
-                "Mi$10:00 - 13:00",
-                "Ju$10:00 - 13:00",
-                "Vi$10:00 - 13:00",
-                "Sa$10:00 - 13:00",
-                "Do$10:00 - 13:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-            isAccessibleForFree: false,
-            parking: false
-        },
-        {
-            nombre: "Castell de Bellver",
-            subtitulo: "Actual Museo de Historia de Palma",
-			estilo: "Castillo medieval gótico",
-			descripcion: "El castillo de Bellver es una fortificación de estilo gótico situada a unos tres kilómetros de la ciudad española de Palma de Mallorca, en Baleares. Fue construido a principios del siglo XIV por orden del rey Jaime II de Mallorca. Se encuentra sobre un monte de 112 metros sobre el nivel del mar, en una zona rodeada de bosque, desde donde se puede contemplar la ciudad, el puerto, la sierra de Tramontana y el Llano de Mallorca; de hecho, su nombre viene del catalán antiguo bell veer, que significa «bella vista». Una de sus peculiaridades es que se trata de uno de los pocos castillos de toda Europa de planta circular, siendo el más antiguo de estos.",
-            imagen: "assets/img/portfolio/6.jpg",
-            horario: [
-                "Ma$10:00 - 18:00",
-                "Mi$10:00 - 18:00",
-                "Ju$10:00 - 18:00",
-                "Vi$10:00 - 18:00",
-                "Sa$10:00 - 18:00",
-                "Do$10:00 - 15:00"
-            ],
-            lat: 39.5711,
-            lon: 2.6463,
-			url: "https://castelldebellver.palma.es/es/",
-            isAccessibleForFree: false,
-            parking: true
-        }
-    ];
     // Filtrar por nombre según el resultado de la búsqueda
-    //return results.filter(result => result.nombre.toLowerCase().includes(searchValue.toLowerCase()));
-    return results.map(result => result.nombre);
+    //return edificiosJSON.map(edificio => edificio.nombre);
+    const nombresUnicos = new Set();
+
+    edificiosJSON.forEach(edificio => nombresUnicos.add(edificio.nombre));
+
+    return [...nombresUnicos];
 }
 
 function autocompletar() {
