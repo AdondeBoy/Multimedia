@@ -6,18 +6,25 @@ let edificiosJSON;
 
 function inicio() {
     crearSlider();
-
+    
     // Obtener día de hoy
     if (sessionStorage.getItem('date') === null)
         setCurrentDate();
+
+    // Inicializar contador si no existe todavía
+    if (sessionStorage.getItem('i') === null)
+        sessionStorage.setItem('i', '0');
+
+    leerJSONEdificios().then(() => {
+        crearSeccionPortfolio();
+    });
+
     // Obtener geolocalización
     getUserPosition();
     // mostrar portfolio
     setNavPorfolioHidden(false);
 
-    // Inicializar contador si no existe todavía
-    if (sessionStorage.getItem('i') === null)
-        sessionStorage.setItem('i', '0');
+    crearSeccionTeam();
 
     // Completar el footer
     let date = new Date(sessionStorage.getItem('date'));
@@ -30,13 +37,7 @@ function inicio() {
      aLogo.onclick = goHome;
      aInicio.onclick = goHome;
 
-    leerJSONEdificios().then(() => {
-        crearSeccionPortfolio();
-    }); 
-
-    
-    crearSeccionTeam();
-    scriptSlider();
+     scriptSlider();    
 }
 
 async function leerJSONEdificios () {
@@ -907,9 +908,9 @@ function crearSlider() {
     }
 
     // Crear botones de navegación
-    let swiperPagination = document.createElement('div');
-    swiperPagination.classList.add('swiper-pagination');
-    slider.appendChild(swiperPagination);
+    // let swiperPagination = document.createElement('div');
+    // swiperPagination.classList.add('swiper-pagination');
+    // slider.appendChild(swiperPagination);
 
     // Crear contenedor
     let container = document.createElement('div');
