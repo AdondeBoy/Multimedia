@@ -646,12 +646,6 @@ progress {
   margin-left: auto;
 }
 
-@media (max-width: 768px) {
-  .container {
-    max-width: 540px;
-  }
-}
-
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
@@ -11051,6 +11045,25 @@ header.masthead .slider {
   height: 100%;
   overflow: hidden;
 }
+
+header.masthead .slider {
+  height: 20rem;
+}
+
+/* Tablet devices */
+@media (min-width: 768px) {
+  header.masthead .slider {
+      height: 35rem;
+  }
+}
+
+/* Desktop devices */
+@media (min-width: 1024px) {
+  header.masthead .slider {
+      height: 60rem;
+  }
+}
+
 /*
 header.masthead .swiper-wrapper {
   background: #fff;
@@ -11078,8 +11091,8 @@ header.masthead .container {
   color: black;
   border-radius: 50px;
   z-index: 2; /* Asegura que el contenido esté encima del slider */
-  padding: 2rem 0rem;
-  width: 80%;
+  padding: 1rem 0rem;
+  width: 75%;
   height: auto;
 }
 
@@ -11101,7 +11114,10 @@ header.masthead .masthead-heading {
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
+  .containerSlider {
+    padding: 2rem 0rem !important;
+  }
   header.masthead {
     padding-top: 4rem;
   }
@@ -11118,6 +11134,7 @@ header.masthead .masthead-heading {
     line-height: 4.5rem;
     margin-bottom: 4rem;
   }
+  
 }
 #calendar-button{
   padding: 0.4rem 0.7rem;

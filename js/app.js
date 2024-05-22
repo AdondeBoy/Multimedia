@@ -914,7 +914,7 @@ function crearSlider() {
 
     // Crear contenedor
     let container = document.createElement('div');
-    container.classList.add('container');
+    container.classList.add('container' , 'containerSlider');
     slider.appendChild(container);
 
     // Crear subtítulo
@@ -1794,11 +1794,7 @@ function scriptSlider() {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
         },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-            dynamicBullets: true,
-        },
         keyboard: true,
     });
+    //document.querySelector(".slider").style.height = "55rem";
 }
