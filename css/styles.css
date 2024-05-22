@@ -11047,13 +11047,13 @@ header.masthead .slider {
 }
 
 header.masthead .slider {
-  height: 20rem;
+  height: 40rem;
 }
 
 /* Tablet */
 @media (min-width: 768px) {
   header.masthead .slider {
-      height: 35rem;
+      height: 50rem;
   }
 }
 

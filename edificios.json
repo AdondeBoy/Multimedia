@@ -13,7 +13,7 @@
         "alternativeHeadline": "También conocida como La Seu",
         "genre": "Gótico"
       }, 
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "video": "https://www.mallorcaroute.com/assets/video/matrices.mp4",
@@ -57,7 +57,7 @@
         "alternativeHeadline": "Parroquia de estilo neogótico y modernista",
         "genre": "Gótico"
       }, 
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/2.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/2.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
@@ -99,7 +99,7 @@
         "alternativeHeadline": "Actual Museo de Historia de Palma",
         "genre": "Castillo medieval gótico"
       },
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/6.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/6.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
@@ -141,11 +141,11 @@
         "alternativeHeadline": "Iglesia gótica cerca del paseo marítimo",
         "genre": "Gótico"
       },
-      "image": "",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/7.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
-        "video": ""
+        "video": "https://www.mallorcaroute.com/assets/video/vid1.mp4"
       },
       "openingHours": [
         "Mo-Sa 10:00-18:00"
@@ -174,14 +174,14 @@
 
     {
       "@type": "CivicStructure",
-      "name": "Talaiots",
+      "name": "Talaiot Capocorp Vell",
       "description": {
         "@type": "TextObject",
         "description": "Las construcciones prehistóricas mallorquinas más conocidas, los talaiots, son restos de poblados prehistóricos.",
-        "alternativeHeadline": "Piedras",
+        "alternativeHeadline": "Talaoit Mallorquín",
         "genre": "Prehistórico"
       },
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/3.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/3.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
@@ -190,8 +190,8 @@
       "isAccessibleForFree": true,
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 39.55443557349407,
-        "longitude": 2.706647944936505
+        "latitude": 39.397761796961504,
+        "longitude": 2.824201538449043
       },
       "aggregateRating": {
         "type": "AggregateRating",
@@ -209,7 +209,7 @@
         "alternativeHeadline": "Edificio Modernista",
         "genre": "Modernista"
       },
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/4.jpeg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/4.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
@@ -240,7 +240,7 @@
         "alternativeHeadline": "Residencia oficial de verano de S.M el rey",
         "genre": "Castillo Medieval"
       },
-      "image": "https://www.mallorcaroute.com/assets/img/portfolio/5.jpg",
+      "image": "https://www.mallorcaroute.com/assets/img/portfolio/5.webp",
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
