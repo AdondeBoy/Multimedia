@@ -1021,7 +1021,7 @@ function crearSlider() {
     container.appendChild(mastheadHeading);
 
     // Crear botón
-    let btn = document.createElement('a');
+    let btn = document.createElement('button');
     btn.classList.add('btn', 'btn-primary', 'btn-xl', 'text-uppercase');
     btn.textContent = 'Planificar Ruta';
     // al hacer click, llama a plan()
