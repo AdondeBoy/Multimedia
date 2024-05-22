@@ -233,7 +233,7 @@ function crearSeccionPortfolio () {
                             <div class="portfolio-hover">
                                 <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
-                            <img class="img-fluid" src="${edificio.imagen}" alt="..." />
+                            <img class="img-fluid" src="${edificio.imagen}" alt="..." loading="lazy"/>
                         </a>
                         <div class="portfolio-caption">
                             <div class="portfolio-caption-heading">${edificio.nombre}</div>
@@ -308,7 +308,7 @@ function crearSeccionTeam () {
         let miembroHTML = `
             <div class="col-lg-4">
                 <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="${miembro.imagen}" alt="..." />
+                    <img class="mx-auto rounded-circle" src="${miembro.imagen}" alt="..." loading="lazy" />
                     <h4>${miembro.nombre}</h4>
                     <p class="text-muted">${miembro.rol}</p>
                     <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="${miembro.nombre} Twitter Profile"><i class="fab fa-twitter"></i></a>
@@ -424,6 +424,7 @@ function generarContenidoPopUp(edificio, i) {
     let closeImg = document.createElement('img');
     closeImg.setAttribute('src', 'assets/img/close-icon.svg');
     closeImg.setAttribute('alt', 'Close modal');
+    closeImg.setAttribute('loading', 'lazy');
     closeModal.appendChild(closeImg);
     container2.appendChild(closeModal);
 
@@ -775,6 +776,7 @@ function crearItemClima(hora, temperatura, clima) {
     let img = document.createElement('img');
     img.classList.add('img-weather');
     img.setAttribute('src', 'https://openweathermap.org/img/wn/' + clima + '@4x.png');
+    img.setAttribute('loading', 'lazy');
     diaElement.appendChild(img);
 
     let horaElement = document.createElement('p');
@@ -1409,8 +1411,7 @@ function crearMapa() {
     // map.style.width = '600px';
     // map.style.height = '400px';
     mapaContainer.appendChild(map);
-   
-    // Estaría bien en alt poner el nombre del edificio
+    
     let html = `
         <!-- Selected From Map-->
         <div class="portfolio-item" id="mapSelectedPlace">
@@ -1418,7 +1419,7 @@ function crearMapa() {
                 <div id="popUpPortfolioHover" class="portfolio-hover" hidden="true">
                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                 </div>
-                <img id="mapSelectedPlaceImg" class="img-fluid" src="" alt="Missing image..." hidden="true"/>
+                <img id="mapSelectedPlaceImg" class="img-fluid" src="" alt="Missing image..." hidden="true" loading="lazy"/>
             </a>
             <div class="portfolio-caption">
                 <div class="portfolio-caption-heading" id="mapSelectedPlaceTitle">Busca tu destino</div>
@@ -1796,5 +1797,4 @@ function scriptSlider() {
         },
         keyboard: true,
     });
-    //document.querySelector(".slider").style.height = "55rem";
 }
