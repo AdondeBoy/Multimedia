@@ -688,7 +688,7 @@ function generarModalBodyContent(edificio, i) {
         botonInfo.classList.add('btn', 'btn-secondary', 'btn-xl', 'text-uppercase');
         botonInfo.setAttribute('type', 'button');
         botonInfo.onclick = function() {
-            window.location.href = url;
+            window.open(url);
         };
         botonInfo.textContent = 'Más información';
         grupoBotones.appendChild(botonInfo);
@@ -894,7 +894,7 @@ function crearSlider() {
     let i = 1;
     while (i <= 3) {
         let img = document.createElement('img');
-        let path = "assets/img/slider/imagen" + i + ".jpg";
+        let path = "assets/img/slider/imagen" + i + ".webp";
         img.setAttribute('src', path);
         img.setAttribute('alt', 'Imagen slider ' + i);
         let swiperSlide = document.createElement('div');
