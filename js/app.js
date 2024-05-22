@@ -5,6 +5,8 @@ let map;
 let edificiosJSON;
 
 function inicio() {
+    crearSlider();
+
     // Obtener día de hoy
     if (sessionStorage.getItem('date') === null)
         setCurrentDate();
@@ -32,7 +34,7 @@ function inicio() {
         crearSeccionPortfolio();
     }); 
 
-    crearSlider();
+    
     crearSeccionTeam();
     scriptSlider();
 }
