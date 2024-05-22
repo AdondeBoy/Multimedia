@@ -11050,28 +11050,19 @@ header.masthead .slider {
   height: 20rem;
 }
 
-/* Tablet devices */
+/* Tablet */
 @media (min-width: 768px) {
   header.masthead .slider {
       height: 35rem;
   }
 }
 
-/* Desktop devices */
+/* Desktop */
 @media (min-width: 1024px) {
   header.masthead .slider {
       height: 60rem;
   }
 }
-
-/*
-header.masthead .swiper-wrapper {
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-*/
 
 .swiper-slide img {
   display: block;
