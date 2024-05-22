@@ -17,6 +17,10 @@ function inicio() {
 
     leerJSONEdificios().then(() => {
         crearSeccionPortfolio();
+        crearSeccionTeam();
+        if (!document.getElementById('submitSuccessMessage')) {
+            crearContactoYFooter();
+        }
     });
 
     // Obtener geolocalización
@@ -24,14 +28,10 @@ function inicio() {
     // mostrar portfolio
     setNavPorfolioHidden(false);
 
-    crearSeccionTeam();
-    if (!document.getElementById('submitSuccessMessage')) {
-        crearContactoYFooter();
-    }
-
-    // Completar el footer
-    let date = new Date(sessionStorage.getItem('date'));
-    document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
+    // crearSeccionTeam();
+    // if (!document.getElementById('submitSuccessMessage')) {
+    //     crearContactoYFooter();
+    // }
 
     // poner función en el logo y en el botón de inicio
     let aLogo = document.getElementById('logoMashorca');
@@ -434,6 +434,10 @@ function crearContactoYFooter() {
             </div>
         </div>
     </div>`;
+
+    // Completar el footer
+    let date = new Date(sessionStorage.getItem('date'));
+    document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
 }
 
 function generarPopUpsInicio() {
@@ -985,8 +989,11 @@ function crearSlider() {
     let i = 1;
     while (i <= 3) {
         let img = document.createElement('img');
-        let path = "assets/img/slider/imagen" + i + ".webp";
-        img.setAttribute('src', path);
+        //let path = "assets/img/slider/imagen" + i + ".webp";
+        let path = "assets/img/slider/imagen" + i;
+        img.setAttribute('src', path + '.webp');
+        let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';  
+        img.setAttribute('srcset', set);
         img.setAttribute('alt', 'Imagen slider ' + i);
         if (i !== 1) {
             img.setAttribute('loading', 'lazy');
