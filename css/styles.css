@@ -11481,7 +11481,7 @@ header.masthead .masthead-heading {
 }
 
 .img-brand {
-  height: 2.75rem;
+  max-height: 3rem;
 }
 
 section#contact {

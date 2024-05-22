@@ -639,7 +639,8 @@ function generarModalBodyContent(edificio, i) {
     let hora = 0;
     let offsetDias = new Date(sessionStorage.getItem('date')).getDate() - new Date().getDate();
     // Si la fecha almacenada es la de hoy, solo se mostrará el clima para las horas futuras
-    if (offsetDias === 0) {
+    if (offsetDias <= 0) {
+        offsetDias = 0; // Se establece el offset a 0, por si el usuario está en la página hasta las 00:00 y cambia el día, error descubierto a las malas
         hora = new Date().getHours();
         // Se redondea a la hora anterior a la siguiente hora múltiplo de 3
         do {
@@ -647,7 +648,8 @@ function generarModalBodyContent(edificio, i) {
         } while (hora % 3 !== 0);
     }
     // Se itera sobre las horas del día disponibles
-    for (let j = 0; hora < 24; hora=hora+3, j++) {
+    for (let j = 0; hora < 24; hora = hora + 3, j++) {
+        console.log("Start of loop, hora = " + hora);
         let latitud = edificio.lat;
         let longitud = edificio.lon;
         obtenerDatosClima(latitud, longitud, hora, (j + 8*offsetDias))
@@ -991,13 +993,13 @@ function crearSlider() {
         let img = document.createElement('img');
         //let path = "assets/img/slider/imagen" + i + ".webp";
         let path = "assets/img/slider/imagen" + i;
-        img.setAttribute('src', path + '.webp');
+        img.setAttribute('src', path + '-s.webp');
         let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';  
         img.setAttribute('srcset', set);
         img.setAttribute('alt', 'Imagen slider ' + i);
-        if (i !== 1) {
+        /*if (i !== 1) {
             img.setAttribute('loading', 'lazy');
-        }
+        }*/
         let swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.appendChild(img);
