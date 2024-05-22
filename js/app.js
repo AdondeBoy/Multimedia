@@ -25,19 +25,22 @@ function inicio() {
     setNavPorfolioHidden(false);
 
     crearSeccionTeam();
+    if (!document.getElementById('submitSuccessMessage')) {
+        crearContactoYFooter();
+    }
 
     // Completar el footer
     let date = new Date(sessionStorage.getItem('date'));
     document.getElementById('Copyright').innerHTML = "Copyright &copy; Mallorca Route " + date.getFullYear();
 
-     // poner función en el logo y en el botón de inicio
-     let aLogo = document.getElementById('logoMashorca');
-     let aInicio = document.getElementById('inicio');
-     // Al hacer click sobre el logo o el botón de inicio, se vuelve a la página de inicio
-     aLogo.onclick = goHome;
-     aInicio.onclick = goHome;
+    // poner función en el logo y en el botón de inicio
+    let aLogo = document.getElementById('logoMashorca');
+    let aInicio = document.getElementById('inicio');
+    // Al hacer click sobre el logo o el botón de inicio, se vuelve a la página de inicio
+    aLogo.onclick = goHome;
+    aInicio.onclick = goHome;
 
-     scriptSlider();    
+    scriptSlider();    
 }
 
 async function leerJSONEdificios () {
@@ -353,6 +356,86 @@ function crearSeccionTeam () {
     main.appendChild(nuevaSection);
 }
 
+function crearContactoYFooter() {
+    let seccionContacto = document.getElementById('contact');
+    seccionContacto.innerHTML = `
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Contáctanos</h2>
+            <h3 class="section-subheading text-muted">Te ayudaremos con cualquier duda que tengas.</h3>
+        </div>
+        <!-- * * * * * * * * * * * * * * *-->
+        <!-- * * SB Forms Contact Form * *-->
+        <!-- * * * * * * * * * * * * * * *-->
+        <!-- This form is pre-integrated with SB Forms.-->
+        <!-- To make this form functional, sign up at-->
+        <!-- https://startbootstrap.com/solution/contact-forms-->
+        <!-- to get an API token!-->
+        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <!-- Name input-->
+                        <input class="form-control" id="name" type="text" placeholder="Juan Pérez *" data-sb-validations="required" />
+                        <div class="invalid-feedback" data-sb-feedback="name:required">Hace falta un nombre.</div>
+                    </div>
+                    <div class="form-group">
+                        <!-- Email address input-->
+                        <input class="form-control" id="email" type="email" placeholder="juanperez@ejemplo.com *" data-sb-validations="required,email" oninput="validateEmailInput()"/>
+                        <div class="invalid-feedback" data-sb-feedback="email:required">Hace falta un email.</div>
+                        <div class="invalid-feedback" data-sb-feedback="email:email">El Email no es válido.</div>
+                    </div>
+                    <div class="form-group mb-md-0">
+                        <!-- Phone number input-->
+                        <input class="form-control" id="phone" type="tel" placeholder="611 11 11 11 *" data-sb-validations="required" />
+                        <div class="invalid-feedback" data-sb-feedback="phone:required">Hace falta un teléfono.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-group-textarea mb-md-0">
+                        <!-- Message input-->
+                        <textarea class="form-control" id="message" placeholder="Escribe tu mensaje *" data-sb-validations="required"></textarea>
+                        <div class="invalid-feedback" data-sb-feedback="message:required">Hace falta un mensaje.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Submit success message-->
+            <!---->
+            <!-- This is what your users will see when the form-->
+            <!-- has successfully submitted-->
+            <div class="d-none" id="submitSuccessMessage">
+                <div class="text-center text-white mb-3">
+                    <div class="fw-bolder">¡Enviado correctamente!</div>
+                </div>
+            </div>
+            <!-- Submit error message-->
+            <!---->
+            <!-- This is what your users will see when there is-->
+            <!-- an error submitting the form-->
+            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Ha ocurrido un error...</div></div>
+            <!-- Submit Button-->
+            <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Enviar</button></div>
+        </form>
+    </div>`;
+
+    let seccionFooter = document.getElementById('footer');
+    seccionFooter.innerHTML = `
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-start" id="Copyright"></div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="link-dark text-decoration-none me-3" href="#!">Política de Privacidad</a>
+                <a class="link-dark text-decoration-none" href="#!">Términos de Uso</a>
+            </div>
+        </div>
+    </div>`;
+}
+
 function generarPopUpsInicio() {
     // obtener <div> contenedor de los pop-ups
     let popUpContainer = document.getElementById('portfolio-modals');
@@ -474,12 +557,14 @@ function generarModalBodyContent(edificio, i) {
     if (edificio?.video === undefined || edificio?.video === "") {
         let imagen = document.createElement('img');
         imagen.classList.add('img-fluid', 'd-block', 'mx-auto');
+        imagen.setAttribute('loading', 'lazy');
         imagen.setAttribute('src', edificio.imagen);
         imagen.setAttribute('alt', edificio.nombre);
         modalBody.appendChild(imagen);
     } else {
         let video = document.createElement('video');
         video.classList.add('img-fluid', 'd-block', 'mx-auto');
+        video.setAttribute('loading', 'lazy');
         video.setAttribute('src', edificio.video);
         video.setAttribute('alt', edificio.nombre);
         video.setAttribute('controls', 'true');
@@ -491,6 +576,7 @@ function generarModalBodyContent(edificio, i) {
         audio.classList.add('d-block', 'mx-auto', 'mb-4', 'mt-2');
         audio.setAttribute('src', edificio.audio);
         audio.setAttribute('controls', 'true');
+        audio.setAttribute('loading', 'lazy');
         modalBody.appendChild(audio);
     }
 
@@ -902,6 +988,9 @@ function crearSlider() {
         let path = "assets/img/slider/imagen" + i + ".webp";
         img.setAttribute('src', path);
         img.setAttribute('alt', 'Imagen slider ' + i);
+        if (i !== 1) {
+            img.setAttribute('loading', 'lazy');
+        }
         let swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.appendChild(img);
