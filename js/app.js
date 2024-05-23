@@ -990,7 +990,8 @@ function crearSlider() {
         let img = document.createElement('img');
         let path = "assets/img/slider/imagen" + i;
         img.setAttribute('src', path + '-s.webp');
-        let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';  
+        // let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';
+        let set = path + '-s.webp 300w, ' + path + '.webp 1024w, ';  
         img.setAttribute('srcset', set);
         img.setAttribute('alt', 'Imagen slider ' + i);
         if (i != 1) {
