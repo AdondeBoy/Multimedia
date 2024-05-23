@@ -6,7 +6,7 @@ let edificiosJSON;
 
 function inicio() {
     crearSlider();
-    
+
     // Obtener día de hoy
     if (sessionStorage.getItem('date') === null)
         setCurrentDate();
@@ -18,8 +18,9 @@ function inicio() {
     leerJSONEdificios().then(() => {
         crearSeccionPortfolio();
         crearSeccionTeam();
-        if (!document.getElementById('submitSuccessMessage')) {
-            crearContactoYFooter();
+        // Se crea el footer si no existe ya
+        if (!document.getElementById('containerFooter')) { 
+            crearFooter();
         }
     });
 
@@ -317,17 +318,20 @@ function crearSeccionTeam () {
         {
             nombre: "Eduardo Osuna",
             rol: "Diseñador Jefe",
-            imagen: "assets/img/team/1.jpg"
+            imagen: "assets/img/team/edu.webp",
+            redes: ["", "https://www.instagram.com/cristiano", ""]
         },
         {
             nombre: "Santiago Rattenbach",
             rol: "Desarrollador Jefe",
-            imagen: "assets/img/team/3.jpg"
+            imagen: "assets/img/team/santi.webp",
+            redes: ["", "https://www.instagram.com/sergioliver__", ""]
         },
         {
             nombre: "Jorge",
             rol: "Director de Marketing",
-            imagen: "assets/img/team/2.jpg"
+            imagen: "assets/img/team/gejor.webp",
+            redes: ["https://academic.uib.es/doa/consultaPublica/look%5bconpub%5dMostrarPubGuiaDocAs?entradaPublica=true&idiomaPais=es.ES&_anoAcademico=2023&_codAsignatura=21755", "", "https://es.linkedin.com/in/albertsalomvanrell?trk=people-guest_people_search-card"]
         }
     ];
 
@@ -339,9 +343,9 @@ function crearSeccionTeam () {
                     <img class="mx-auto rounded-circle" src="${miembro.imagen}" alt="..." loading="lazy" />
                     <h4>${miembro.nombre}</h4>
                     <p class="text-muted">${miembro.rol}</p>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="${miembro.nombre} Twitter Profile"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="${miembro.nombre} Facebook Profile"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="${miembro.nombre} LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} Twitter Profile"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         `;
@@ -360,7 +364,7 @@ function crearSeccionTeam () {
     // Crea el elemento <p> con clase "large text-muted"
     let pTexto = document.createElement('p');
     pTexto.classList.add('large', 'text-muted');
-    pTexto.textContent = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.';
+    pTexto.textContent = 'Nuestro equipo está formado por unos ávidos estudiantes de ingeniería informática motivados por las artes y la cultura de nuestra isla y Jorge.';
 
     // Añade el elemento <p> al <div> "col-lg-8 mx-auto text-center"
     divTexto.appendChild(pTexto);
@@ -379,73 +383,25 @@ function crearSeccionTeam () {
     // Añade el <section> al <main>
     let main = document.getElementById('main');
     main.appendChild(nuevaSection);
+
+    let nwLinks = Array.from(document.querySelectorAll('.btn.btn-dark.btn-social.mx-2'));
+
+    equipo.forEach((member, i) => {
+        member.redes.forEach((red, j) => {
+            let a = nwLinks[i * 3 + j];
+            if (red !== "" && a) {
+                a.onclick = function() {
+                    window.open(red);
+                };
+            }
+        });
+    });
 }
 
-function crearContactoYFooter() {
-    let seccionContacto = document.getElementById('contact');
-    seccionContacto.innerHTML = `
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Contáctanos</h2>
-            <h3 class="section-subheading text-muted">Te ayudaremos con cualquier duda que tengas.</h3>
-        </div>
-        <!-- * * * * * * * * * * * * * * *-->
-        <!-- * * SB Forms Contact Form * *-->
-        <!-- * * * * * * * * * * * * * * *-->
-        <!-- This form is pre-integrated with SB Forms.-->
-        <!-- To make this form functional, sign up at-->
-        <!-- https://startbootstrap.com/solution/contact-forms-->
-        <!-- to get an API token!-->
-        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-            <div class="row align-items-stretch mb-5">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <!-- Name input-->
-                        <input class="form-control" id="name" type="text" placeholder="Juan Pérez *" data-sb-validations="required" />
-                        <div class="invalid-feedback" data-sb-feedback="name:required">Hace falta un nombre.</div>
-                    </div>
-                    <div class="form-group">
-                        <!-- Email address input-->
-                        <input class="form-control" id="email" type="email" placeholder="juanperez@ejemplo.com *" data-sb-validations="required,email" oninput="validateEmailInput()"/>
-                        <div class="invalid-feedback" data-sb-feedback="email:required">Hace falta un email.</div>
-                        <div class="invalid-feedback" data-sb-feedback="email:email">El Email no es válido.</div>
-                    </div>
-                    <div class="form-group mb-md-0">
-                        <!-- Phone number input-->
-                        <input class="form-control" id="phone" type="tel" placeholder="611 11 11 11 *" data-sb-validations="required" />
-                        <div class="invalid-feedback" data-sb-feedback="phone:required">Hace falta un teléfono.</div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group form-group-textarea mb-md-0">
-                        <!-- Message input-->
-                        <textarea class="form-control" id="message" placeholder="Escribe tu mensaje *" data-sb-validations="required"></textarea>
-                        <div class="invalid-feedback" data-sb-feedback="message:required">Hace falta un mensaje.</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Submit success message-->
-            <!---->
-            <!-- This is what your users will see when the form-->
-            <!-- has successfully submitted-->
-            <div class="d-none" id="submitSuccessMessage">
-                <div class="text-center text-white mb-3">
-                    <div class="fw-bolder">¡Enviado correctamente!</div>
-                </div>
-            </div>
-            <!-- Submit error message-->
-            <!---->
-            <!-- This is what your users will see when there is-->
-            <!-- an error submitting the form-->
-            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Ha ocurrido un error...</div></div>
-            <!-- Submit Button-->
-            <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Enviar</button></div>
-        </form>
-    </div>`;
-
+function crearFooter() {
     let seccionFooter = document.getElementById('footer');
     seccionFooter.innerHTML = `
-    <div class="container">
+    <div class="container" id="containerFooter">
         <div class="row align-items-center">
             <div class="col-lg-4 text-lg-start" id="Copyright"></div>
             <div class="col-lg-4 my-3 my-lg-0">
@@ -509,6 +465,22 @@ function generarPopUp(popUpsContainer, edificio, i) {
     popUp.setAttribute('tabindex', '-1');
     popUp.setAttribute('role', 'dialog');
     popUp.setAttribute('aria-hidden', 'true');
+
+    // Al salir del pop-up, se pausarán el vídeo y el audio, seteando el tiempo a 0
+    popUp.addEventListener('hide.bs.modal', function () {
+        const videoElement = popUp.querySelector('video');
+        const audioElement = popUp.querySelector('audio');
+
+        if (videoElement) {
+            videoElement.pause();
+            videoElement.currentTime = 0;
+        }
+
+        if (audioElement) {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+        }
+    });
     
     // generar contenido del pop-up
     let popUpContent = generarContenidoPopUp(edificio, i);
@@ -585,16 +557,17 @@ function generarModalBodyContent(edificio, i) {
     // añadir imagen (supongo que lo cambiaremos por un vídeo o maybe un slider con ambos)
     if (edificio?.video === undefined || edificio?.video === "") {
         let imagen = document.createElement('img');
-        imagen.classList.add('img-fluid', 'd-block', 'mx-auto');
+        imagen.classList.add('img-fluid', 'd-block', 'mx-auto', 'video_popUp');
         imagen.setAttribute('loading', 'lazy');
         imagen.setAttribute('src', edificio.imagen);
         imagen.setAttribute('alt', edificio.nombre);
         modalBody.appendChild(imagen);
     } else {
         let video = document.createElement('video');
-        video.classList.add('img-fluid', 'd-block', 'mx-auto');
+        video.classList.add('img-fluid', 'd-block', 'mx-auto', 'video_popUp');
         video.setAttribute('loading', 'lazy');
         video.setAttribute('src', edificio.video);
+        video.setAttribute('preload', 'metadata');
         video.setAttribute('alt', edificio.nombre);
         video.setAttribute('controls', 'true');
         modalBody.appendChild(video);
@@ -612,7 +585,7 @@ function generarModalBodyContent(edificio, i) {
     // añadir estilo si existe
     if (edificio?.estilo !== undefined) {
         let divEstilo = document.createElement('div');
-        divEstilo.classList.add('list-inline-item', 'mb-3');
+        divEstilo.classList.add('list-inline-item', 'my-3');
 
         let strongEstilo = document.createElement('strong');
         strongEstilo.innerHTML = "Estilo:";
@@ -996,8 +969,6 @@ function goHome() {
 function crearSlider() {
     // obtener header
     let header = document.getElementById('header');
-    // añadir clases al header
-    header.classList.add('masthead');
 
     // Crear el slider
     let slider = document.createElement('div');
@@ -1014,31 +985,23 @@ function crearSlider() {
     let i = 1;
     while (i <= 3) {
         let img = document.createElement('img');
-        //let path = "assets/img/slider/imagen" + i + ".webp";
         let path = "assets/img/slider/imagen" + i;
         img.setAttribute('src', path + '-s.webp');
         let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';  
         img.setAttribute('srcset', set);
         img.setAttribute('alt', 'Imagen slider ' + i);
-        /*if (i !== 1) {
-            img.setAttribute('loading', 'lazy');
-        }*/
+        img.setAttribute('loading', 'lazy');
         let swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.appendChild(img);
         swiperWrapper.appendChild(swiperSlide);
         i++;
-        // Si es móvil o tablet, break
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth > 768) {
             break;
         }
     }
 
-    // Crear botones de navegación
-    // let swiperPagination = document.createElement('div');
-    // swiperPagination.classList.add('swiper-pagination');
-    // slider.appendChild(swiperPagination);
-
+    
     // Crear contenedor
     let container = document.createElement('div');
     container.classList.add('container' , 'containerSlider');
@@ -1067,6 +1030,7 @@ function crearSlider() {
         plan();
     };
     container.appendChild(btn);
+    
 }
 
 function borrarIndex() {
@@ -1315,14 +1279,13 @@ function mostrarResultados(results) {
 
     // Crear item resultado
     for (let i = 0; i < results.length; i++) {
-        if (!checkCondicionesFiltros(results[i])) {
-            continue;
+        if (checkCondicionesFiltros(results[i])) {
+            let item = document.createElement('div');
+            item.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'mb-2');
+            item.setAttribute('id', 'resultado' + i);
+            item.textContent = results[i].nombre;
+            container.appendChild(item);
         }
-        let item = document.createElement('div');
-        item.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'mb-2');
-        item.setAttribute('id', 'resultado' + i);
-        item.textContent = results[i].nombre;
-        container.appendChild(item);
     }
 
     return container;
@@ -1387,29 +1350,39 @@ function calendario() {
         minDate: 0, // Fecha mínima permitida
         dateFormat: 'yy-mm-dd', // Formato de fecha deseado
         onSelect: function(dateText) {
-            // Manejar la selección de fecha
-            // Se presenta un mensaje al usuario para confirmar el cambio de fecha
-            let userConfirmation = confirm("¿Quieres cambiar la fecha del plan?\n\nFecha actual: " + sessionStorage.getItem('date'));
-            if (userConfirmation) {
-                // actualizar día en sessionStorage
-                sessionStorage.setItem('date', dateText)
-                let diaLista = document.getElementById('diaLista');
-                diaLista.textContent = "Día " + dateText;
+            // Solo se hace algo si la fecha seleccionada es distinta a la actual
+            if (dateText != sessionStorage.getItem('date')) {
+                // Manejar la selección de fecha
+                // Se presenta un mensaje al usuario para confirmar el cambio de fecha
+                let userConfirmation = confirm("¿Quieres cambiar la fecha del plan?\n\nFecha actual: " + sessionStorage.getItem('date'));
+                if (userConfirmation) {
+                    // actualizar día en sessionStorage
+                    sessionStorage.setItem('date', dateText)
+                    let diaLista = document.getElementById('diaLista');
+                    diaLista.textContent = "Día " + dateText;
 
-                let modalBody = document.getElementById('portfolioModal0');
-                if (modalBody !== null) {
-                    // volver a generar pop up para actualizar el tiempo
-                    swapSelectedPlace();
+                    let lugar = obtenerEdificioJSON(sessionStorage.getItem('mapSelectedPlace'));
+                    if (lugar?.fecha !== undefined) {
+                        resetSelectedPlace();
+                    } else {
+                        let modalBody = document.getElementById('portfolioModal0');
+                        if (modalBody !== null) {
+                            // volver a generar pop up para actualizar el tiempo
+                            swapSelectedPlace();
+                        }
+                    }
+
+                    resetMapa();
+
+                    // Oculta el contenedor del calendario después de seleccionar una fecha
+                    calContainer.hide();
+                    isShowing = false;
+                } else {
+                    // Si el usuario cancela, se restaura la fecha original
+                    calContainer.datepicker('setDate', sessionStorage.getItem('date'));
                 }
-
-                // Oculta el contenedor del calendario después de seleccionar una fecha
-                calContainer.hide();
-                isShowing = false;
-            } else {
-                // Si el usuario cancela, se restaura la fecha original
-                calContainer.datepicker('setDate', sessionStorage.getItem('date'));
-            }
             
+            }
         }
     });
     
@@ -1628,10 +1601,11 @@ function checkCondicionesFiltros(lugar) {
 			// comprobar parking cercano
 			(sessionStorage.getItem('parkingNear') === "false" || lugar?.parking === true) &&
             // comprobar distancia
-            (sessionStorage.getItem('distanciaFiltros') === "0" || calcularDistancia(lugar.lat, lugar.lon) <= parseInt(sessionStorage.getItem('distanciaFiltros')))
+            (sessionStorage.getItem('distanciaFiltros') === "0" || calcularDistancia(lugar.lat, lugar.lon) <= parseInt(sessionStorage.getItem('distanciaFiltros'))) &&
             // comprobar horas
-            && ((sessionStorage.getItem('hourInFiltros') === "" && sessionStorage.getItem('hourOutFiltros') === "") || checkHorario(lugar));
-            ;		
+            ((sessionStorage.getItem('hourInFiltros') === "" && sessionStorage.getItem('hourOutFiltros') === "") || checkHorario(lugar)) &&
+            // comprobar día
+            (lugar?.fecha === undefined || lugar?.fecha === sessionStorage.getItem('date'));
 }
 
 function checkHorario(lugar) {
@@ -1732,6 +1706,20 @@ function getUserPosition() {
     };
     
     navigator.geolocation.getCurrentPosition(success, error, options);
+}
+
+function resetSelectedPlace() {
+    let popUpPortfolioHover = document.getElementById("popUpPortfolioHover");
+    popUpPortfolioHover.setAttribute("hidden", "true");
+
+    let heading = document.getElementById("mapSelectedPlaceTitle");
+    let subHeading = document.getElementById("mapSelectedPlaceSubtitle");
+    let img = document.getElementById("mapSelectedPlaceImg");
+
+    // reset
+    heading.innerHTML = "Busca tu destino";
+    subHeading.innerHTML = "Puedes usar tanto la barra de búsqueda como el mapa";
+    img.setAttribute("hidden", "true");
 }
 
 function swapSelectedPlace() {
@@ -1915,10 +1903,6 @@ function scriptSlider() {
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
         },
         keyboard: true,
     });

@@ -31,8 +31,8 @@
         </noscript>
 
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link rel="preload" href="css/stylesMin.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="css/stylesMin.css"></noscript>
+        <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
 
         <!-- Swiper CSS -->
         <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -47,69 +47,10 @@
         <noscript><link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"></noscript>
         <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></noscript>
-
-        <!-- Slider (cargado antes para mejorar CLS)-->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-        <!-- Inline css de imagen de swiper para que cargue antes y aumentar LCP -->
-        <style>
-            header.masthead .slider {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-
-            header.masthead .slider {
-                height: 40rem;
-            }
-
-            /* Tablet */
-            @media (min-width: 768px) {
-                header.masthead .slider {
-                    height: 55rem;
-                }
-            }
-
-            /* Desktop */
-            @media (min-width: 1024px) {
-                header.masthead .slider {
-                    height: 60rem;
-                }
-            }
-
-            @media (min-width: 1024px) {
-                .containerSlider {
-                    padding: 2rem 0rem !important;
-                }
-            }
-
-            .swiper-slide img {
-                display: block;
-                width: 100%;
-                height: 100%;
-                object-fit: cover; /* Para que las imágenes se ajusten al tamaño del slider */
-                object-position: center;
-            }
-
-            header.masthead .container {
-                position: absolute; 
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%); 
-                text-align: center;
-                background-color: rgba(255, 255, 255, 0.5);
-                color: black;
-                border-radius: 50px;
-                z-index: 2; /* Asegura que el contenido esté encima del slider */
-                padding: 1rem 0rem;
-                width: 75%;
-                height: auto;
-            }            
-        </style>
-        <!-- Preload de imagen del slider -->
-        <!-- <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image"/> -->
-        <!-- <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-m.webp" as="image"/> -->
+        
+        <!-- Preload de imagen del slider (todas las versiones, ya que no sabemos el tamaño de la pantalla) -->
+        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image"/>
+        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-m.webp" as="image"/>
         <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-s.webp" as="image"/>
 
 
@@ -137,7 +78,7 @@
         </nav>
 
         <!-- Cabecera-->
-        <header id="header"></header>
+        <header id="header" class="masthead"></header>
 
         <!-- Panel de contenidos dinámico -->
         <main id="main">
@@ -147,7 +88,66 @@
         </main>
         
         <!-- Contact-->
-        <section class="page-section" id="contact"></section>
+        <section class="page-section" id="contact">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Contáctanos</h2>
+                    <h3 class="section-subheading text-muted">Te ayudaremos con cualquier duda que tengas.</h3>
+                </div>
+                <!-- * * * * * * * * * * * * * * *-->
+                <!-- * * SB Forms Contact Form * *-->
+                <!-- * * * * * * * * * * * * * * *-->
+                <!-- This form is pre-integrated with SB Forms.-->
+                <!-- To make this form functional, sign up at-->
+                <!-- https://startbootstrap.com/solution/contact-forms-->
+                <!-- to get an API token!-->
+                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <div class="row align-items-stretch mb-5">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- Name input-->
+                                <input class="form-control" id="name" type="text" placeholder="Juan Pérez *" data-sb-validations="required" />
+                                <div class="invalid-feedback" data-sb-feedback="name:required">Hace falta un nombre.</div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Email address input-->
+                                <input class="form-control" id="email" type="email" placeholder="juanperez@ejemplo.com *" data-sb-validations="required,email" oninput="validateEmailInput()"/>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">Hace falta un email.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">El Email no es válido.</div>
+                            </div>
+                            <div class="form-group mb-md-0">
+                                <!-- Phone number input-->
+                                <input class="form-control" id="phone" type="tel" placeholder="611 11 11 11 *" data-sb-validations="required" />
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">Hace falta un teléfono.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-textarea mb-md-0">
+                                <!-- Message input-->
+                                <textarea class="form-control" id="message" placeholder="Escribe tu mensaje *" data-sb-validations="required"></textarea>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">Hace falta un mensaje.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit success message-->
+                    <!---->
+                    <!-- This is what your users will see when the form-->
+                    <!-- has successfully submitted-->
+                    <div class="d-none" id="submitSuccessMessage">
+                        <div class="text-center text-white mb-3">
+                            <div class="fw-bolder">¡Enviado correctamente!</div>
+                        </div>
+                    </div>
+                    <!-- Submit error message-->
+                    <!---->
+                    <!-- This is what your users will see when there is-->
+                    <!-- an error submitting the form-->
+                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Ha ocurrido un error...</div></div>
+                    <!-- Submit Button-->
+                    <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Enviar</button></div>
+                </form>
+            </div>
+        </section>
         <!-- Pop-ups -->
         <div id="portfolio-modals" tabindex="-1" aria-hidden="true"></div>
         <!-- Footer-->

@@ -11044,9 +11044,6 @@ header.masthead .slider {
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-
-header.masthead .slider {
   height: 40rem;
 }
 
@@ -11254,6 +11251,10 @@ header.masthead .masthead-heading {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+
+.video_popUp {
+  max-height: 30rem;
 }
 
 .portfolio-modal .modal-content h2, .portfolio-modal .modal-content .h2 {

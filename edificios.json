@@ -16,8 +16,8 @@
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/1.webp",
       "subjectOf": {
         "@type": "CreativeWork",
-        "video": "https://www.mallorcaroute.com/assets/video/matrices.mp4",
-        "audio": "https://www.mallorcaroute.com/assets/audio/fonerAudio.mp3"
+        "video": "https://www.mallorcaroute.com/assets/video/catedral.mp4",
+        "audio": "https://www.mallorcaroute.com/assets/audio/catedral.mp3"
       },
       "openingHours": [
         "Mo-Fr 10:00-17:15",
@@ -80,7 +80,7 @@
         "latitude": 39.765942,
         "longitude": 2.715518
       },
-      "url": "https://soller.es/es/lugares/iglesia-de-sant-bartomeu/",
+      "url": "https://www.youtube.com/@cristiansdelavalldesoller/featured",
       "telephone": "+34 971 630 001",
       "aggregateRating": {
         "type": "AggregateRating",
@@ -102,8 +102,8 @@
       "image": "https://www.mallorcaroute.com/assets/img/portfolio/6.webp",
       "subjectOf": {
         "@type": "CreativeWork",
-        "audio": "",
-        "video": ""
+        "audio": "https://www.mallorcaroute.com/assets/audio/bellver.mp3",
+        "video": "https://www.mallorcaroute.com/assets/video/bellver.mp4"
       },
       "openingHours": [
       "Tu-Fr 10:00-18:00",
@@ -244,7 +244,7 @@
       "subjectOf": {
         "@type": "CreativeWork",
         "audio": "",
-        "video": ""
+        "video": "https://www.mallorcaroute.com/assets/video/almudaina.mp4"
       },
       "openingHours": [
         "Mo-Su 10:00-13:00"
