@@ -399,8 +399,8 @@ function crearSeccionTeam () {
 }
 
 function crearFooter() {
-    // let contacto = document.getElementById('contact');
-    // contacto.removeAttribute('hidden');
+    let contacto = document.getElementById('contact');
+    contacto.removeAttribute('hidden');
     let seccionFooter = document.getElementById('footer');
     seccionFooter.innerHTML = `
     <div class="container" id="containerFooter">
