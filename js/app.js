@@ -42,14 +42,13 @@ function inicio() {
 
     if (window.innerWidth > 768) {
         scriptSlider(); 
-    }
-       
+    }  
 }
 
 async function leerJSONEdificios () {
     // Hacer una solicitud GET al archivo JSON utilizando fetch()
     try {
-        const path = ['edificios.json', 'https://www.descobreixteatre.com/assets/json/Teatre.json'];
+        const path = ['edificios.json', 'https://www.descobreixteatre.com/assets/json/Teatre.json', 'https://www.mallorkcultura.com/json/museosMallorkCultura.json'];
         let response = [];
         let objetosJSON = [];
 
@@ -62,6 +61,7 @@ async function leerJSONEdificios () {
         edificiosJSON = [];
         getEdificiosObjJson(objetosJSON[0]);
         getEventosTeatroObjJson(objetosJSON[1]);
+        getMuseosObjJson(objetosJSON[2]);
         
     } catch (error) {
         // Capturar y manejar cualquier error que ocurra durante la solicitud
@@ -130,6 +130,25 @@ function getEventosTeatroObjJson (objetoJSON) {
     });
 }
 
+function getMuseosObjJson (objetoJSON) {
+    objetoJSON.servicios.forEach(function (objeto) {
+        let museo = objeto.areaServed;
+        let struct = {
+            nombre: museo.name,
+            descripcion: museo.description,
+            horario: convertirHorariosJson(museo.openingHours),
+            imagen: museo.photo[0].contentUrl,
+            lat: museo.geo.latitude,
+            lon: museo.geo.longitude,
+            url: museo.url,
+            isAccessibleForFree: museo.isAccessibleForFree,
+            parking: true
+        };
+
+        edificiosJSON.push(struct);
+    });
+}
+
 
 /**
  * Convierte los horarios de apertura de un edificio en formato JSON a un formato más legible (día1: horai - horaf, día2: horai - horaf, ...)
@@ -143,9 +162,12 @@ function convertirHorariosJson(openingHours) {
 
     // Si no hay horario, se devuelve undefined, significando que está abierto permanentemente
 
-    if (openingHours === undefined) {
+    if (openingHours === undefined)
         return undefined;
-    }
+
+
+    if (!Array.isArray(openingHours))
+        openingHours = [openingHours];
 
     openingHours.forEach(function(horarioDia) {
         const dias = horarioDia.split(" ")[0].split("-");
