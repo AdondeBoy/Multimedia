@@ -47,11 +47,18 @@
         <noscript><link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"></noscript>
         <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></noscript>
+
+        <!-- Slider JS -->
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" as="script">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         
         <!-- Preload de imagen del slider (todas las versiones, ya que no sabemos el tamaño de la pantalla) -->
         <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image"/>
         <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-m.webp" as="image"/>
         <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-s.webp" as="image"/>
+
+        <!-- Preload app.js -->
+        <link rel="preload" href="js/app.js" as="script">
 
 
     </head>
@@ -83,12 +90,15 @@
         <!-- Panel de contenidos dinámico -->
         <main id="main">
             <section class="page-section bg-light" id="portfolio">
-                <div class="container" id="portfolioContainer"></div>
+                <div class="container portfolioContainer" id="portfolioContainer"></div>
             </section>
         </main>
+
+        <!-- Team -->
+        <section class="page-section bg-light team" id="team"></section>
         
         <!-- Contact-->
-        <section class="page-section" id="contact">
+        <section class="page-section contacto" id="contact">
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Contáctanos</h2>
@@ -149,11 +159,14 @@
             </div>
         </section>
         <!-- Pop-ups -->
-        <div id="portfolio-modals" tabindex="-1" aria-hidden="true"></div>
+        <div id="portfolio-modals" tabindex="-1" aria-hidden="true" hidden="true"></div>
         <!-- Footer-->
         <footer class="footer py-4" id="footer"></footer>
 
     <!-- JS Scripts-->
+
+        <!-- Slider JS -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
 
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous" defer></script>   
@@ -183,6 +196,5 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js" defer></script>
-        
     </body>
 </html>

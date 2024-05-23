@@ -399,6 +399,8 @@ function crearSeccionTeam () {
 }
 
 function crearFooter() {
+    // let contacto = document.getElementById('contact');
+    // contacto.removeAttribute('hidden');
     let seccionFooter = document.getElementById('footer');
     seccionFooter.innerHTML = `
     <div class="container" id="containerFooter">
@@ -455,6 +457,7 @@ function generarPopUpsInicio() {
 
         i++;
     });
+    popUpContainer.removeAttribute('hidden');
 }
 
 function generarPopUp(popUpsContainer, edificio, i) {
@@ -990,13 +993,15 @@ function crearSlider() {
         let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';  
         img.setAttribute('srcset', set);
         img.setAttribute('alt', 'Imagen slider ' + i);
-        img.setAttribute('loading', 'lazy');
+        if (i != 1) {
+            img.setAttribute('loading', 'lazy');
+        }
         let swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.appendChild(img);
         swiperWrapper.appendChild(swiperSlide);
         i++;
-        if (window.innerWidth > 768) {
+        if (window.innerWidth <= 768) {
             break;
         }
     }

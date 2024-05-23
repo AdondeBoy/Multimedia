@@ -10902,6 +10902,7 @@ p {
 .page-section {
   padding: 6rem 0 2rem 0;
 }
+
 .page-section h2.section-heading, .page-section .section-heading.h2 {
   font-size: 2.5rem;
   margin-top: 0;
@@ -11299,6 +11300,46 @@ header.masthead .masthead-heading {
   height: 100%;
   width: 100%;
 }
+
+/* Contacto tamaños */
+@media (min-width: 576px) {
+  .contacto {
+    height: 25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .contacto {
+    height: 40rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contacto {
+    height: 45rem;
+  }
+}
+
+/* Portfolio tamaños */
+
+@media (min-width: 300px) {
+  .portfolioContainer {
+    height: 185rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .portfolioContainer {
+    height: 95rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .portfolioContainer {
+    height: 70rem;
+  }
+}
+
 
 .timeline {
   position: relative;
