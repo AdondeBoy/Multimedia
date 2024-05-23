@@ -40,7 +40,10 @@ function inicio() {
     aLogo.onclick = goHome;
     aInicio.onclick = goHome;
 
-    scriptSlider();    
+    if (window.innerWidth > 768) {
+        scriptSlider(); 
+    }
+       
 }
 
 async function leerJSONEdificios () {
@@ -649,7 +652,6 @@ function generarModalBodyContent(edificio, i) {
     }
     // Se itera sobre las horas del día disponibles
     for (let j = 0; hora < 24; hora = hora + 3, j++) {
-        console.log("Start of loop, hora = " + hora);
         let latitud = edificio.lat;
         let longitud = edificio.lon;
         obtenerDatosClima(latitud, longitud, hora, (j + 8*offsetDias))
@@ -662,7 +664,6 @@ function generarModalBodyContent(edificio, i) {
         .catch(error => {
             console.log(error);
         });
-        
     }
     listaClima.appendChild(listaClimaBody);
     modalBody.appendChild(listaClima);
@@ -1005,6 +1006,10 @@ function crearSlider() {
         swiperSlide.appendChild(img);
         swiperWrapper.appendChild(swiperSlide);
         i++;
+        // Si es móvil o tablet, break
+        if (window.innerWidth <= 768) {
+            break;
+        }
     }
 
     // Crear botones de navegación
