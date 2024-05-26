@@ -1051,6 +1051,10 @@ function borrarIndex() {
     let container = document.getElementById('portfolioContainer');
     container.innerHTML = '';
 
+    // cambiar estilos del section
+    let sectionCont = document.getElementById('portfolio');
+    sectionCont.classList.replace('portfolioContainer', 'planContainer');
+
     // borrar sección de equipo
     let team = document.getElementById('team');
     let teamContainer = document.getElementById('teamContainer');
@@ -1068,6 +1072,10 @@ function borrarPlan() {
     let container = document.getElementById('portfolioContainer');
     // Se borra el contenido del container
     container.innerHTML = ''; 
+    
+    // cambiar estilos del section
+    let sectionCont = document.getElementById('portfolio');
+    sectionCont.classList.replace('planContainer', 'portfolioContainer');
 
     // borrar pop-ups
     let popUpsContainer = document.getElementById('portfolio-modals');

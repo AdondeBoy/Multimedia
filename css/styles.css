@@ -11337,7 +11337,7 @@ header.masthead .masthead-heading {
 /* Contacto tamaños */
 @media (min-width: 576px) {
   .contacto {
-    height: 25rem;
+    height: 52rem;
   }
 }
 
@@ -11359,11 +11359,29 @@ header.masthead .masthead-heading {
   .portfolioContainer {
     height: 180rem;
   }
+
+  .planContainer {
+    height: 118rem;
+  }
 }
 
 @media (min-width: 400px) {
   .portfolioContainer {
     height: 190rem;
+  }
+
+  .planContainer {
+    height: 122rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .portfolioContainer {
+    height: 90rem;
+  }
+
+  .planContainer {
+    height: 70rem;
   }
 }
 
@@ -11371,16 +11389,24 @@ header.masthead .masthead-heading {
   .portfolioContainer {
     height: 100rem;
   }
+
+  .planContainer {
+    height: 75rem;
+  }
 }
 
 @media (min-width: 1024px) {
   .portfolioContainer {
     height: 70rem;
   }
+
+  .planContainer {
+    height: 78rem;
+  }
 }
 
 /* Main tamaños */
-
+/*
 @media (min-width: 300px) {
   .mainContainer {
     height: 290rem;
@@ -11388,6 +11414,12 @@ header.masthead .masthead-heading {
 }
 
 @media (min-width: 400px) {
+  .mainContainer {
+    height: 290rem;
+  }
+}
+
+@media (min-width: 576px) {
   .mainContainer {
     height: 290rem;
   }
@@ -11404,7 +11436,7 @@ header.masthead .masthead-heading {
     height: 120rem;
   }
 }
-
+*/
 /* Team tamaños */
 
 @media (min-width: 300px) {
