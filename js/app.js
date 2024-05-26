@@ -963,7 +963,9 @@ function goHome() {
         header.classList.add('masthead');
         // Team no hidden
         let team = document.getElementById('team');
-        team.removeAttribute('hidden');
+        if (team.hasAttribute('hidden')) {
+            team.removeAttribute('hidden');
+        }
         inicio();
     }    
 }
@@ -1053,7 +1055,9 @@ function borrarIndex() {
     let team = document.getElementById('team');
     let teamContainer = document.getElementById('teamContainer');
     team.removeChild(teamContainer);
-    team.setAttribute("hidden", "true");
+    if (!team.hasAttribute('hidden')) {
+        team.setAttribute("hidden", "true");
+    }
     
     // borrar pop-ups
     let popUpsContainer = document.getElementById('portfolio-modals');
