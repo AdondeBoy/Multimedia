@@ -11,56 +11,51 @@
 
         <title>Mallorca Route</title>
 
-        <!-- <script type="application/ld+json">
-            {
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "url": "https://www.mallorcaroute.com",
-              "name": "Mallorca Route",
-              "logo": "https://www.mallorcaroute.com/assets/img/Mashorca_Gordo.svg"
-            }
-        </script> -->
-        
+        <!-- Preload de imagen del slider (todas las versiones, ya que no sabemos el tamaño de la pantalla) -->
+        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image"/>
+        <!-- <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-m.webp" as="image"/> -->
+        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-s.webp" as="image"/>
+        <!-- Preload logo -->
+        <link rel="preload" fetchpriority="high" href="assets/img/Mashorca_Gordo.svg" as="image"/>
+
+        <!-- Font Awesome icons (free version)-->
+        <!-- Preload -->
+        <!-- <link rel="preload" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" as="style" onload="this.onload=null;this.rel='stylesheet'"> -->
+        <!-- <noscript><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css"  crossorigin="anonymous"></noscript> -->
         
         <!-- Google fonts-->
         <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <link rel="preload" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript>
-            <link defer href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-            <link defer href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+            <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+            <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         </noscript>
 
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
-
-        <!-- Swiper CSS -->
-        <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
+        <link rel="preload" href="css/stylesMin.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="css/stylesMin.css"></noscript>
 
         <!-- Mapa CSS -->
         <link rel="preload" href="https://unpkg.com/leaflet/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"></noscript>
 
         <!-- Calendario CSS -->
-        <link rel="preload" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"></noscript>
+        <link rel="preload" href="https://code.jquery.com/ui/1.13.2/jquery-ui.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/jquery-ui.min.css"></noscript>
+        <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/jquery-ui.min.css"> -->
         <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></noscript>
+
+        <!-- Swiper CSS -->
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
 
         <!-- Slider JS -->
         <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" as="script">
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        
-        <!-- Preload de imagen del slider (todas las versiones, ya que no sabemos el tamaño de la pantalla) -->
-        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image"/>
-        <!-- <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-m.webp" as="image"/> -->
-        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-s.webp" as="image"/>
 
         <!-- Preload app.js -->
-        <link rel="preload" href="js/app.js" as="script">
-
-
+        <link rel="preload" href="js/appMin.js" as="script">
     </head>
     
     <body id="page-top">
@@ -88,14 +83,13 @@
         <header id="header" class="masthead"></header>
 
         <!-- Panel de contenidos dinámico -->
-        <main id="main">
-            <section class="page-section bg-light" id="portfolio">
-                <div class="container portfolioContainer" id="portfolioContainer"></div>
+        <main id="main" class="mainContainer">
+            <section class="page-section bg-light portfolioContainer" id="portfolio">
+                <div class="container" id="portfolioContainer"></div>
             </section>
+            <!-- Team -->
+            <section class="page-section bg-light teamContainer" id="team"></section>
         </main>
-
-        <!-- Team -->
-        <section class="page-section bg-light team" id="team"></section>
         
         <!-- Contact-->
         <section class="page-section contacto" id="contact" hidden="true">
@@ -169,11 +163,19 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
 
         <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous" defer></script>   
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous" defer></script>
+
+        <!-- Preconnect a las páginas de los compañeros -->
+        <link rel="preconnect" href="https://descobreixteatre.com">
+        <link rel="preconnect" href="https://www.descobreixteatre.com">
+        
+        <!-- DNS Prefetch en las páginas -->
+        <link rel="dns-prefetch" href="https://descobreixteatre.com">
+        <link rel="dns-prefetch" href="https://www.descobreixteatre.com">
 
 
         <!-- App -->
-        <script src="js/app.js"></script>
+        <script src="js/appMin.js"></script>
 
         <!-- JS Calendario -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>

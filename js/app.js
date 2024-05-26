@@ -6,6 +6,12 @@ let edificiosJSON;
 
 function inicio() {
     crearSlider();
+    /*
+    if (window.innerWidth > 768) {
+        scriptSlider(); 
+    }
+    */
+    scriptSlider();
 
     // Obtener día de hoy
     if (sessionStorage.getItem('date') === null)
@@ -29,21 +35,12 @@ function inicio() {
     // mostrar portfolio
     setNavPorfolioHidden(false);
 
-    // crearSeccionTeam();
-    // if (!document.getElementById('submitSuccessMessage')) {
-    //     crearContactoYFooter();
-    // }
-
     // poner función en el logo y en el botón de inicio
     let aLogo = document.getElementById('logoMashorca');
     let aInicio = document.getElementById('inicio');
     // Al hacer click sobre el logo o el botón de inicio, se vuelve a la página de inicio
     aLogo.onclick = goHome;
     aInicio.onclick = goHome;
-
-    if (window.innerWidth > 768) {
-        scriptSlider(); 
-    }  
 }
 
 async function leerJSONEdificios () {
@@ -284,13 +281,12 @@ function crearSeccionPortfolio () {
 
 function crearSeccionTeam () {
     // Crea el elemento <section>
-    let nuevaSection = document.createElement('section');
-    nuevaSection.classList.add('page-section', 'bg-light');
-    nuevaSection.id = 'team';
+    let nuevaSection = document.getElementById('team');
 
     // Crea el elemento <div> con clase "container"
     let divContainer = document.createElement('div');
     divContainer.classList.add('container');
+    divContainer.id = 'teamContainer';
 
     // Crea el elemento <div> con clase "text-center"
     let divTextCenter = document.createElement('div');
@@ -343,9 +339,9 @@ function crearSeccionTeam () {
                     <img class="mx-auto rounded-circle" src="${miembro.imagen}" alt="..." loading="lazy" />
                     <h4>${miembro.nombre}</h4>
                     <p class="text-muted">${miembro.rol}</p>
-                    <a class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} Twitter Profile"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} Facebook Profile"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    <button class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} Twitter Profile"><i class="fab fa-twitter"></i></button>
+                    <button class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} Facebook Profile"><i class="fab fa-facebook-f"></i></button>
+                    <button class="btn btn-dark btn-social mx-2" aria-label="${miembro.nombre} LinkedIn Profile"><i class="fab fa-linkedin-in"></i></button>
                 </div>
             </div>
         `;
@@ -407,9 +403,9 @@ function crearFooter() {
         <div class="row align-items-center">
             <div class="col-lg-4 text-lg-start" id="Copyright"></div>
             <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <button class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></button>
+                <button class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></button>
+                <button class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></button>
             </div>
             <div class="col-lg-4 text-lg-end">
                 <a class="link-dark text-decoration-none me-3" href="#!">Política de Privacidad</a>
@@ -965,6 +961,9 @@ function goHome() {
         let header = document.getElementById('header');
         // Añadir clases al header
         header.classList.add('masthead');
+        // Team no hidden
+        let team = document.getElementById('team');
+        team.removeAttribute('hidden');
         inicio();
     }    
 }
@@ -991,20 +990,24 @@ function crearSlider() {
         let path = "assets/img/slider/imagen" + i;
         img.setAttribute('src', path + '-s.webp');
         // let set = path + '-s.webp 300w, ' + path + '-m.webp 768w, ' + path + '.webp 1024w, ';
-        let set = path + '-s.webp 300w, ' + path + '.webp 1024w, ';  
+        let set = path + '-s.webp 300w, ' + path + '-m.webp 768w,' + path + '.webp 1501w';
         img.setAttribute('srcset', set);
         img.setAttribute('alt', 'Imagen slider ' + i);
         if (i != 1) {
             img.setAttribute('loading', 'lazy');
+        } else {
+            img.setAttribute('loading', 'eager');
         }
         let swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.appendChild(img);
         swiperWrapper.appendChild(swiperSlide);
         i++;
+        /*
         if (window.innerWidth <= 768) {
             break;
         }
+        */
     }
 
     
@@ -1047,10 +1050,10 @@ function borrarIndex() {
     container.innerHTML = '';
 
     // borrar sección de equipo
-    let main = document.getElementById('main');
     let team = document.getElementById('team');
-    if (team)
-        main.removeChild(team);
+    let teamContainer = document.getElementById('teamContainer');
+    team.removeChild(teamContainer);
+    team.setAttribute("hidden", "true");
     
     // borrar pop-ups
     let popUpsContainer = document.getElementById('portfolio-modals');
@@ -1907,7 +1910,7 @@ function scriptSlider() {
         loop: true,
         speed: 2000,
         autoplay: {
-            delay: 5000,
+            delay: 8000,
             disableOnInteraction: false,
         },
         keyboard: true,

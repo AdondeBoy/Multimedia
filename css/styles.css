@@ -10916,11 +10916,6 @@ p {
   margin-bottom: 4rem;
 }
 
-@media (min-width: 768px) {
-  section {
-    padding: 9rem 0;
-  }
-}
 .btn-xl {
   padding: 1.25rem 2.5rem;
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -11028,7 +11023,7 @@ p {
 }
 
 header.masthead {
-  padding-top: 4rem;
+  /* padding-top: 4rem; */
   text-align: center;
   color: #fff;
   /*
@@ -11040,12 +11035,48 @@ header.masthead {
   */
 }
 
+header.masthead {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+/* Móvil */
+@media (max-width: 575.98px) {
+  header.masthead {
+      height: 30rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  header.masthead {
+      height: 50rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  header.masthead {
+      height: 64rem;
+  }
+}
+
 header.masthead .slider {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  height: 40rem;
+}
+
+
+/* Móvil */
+@media (max-width: 575.98px) {
+  header.masthead .slider {
+      height: 30rem;
+  }
 }
 
 /* Tablet */
@@ -11058,7 +11089,7 @@ header.masthead .slider {
 /* Desktop */
 @media (min-width: 1024px) {
   header.masthead .slider {
-      height: 60rem;
+      height: 64rem;
   }
 }
 
@@ -11107,9 +11138,11 @@ header.masthead .masthead-heading {
   .containerSlider {
     padding: 2rem 0rem !important;
   }
+  /*
   header.masthead {
     padding-top: 4rem;
   }
+  */
   header.masthead .masthead-subheading {
     font-size: 2.25rem;
     font-style: italic;
@@ -11324,13 +11357,19 @@ header.masthead .masthead-heading {
 
 @media (min-width: 300px) {
   .portfolioContainer {
-    height: 185rem;
+    height: 180rem;
+  }
+}
+
+@media (min-width: 400px) {
+  .portfolioContainer {
+    height: 190rem;
   }
 }
 
 @media (min-width: 768px) {
   .portfolioContainer {
-    height: 95rem;
+    height: 100rem;
   }
 }
 
@@ -11340,6 +11379,58 @@ header.masthead .masthead-heading {
   }
 }
 
+/* Main tamaños */
+
+@media (min-width: 300px) {
+  .mainContainer {
+    height: 290rem;
+  }
+}
+
+@media (min-width: 400px) {
+  .mainContainer {
+    height: 290rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .mainContainer {
+    height: 200rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mainContainer {
+    height: 120rem;
+  }
+}
+
+/* Team tamaños */
+
+@media (min-width: 300px) {
+  .teamContainer {
+    min-height: 110rem;
+  }
+}
+
+@media (min-width: 400px) {
+  .teamContainer {
+    min-height: 100rem;
+  }
+  
+}
+
+@media (min-width: 768px) {
+  .teamContainer {
+    min-height: 100rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .teamContainer {
+    min-height: 50rem;
+  }
+}
 
 .timeline {
   position: relative;
@@ -11581,6 +11672,7 @@ section#contact form#contactForm :-ms-input-placeholder {
 }
 
 .footer {
+  height: 6rem;
   text-align: center;
   font-size: 0.9rem;
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
