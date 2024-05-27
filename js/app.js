@@ -1400,27 +1400,6 @@ function busquedaBoton() {
     }
 }
 
-function mostrarResultados(results) {
-    // Muestra los resultados de la búsqueda como elementos que aparecen bajo la barra de búsqueda, con overflow y = scroll
-    // Crear contenedor de resultados
-    let container = document.createElement('div');
-    container.classList.add('container', 'd-flex', 'flex-column', 'align-items-center', 'mb-3');
-    container.setAttribute('id', 'searchResults');
-
-    // Crear item resultado
-    for (let i = 0; i < results.length; i++) {
-        if (checkCondicionesFiltros(results[i])) {
-            let item = document.createElement('div');
-            item.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'mb-2');
-            item.setAttribute('id', 'resultado' + i);
-            item.textContent = results[i].nombre;
-            container.appendChild(item);
-        }
-    }
-
-    return container;
-}
-
 function estaEnJson(nombre) {
     // Se recorren los nombres para comprobar que exista
     for (let i = 0; i < edificiosJSON.length; i++) {
@@ -1436,7 +1415,10 @@ function buscarEnJson() {
     //return edificiosJSON.map(edificio => edificio.nombre);
     const nombresUnicos = new Set();
 
-    edificiosJSON.forEach(edificio => nombresUnicos.add(edificio.nombre));
+    edificiosJSON.forEach(function (edificio) {
+        if (checkCondicionesFiltros(edificio))
+            nombresUnicos.add(edificio.nombre)
+    });
 
     return [...nombresUnicos];
 }
@@ -1446,14 +1428,6 @@ function autocompletar() {
     let search = document.getElementById('barra');
     // Asignar la función de autocompletar a la barra de búsqueda
     $(search).autocomplete({
-        /*
-        source: function(request, response) {
-            // Obtener los resultados de la búsqueda
-            let results = buscarEnJson(request.term);
-            // Mapear los resultados
-            response(results.map(result => result.nombre));
-        }
-        */
         source: buscarEnJson(),
         open: function() {
             $('.ui-autocomplete').addClass('search-z-index');
@@ -1502,7 +1476,10 @@ function calendario() {
                         }
                     }
 
+                    // actualizar mapa y autocompletado de la barra de búsqueda
                     resetMapa();
+                    autocompletar();
+
 
                     // Oculta el contenedor del calendario después de seleccionar una fecha
                     calContainer.hide();
