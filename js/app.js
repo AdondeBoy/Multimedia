@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', inicio());
 let map;
 // const apiKeyWeather = '1ff240de287dae93a6e61f1f4a04bf0a';
 let edificiosJSON;
+let WSAspeaking = false;
 
 function inicio() {
     crearSlider();
@@ -479,6 +480,9 @@ function generarPopUp(popUpsContainer, edificio, i) {
             audioElement.pause();
             audioElement.currentTime = 0;
         }
+
+        if (window.speechSynthesis.speaking) 
+            pararTTS(i);
     });
     
     // generar contenido del pop-up
@@ -574,7 +578,7 @@ function generarModalBodyContent(edificio, i) {
 
     if (edificio?.audio !== undefined && edificio?.audio !== "") {
         let audio = document.createElement('audio');
-        audio.classList.add('d-block', 'mx-auto', 'mb-4', 'mt-2');
+        audio.classList.add('d-block', 'mx-auto', 'mb-2', 'mt-4');
         audio.setAttribute('src', edificio.audio);
         audio.setAttribute('controls', 'true');
         audio.setAttribute('loading', 'lazy');
@@ -600,7 +604,6 @@ function generarModalBodyContent(edificio, i) {
     modalBody.appendChild(divBotonDescripcion);
 
     // añadir botón de descripción
-    
     let collapse = document.createElement('button');
     collapse.classList.add('btn', 'btn-primary', 'mb-4', 'mt-2', 'text-center', 'px-4', 'py-3', 'fw-bolder');
     collapse.style.fontFamily = 'Montserrat';
@@ -616,6 +619,80 @@ function generarModalBodyContent(edificio, i) {
             collapse.textContent = "Descripción" + " ↓";
         }
     }
+
+    // añadir botón de web speech api
+    let ttsButton = document.createElement('button');
+    ttsButton.classList.add('btn', 'btn-light', 'mb-4', 'mt-2', 'mx-2', 'text-center', 'p-3', 'fw-bolder');
+
+    // Crear el SVG
+    let ttsIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    ttsIcon.setAttribute("class", "icon icon-tabler icon-tabler-ear");
+    ttsIcon.setAttribute("width", "24");
+    ttsIcon.setAttribute("height", "24");
+    ttsIcon.setAttribute("viewBox", "0 0 24 24");
+    ttsIcon.setAttribute("stroke-width", "1.5");
+    ttsIcon.setAttribute("stroke", "#2c3e50");
+    ttsIcon.setAttribute("fill", "none");
+    ttsIcon.setAttribute("stroke-linecap", "round");
+    ttsIcon.setAttribute("stroke-linejoin", "round");
+    ttsIcon.setAttribute("id", "ttsIcon" + i);
+
+    let path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path1.setAttribute("stroke", "none");
+    path1.setAttribute("d", "M0 0h24v24H0z");
+    path1.setAttribute("fill", "none");
+
+    let ttsPathA = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    ttsPathA.setAttribute("id" , "ttsPathA" + i);
+    ttsPathA.setAttribute("d", "M6 10a7 7 0 1 1 13 3.6a10 10 0 0 1 -2 2a8 8 0 0 0 -2 3a4.5 4.5 0 0 1 -6.8 1.4");
+
+    let ttsPathB = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    ttsPathB.setAttribute("id" , "ttsPathB" + i);
+    ttsPathB.setAttribute("d", "M10 10a3 3 0 1 1 5 2.2");
+
+    // Append the path elements to the SVG
+    ttsIcon.appendChild(path1);
+    ttsIcon.appendChild(ttsPathA);
+    ttsIcon.appendChild(ttsPathB);
+
+    // Append the SVG to the button
+    ttsButton.appendChild(ttsIcon);
+
+    // crear icono de ttsButton
+    // asignarle evento al botón
+    ttsButton.onclick = function() {
+        const pathStop = "M17 4h-10a3 3 0 0 0 -3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3 -3v-10a3 3 0 0 0 -3 -3z";
+
+        if (window.speechSynthesis.speaking) {
+            pararTTS(i);
+        } else {
+            // cambiar icono y hablar
+            ttsPathA.setAttribute('d', pathStop);
+            ttsPathB.setAttribute('d', '');
+
+            // añadir atributos
+            ttsPathA.setAttribute('stroke-width', '0');
+            ttsPathA.setAttribute('fill', 'currentColor');
+            ttsPathB.setAttribute('stroke-width', '0');
+            ttsPathB.setAttribute('fill', 'currentColor');
+
+            // cambiar clase de ttsicon
+            ttsIcon.classList.replace('icon-tabler-ear', 'icon-tabler-player-stop-filled');
+
+            // hablar
+            ttsDescripcion(edificio.descripcion, i);
+        }
+    }
+
+    //añadir botón a contenedor
+    divBotonDescripcion.appendChild(ttsButton);
+
+    /*
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-stop-filled" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M17 4h-10a3 3 0 0 0 -3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3 -3v-10a3 3 0 0 0 -3 -3z" stroke-width="0" fill="currentColor" />
+    </svg>
+    */
 
     // añadir descripción
     let descripcion = document.createElement('p');
@@ -788,6 +865,38 @@ function generarModalBodyContent(edificio, i) {
     modalBody.appendChild(grupoBotones);
 
     return modalBody;
+}
+
+function ttsDescripcion(descripcion, i) {
+    const utterance = new SpeechSynthesisUtterance(descripcion);
+    utterance.onend = function() { pararTTS(i); };
+    utterance.voice = window.speechSynthesis.getVoices()[33];
+    utterance.rate = 1.3;
+    utterance.pitch = 0.8;
+    window.speechSynthesis.speak(utterance);
+}
+
+function pararTTS(i) {
+    const pathPlayA = "M6 10a7 7 0 1 1 13 3.6a10 10 0 0 1 -2 2a8 8 0 0 0 -2 3a4.5 4.5 0 0 1 -6.8 1.4";
+    const pathPlayB = "M10 10a3 3 0 1 1 5 2.2";
+
+    // pausar
+    window.speechSynthesis.cancel();
+
+    let ttsIcon = document.getElementById("ttsIcon" + i);
+    let ttsPathA = document.getElementById("ttsPathA" + i);
+    let ttsPathB = document.getElementById("ttsPathB" + i);
+
+    ttsIcon.classList.replace('icon-tabler-player-stop-filled', 'icon-tabler-ear');
+
+    ttsPathA.removeAttribute('stroke-width');
+    ttsPathA.removeAttribute('fill');
+    ttsPathB.removeAttribute('stroke-width');
+    ttsPathB.removeAttribute('fill');
+
+    // reiniciar icono
+    ttsPathA.setAttribute('d', pathPlayA);
+    ttsPathB.setAttribute('d', pathPlayB);
 }
 
 function obtenerDatosClima(latitud, longitud, hora, indice) {
