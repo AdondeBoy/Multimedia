@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
         <meta name="description" content="¡Atrévete a conocer Mallorca! Mallorca Route es una plataforma web para planificar una ruta con los edificios históricos más impresionantes de la isla" />
+        <meta name="keywords" content="Mallorca, ruta, edificios, históricos, arquitectura, cultura, turismo, viaje, planificar, itinerario, guía, turística, isla, Baleares, España" />
         <meta name="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
 
         <!-- Favicon-->
@@ -12,11 +13,30 @@
         <title>Mallorca Route</title>
 
         <!-- Preload de imagen del slider (todas las versiones, ya que no sabemos el tamaño de la pantalla) -->
-        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image"/>
+        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1.webp" as="image" type="image/webp"/>
         <!-- <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-m.webp" as="image"/> -->
-        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-s.webp" as="image"/>
+        <link rel="preload" fetch-priority="high" href="assets/img/slider/imagen1-s.webp" as="image" type="image/webp"/>
         <!-- Preload logo -->
         <link rel="preload" fetchpriority="high" href="assets/img/Mashorca_Gordo.svg" as="image"/>
+        <!-- Json ld -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Mallorca Route",
+                "url": "https://www.mallorcaroute.com",
+                "logo": "https://www.mallorcaroute.com/assets/img/Mashorca_Gordo.svg",
+                "description": "¡Atrévete a conocer Mallorca! Mallorca Route es una plataforma web para planificar una ruta con los edificios históricos más impresionantes de la isla",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "Mallorca Route",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://www.mallorcaroute.com/assets/img/Mashorca_Gordo.svg"
+                    }
+                }
+            }
+        </script>
 
         <!-- Font Awesome icons (free version)-->
         <!-- Preload -->
